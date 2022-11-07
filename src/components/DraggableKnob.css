@@ -1,0 +1,9 @@
+.container {
+  /* padding-top: 200px; */
+    height: calc(50vh);
+    width:70%;
+    /* padding: 20px; */
+    /* background-color: rgb(84, 99, 99); */
+    align-items: center;
+    justify-content: center;
+  }
