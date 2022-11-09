@@ -20,7 +20,7 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/create" element={<PlaylistPanel />} />
       {/* <Route path="/sign_in" element={<SignIn />} /> */}
-      <Route path="/sign_up" element={<SignUp />} />
+      <Route path="/sign_up" element={<SignUp/>} />
       <Route path="/redirect" element={<Redirect />} />
       </Routes>
       </div>

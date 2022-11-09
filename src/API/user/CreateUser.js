@@ -1,6 +1,6 @@
 import axios from "axios";
+import { baseUrl } from "../../constants";
 
-const baseUrl = "http://localhost:3200/";
 export const CreateUser = async (userData) => {
     try{
         const res = await axios.post(baseUrl+"users/create",  {
