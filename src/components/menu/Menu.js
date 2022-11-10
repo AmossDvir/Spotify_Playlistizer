@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import { Tab } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setLoginDrawerOpen } from "../../model/globalStateSlice";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
@@ -16,14 +17,16 @@ const Menu = () => {
   const routes = {
     home: "/",
     create: "/create",
-    signIn: "/sign_in",
     signUp: "/sign_up",
   };
+
+  const dispatch = useDispatch();
+
+  const globalState = useSelector((state) => state.globalState.value);
   const [value, setValue] = useState(routes.home);
 
   useEffect(() => setValue(window.location.pathname));
 
-  const [loginDrawerOpen, setLoginDrawerOpen] = useState(false);
 
   const onMenuItemClick = (event, newValue) => {
     setValue(newValue);
@@ -31,12 +34,12 @@ const Menu = () => {
 
   return (
     <div>
-      <Drawer direction="right" open={loginDrawerOpen} setOpen={(open) => setLoginDrawerOpen(open)}><SignIn setDrawerOpen={setLoginDrawerOpen}></SignIn></Drawer>
+      <Drawer direction="right" open={globalState.loginDrawerOpen} setOpen={(open) => dispatch(setLoginDrawerOpen(open))}><SignIn></SignIn></Drawer>
       <Tabs
         value={value}
         onChange={onMenuItemClick}
         aria-label="icon label tabs example"
-        sx={{backgroundColor:'grey'}}
+        sx={{backgroundColor:'#cfd3e0'}}
       >
         <Tab
           icon={<AudiotrackIcon />}
@@ -56,8 +59,7 @@ const Menu = () => {
           icon={<PersonPinIcon />}
           label="Sign In"
           component={Link}
-          onClick={() => setLoginDrawerOpen(!loginDrawerOpen)}
-          // to={routes.signIn}
+          onClick={() => dispatch(setLoginDrawerOpen(!globalState.loginDrawerOpen))}
           sx={{ right: "0px", position: "absolute" }}
         />
         

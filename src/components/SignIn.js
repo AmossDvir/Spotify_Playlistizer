@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginDrawerOpen } from "../model/globalStateSlice";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { Link as MuiLink } from "@mui/material";
+// import { Link as MuiLink } from "@mui/material";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,24 +16,32 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { login } from "../API/user/Login";
+import ErrorLabel from "../generalComponents/ErrorLabel";
 
 const theme = createTheme();
 
-const SignIn = ({ setDrawerOpen }) => {
+const SignIn = () => {
+
+  const dispatch = useDispatch();
+  const globalState = useSelector((state) => state.globalState.value);
+
+
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [error, setError] = useState('');
+  const [error, setError] = useState(0);
 
-  useEffect(() => setError(''), [username, password]);
+  useEffect(() => setError(0), [username, password, globalState.loginDrawerOpen]);
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const res = await login({ username, password });
     console.log(res);
     if (res?.success) {
-      setDrawerOpen(false);
+      dispatch(setLoginDrawerOpen(false));
     }
     else{
-      setError(res?.data?.message);
+      setError(res?.data?.response?.status);
     }
   };
 
@@ -90,7 +100,7 @@ const SignIn = ({ setDrawerOpen }) => {
             >
               Sign In
             </Button>
-            <Typography>{error}</Typography>
+            { !!error && <ErrorLabel errCode={error}></ErrorLabel>}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -98,15 +108,15 @@ const SignIn = ({ setDrawerOpen }) => {
                 </Link>
               </Grid>
               <Grid item>
-                <MuiLink variant="body2">
+                {/* <MuiLink variant="body2"> */}
                   <Link
                     style={{ color: "black" }}
-                    onClick={() => setDrawerOpen(false)}
+                    onClick={() => dispatch(setLoginDrawerOpen(false))}
                     to="sign_up"
                   >
                     {"Don't have an account? Sign Up"}
                   </Link>
-                </MuiLink>
+                {/* </MuiLink> */}
               </Grid>
             </Grid>
           </Box>
