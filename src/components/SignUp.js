@@ -11,19 +11,22 @@ import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { createUser } from "../API/user/CreateUser";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
 import ErrorLabel from "../generalComponents/ErrorLabel";
+import { loginUser } from "../model/UserSlice";
+import {useNavigate} from "react-router-dom"
 
 
 const theme = createTheme();
 
 const SignUp = () => {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const globalState = useSelector((state) => state.globalState.value);
 
@@ -49,6 +52,8 @@ const SignUp = () => {
     console.log(res);
     if (res?.success) {
       console.log("Success!");
+      dispatch(loginUser(res?.data));
+      navigate('/');
     } else {
       setError(res?.data?.response?.status);
     }
@@ -60,14 +65,14 @@ const SignUp = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+            <PersonAddIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
