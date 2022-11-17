@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import React, { useState, createRef, useEffect } from "react";
 import DraggableKnob from "./DraggableKnob";
 import "./PlaylistPanel.css";
@@ -6,6 +5,9 @@ import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
+import Grid from "@mui/material/Grid";
+import { Box, Typography } from "@mui/material";
+import GenresList from "./GenresList";
 
 const PlaylistPanel = () => {
   const ColorButton = styled(Button)(({ theme }) => ({
@@ -22,9 +24,7 @@ const PlaylistPanel = () => {
   const [bgColor, setBgColor] = useState("rgb(100,150,150)");
   const [position, setPosition] = useState();
 
-  const onCreatePlaylist = () => {
-    console.log("sdj");
-  };
+  const onCreatePlaylist = () => {};
 
   const handleMovement = (e, position) => {
     setBgColor(
@@ -37,7 +37,6 @@ const PlaylistPanel = () => {
             255
       )})`
     );
-    console.log(bgColor);
   };
   useEffect(
     () =>
@@ -48,31 +47,60 @@ const PlaylistPanel = () => {
     []
   );
   return (
-    <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
-      <div
-        className="panel"
-        ref={panelRef}
-        style={{
-          backgroundColor: bgColor,
-          position: "relative",
-          overflow: "auto",
-          padding: "0",
-        }}
-      >
-        {position && (
-          <DraggableKnob
-            defaultPosition={position}
-            handleMovement={handleMovement}
-            knobSize={size}
-          ></DraggableKnob>
-        )}
-        <div>
-        </div>
-      </div>
-      <div style={{marginTop:'2%'}}>
-      <ColorButton variant="contained" onClick={onCreatePlaylist}>Create Playlist</ColorButton>
-</div>
-    </div>
+    <Grid
+      style={{ marginLeft: "100px", marginRight: "200px" }}
+      container
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
+    >
+      <Grid item xs={4} md={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography margin={"50px"}>
+              Drag & drop genres onto the panel
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <GenresList></GenresList>
+          </Grid>
+          <Grid item xs={12}>
+            <ColorButton variant="contained" onClick={onCreatePlaylist}>
+              Add Genre
+            </ColorButton>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={8} md={10}>
+        <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
+          <div
+            className="panel"
+            ref={panelRef}
+            style={{
+              backgroundColor: bgColor,
+              position: "relative",
+              overflow: "auto",
+              padding: "0",
+            }}
+          >
+            {position && (
+              <DraggableKnob
+                defaultPosition={position}
+                handleMovement={handleMovement}
+                knobSize={size}
+              ></DraggableKnob>
+            )}
+          </div>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box display="flex" justifyContent="center">
+          <ColorButton variant="contained" onClick={onCreatePlaylist}>
+            Create Playlist
+          </ColorButton>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

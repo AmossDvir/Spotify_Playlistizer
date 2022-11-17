@@ -55,7 +55,7 @@ const SignUp = () => {
       dispatch(loginUser(res?.data));
       navigate('/');
     } else {
-      setError(res?.data?.response?.status);
+      setError(res?.data?.response?.status ?? res?.data?.code);
     }
   };
 

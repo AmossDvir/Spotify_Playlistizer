@@ -20,6 +20,14 @@ import { login } from "../API/user/Login";
 import ErrorLabel from "../generalComponents/ErrorLabel";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
+import Snackbar from '@mui/material/Snackbar';
+import Slide from '@mui/material/Slide';
+
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const theme = createTheme();
 
@@ -31,11 +39,18 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState(0); // 0 means no error
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   useEffect(
     () => setError(0),
     [username, password, globalState.loginDrawerOpen]
   );
+
+  useEffect(() =>{
+    if (error!== 0){
+      setSnackBarOpen(true);
+    }
+  }, [error]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,7 +61,7 @@ const SignIn = () => {
       dispatch(loginUser(res?.data));
       navigate(routes.home);
     } else {
-      setError(res?.data?.response?.status);
+      setError(res?.data?.response?.status ?? res?.data?.code);
     }
   };
 
@@ -127,6 +142,16 @@ const SignIn = () => {
           </Box>
         </Box>
       </Container>
+      <Snackbar
+        open={snackBarOpen}
+        onClose={() => setSnackBarOpen(false)}
+        TransitionComponent={(props) => <Slide {...props} direction="up" />}
+        // message={<ErrorLabel errCode={error}></ErrorLabel>}
+        // key={}
+      >
+              <Alert severity="error">This is an error message!</Alert>
+
+      </Snackbar>
     </ThemeProvider>
   );
 };
