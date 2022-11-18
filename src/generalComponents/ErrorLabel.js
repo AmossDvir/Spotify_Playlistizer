@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
-const errorCodesLabels = {
+export const errorCodesLabels = {
   0: "",
   401: "You have entered an invalid username or password",
   400: "User already exists",

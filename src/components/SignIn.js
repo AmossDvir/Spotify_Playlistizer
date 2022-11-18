@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { login } from "../API/user/Login";
-import ErrorLabel from "../generalComponents/ErrorLabel";
+import ErrorLabel ,{errorCodesLabels} from "../generalComponents/ErrorLabel";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import Snackbar from '@mui/material/Snackbar';
@@ -149,7 +149,7 @@ const SignIn = () => {
         // message={<ErrorLabel errCode={error}></ErrorLabel>}
         // key={}
       >
-              <Alert severity="error">This is an error message!</Alert>
+              <Alert severity="error">{errorCodesLabels[error]}</Alert>
 
       </Snackbar>
     </ThemeProvider>

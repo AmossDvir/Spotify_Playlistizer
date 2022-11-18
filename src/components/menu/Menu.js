@@ -14,6 +14,16 @@ import SignIn from "../SignIn";
 import { logoutUser } from "../../model/UserSlice";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants";
+import { styled } from "@mui/material/styles";
+
+const StyleTabs = styled(Tabs)(({ theme }) => ({
+  backgroundColor: `rgb(100,100,100,${theme.palette.mode === "dark"?0.2:0.7})`,
+  ...theme.typography.body2,
+
+  textAlign: "center",
+  display: "flex",
+  alignItems: "center",
+}));
 
 const Menu = () => {
   const userSelector = useSelector((state) => state.user.value);
@@ -44,15 +54,11 @@ const Menu = () => {
         >
           <SignIn></SignIn>
         </Drawer>
-        <Tabs
+        <StyleTabs
           value={value}
           onChange={onMenuItemClick}
           aria-label="icon label tabs example"
-          sx={{
-            backgroundColor: "#cfd3e0",
-            display: "flex",
-            alignItems: "center",
-          }}
+
         >
           <Tab
             icon={<AudiotrackIcon />}
@@ -86,7 +92,7 @@ const Menu = () => {
             value={routes.signUp}
             sx={{ right: "12vh", position: "absolute" }}
           />
-        </Tabs>
+        </StyleTabs>
       </div>
     ) : (
       <div>
@@ -97,15 +103,11 @@ const Menu = () => {
         >
           <SignIn></SignIn>
         </Drawer>
-        <Tabs
+        <StyleTabs
           value={value}
           onChange={onMenuItemClick}
           aria-label="icon label tabs example"
-          sx={{
-            backgroundColor: "#cfd3e0",
-            display: "flex",
-            alignItems: "center",
-          }}
+
         >
           <Tab
             icon={<AudiotrackIcon />}
@@ -121,20 +123,21 @@ const Menu = () => {
             to={routes.create}
             value={routes.create}
           />
-          
-            <Tab
-              icon={<LogoutIcon />}
-              label="Log Out"
-              onClick={onLogOut}
-              sx={{ right: "0px", position: "absolute" }}
-            />
-            <div style={{ display: "flex", alignItems: "center" }}>
+
+          <Tab
+            icon={<LogoutIcon />}
+            label="Log Out"
+            onClick={onLogOut}
+            sx={{ right: "0px", position: "absolute" }}
+          />
+          <div onClick={() => {}} style={{ display: "flex", alignItems: "center" }}>
             <Typography
               sx={{
                 right: "12vh",
                 position: "absolute",
                 borderStyle: "dotted",
                 borderWidth: "1px",
+                cursor:'pointer',
                 borderRadius: "10px",
                 padding: "8px",
               }}
@@ -142,7 +145,7 @@ const Menu = () => {
               Hello {userSelector.firstName} {userSelector.lastName}
             </Typography>
           </div>
-        </Tabs>
+        </StyleTabs>
       </div>
     );
   };
