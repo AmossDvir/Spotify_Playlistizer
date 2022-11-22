@@ -6,7 +6,12 @@ const BottomLine = () => {
       <CssBaseline />
       <Typography variant="body2" color="primary" align="center">
         {"© "}
-        <a color="inherit" href="https://github.com/AmossDvir" target="_blank" rel="noreferrer">
+        <a
+          color="inherit"
+          href="https://github.com/AmossDvir"
+          target="_blank"
+          rel="noreferrer"
+        >
           Amoss Dvir
         </a>
         {" All Rights Reserved"}

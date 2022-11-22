@@ -20,10 +20,9 @@
 }
 
 body {
-  background: linear-gradient(-75deg, #e73e62, #d760e7, #30b2c9, #3de4dc, #34e2b6);
-  background-size: 400% 400%;
+  background: repeating-linear-gradient(-100deg, #e73e62, #d760e7, #30b2c9, #3de4dc, #34e2b6, #608fe7);
+  background-size: 450% 450%;
   animation: gradient 28s ease infinite;
-  
   height: 100vh;
 }
 
@@ -31,8 +30,13 @@ body {
   0% {
     background-position: 0% 0%;
   }
-  50% {
-    background-position: 90% 30%;
+  35% {
+    background-position: 80% 30%;
+  }  50% {
+    background-position: 100% 50%;
+  }
+  65% {
+    background-position: 80% 30%;
   }
   100% {
     background-position: 0% 0%;

@@ -16,7 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { login } from "../API/user/Login";
+import { login } from "../controllers/user/Login";
 import ErrorLabel ,{errorCodesLabels} from "../generalComponents/ErrorLabel";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
@@ -59,7 +59,7 @@ const SignIn = () => {
     if (res?.success) {
       dispatch(setLoginDrawerOpen(false));
       dispatch(loginUser(res?.data));
-      navigate(routes.home);
+      navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);
     }

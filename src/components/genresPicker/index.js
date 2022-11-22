@@ -2,12 +2,12 @@ import React, { useState, createRef, useEffect } from "react";
 import DraggableKnob from "./DraggableKnob";
 import "./PlaylistPanel.css";
 import Button from "@mui/material/Button";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import { Box, Typography } from "@mui/material";
 import GenresList from "./GenresList";
+import { AUTH_URL } from "../../controllers/Spotify/LoginController";
 
 const PlaylistPanel = () => {
   const ColorButton = styled(Button)(({ theme }) => ({
@@ -24,7 +24,10 @@ const PlaylistPanel = () => {
   const [bgColor, setBgColor] = useState("rgb(100,150,150)");
   const [position, setPosition] = useState();
 
-  const onCreatePlaylist = () => {};
+  const onCreatePlaylist = () => {
+    var spotifyLoginWindow = window.open(AUTH_URL,'_blank', "location=yes,height=670,width=920,scrollbars=yes,status=yes").focus();
+    // navigate(AUTH_URL);
+  };
 
   const handleMovement = (e, position) => {
     setBgColor(
@@ -95,7 +98,11 @@ const PlaylistPanel = () => {
       </Grid>
       <Grid item xs={12}>
         <Box display="flex" justifyContent="center">
-          <ColorButton variant="contained" onClick={onCreatePlaylist}>
+          <ColorButton
+            // href={AUTH_URL}
+            variant="contained"
+            onClick={onCreatePlaylist}
+          >
             Create Playlist
           </ColorButton>
         </Box>
