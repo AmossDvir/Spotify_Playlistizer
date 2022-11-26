@@ -1,9 +1,9 @@
-import HomePage from "./components/HomePage";
+import HomePage from "./components/Stepper";
 
 const baseUrl = "http://localhost:3200/";
 
 const routes = {
-  home: {url :"/", component:<HomePage></HomePage>},
+  home: {url :"/"},
   create: {url:"/create"},
   signUp: {url:"/sign_up"},
   settings: {url:'/settings'},

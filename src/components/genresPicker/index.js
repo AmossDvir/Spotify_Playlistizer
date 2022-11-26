@@ -1,15 +1,21 @@
 import React, { useState, createRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPlaylist } from "../../model/playlistsSlice";
 import DraggableKnob from "./DraggableKnob";
-import "./PlaylistPanel.css";
+import "./GenresPicker.css";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import { Box, Typography } from "@mui/material";
 import GenresList from "./GenresList";
-import { AUTH_URL } from "../../controllers/Spotify/LoginController";
+import { generatePlaylist } from "../../controllers/Spotify/generatePlaylistController";
+import SongsList from "../SongsList";
+import { savePlaylist } from "../../controllers/Spotify/savePlaylistController";
 
-const PlaylistPanel = () => {
+const GenresPicker = () => {
+  const dispatch = useDispatch();
+  const userSelector = useSelector((state) => state.user.value);
   const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(purple[500]),
     display: "flex",
@@ -24,9 +30,13 @@ const PlaylistPanel = () => {
   const [bgColor, setBgColor] = useState("rgb(100,150,150)");
   const [position, setPosition] = useState();
 
-  const onCreatePlaylist = () => {
-    var spotifyLoginWindow = window.open(AUTH_URL,'_blank', "location=yes,height=670,width=920,scrollbars=yes,status=yes").focus();
-    // navigate(AUTH_URL);
+  const onCreatePlaylist = async () => {
+    const result = await generatePlaylist(
+      ["Pop"],
+      localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+    );
+    dispatch(addPlaylist(result.data));
+    savePlaylist(result.data, userSelector.userId);
   };
 
   const handleMovement = (e, position) => {
@@ -98,17 +108,18 @@ const PlaylistPanel = () => {
       </Grid>
       <Grid item xs={12}>
         <Box display="flex" justifyContent="center">
-          <ColorButton
-            // href={AUTH_URL}
-            variant="contained"
-            onClick={onCreatePlaylist}
-          >
+          <ColorButton variant="contained" onClick={onCreatePlaylist}>
             Create Playlist
           </ColorButton>
         </Box>
       </Grid>
+      {/* {playlist && <Grid container justifyContent="center" alignItems="center">
+      <Grid item xs={4} md={4}>
+<SongsList songsListData={playlist}></SongsList>
+      </Grid>
+      </Grid>} */}
     </Grid>
   );
 };
 
-export default PlaylistPanel;
+export default GenresPicker;

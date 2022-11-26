@@ -2,14 +2,23 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Menu, Avatar, MenuItem, Divider, Typography, Box } from "@mui/material";
+import {
+  Menu,
+  Avatar,
+  MenuItem,
+  Divider,
+  Typography,
+  Box,
+} from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
-import { logoutUser } from "../../model/UserSlice";
+import { logoutUser } from "../../model/userSlice";
 import { routes } from "../../constants";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import "./UserPanel.css";
+import { openSpotifyWindow } from "../../controllers/Spotify/openSpotifyWindow";
 
 const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
   const userSelector = useSelector((state) => state.user.value);
@@ -17,6 +26,7 @@ const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
   const navigate = useNavigate();
 
   const onLogOut = () => {
+    localStorage.removeItem("user");
     dispatch(logoutUser());
     navigate(routes.home.url);
   };
@@ -30,7 +40,8 @@ const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
       onClick={onClick}
       PaperProps={{
         elevation: 0,
-        sx: {minWidth:'30vh',
+        sx: {
+          minWidth: "30vh",
           overflow: "visible",
           filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
           mt: 1.5,
@@ -57,34 +68,55 @@ const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-        <MenuItem sx={{display:"flex",justifyContent:"center", cursor:'default'}} onClick={(e) => e.stopPropagation()}>
+      <MenuItem
+        sx={{ display: "flex", justifyContent: "center", cursor: "default" }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Box display="flex" justifyContent="center" marginY={2}>
-      <Typography sx={{ cursor: "default" }}>
-        {userSelector.firstName} {userSelector.lastName}
-      </Typography></Box></MenuItem>
+          <Typography sx={{ cursor: "default", fontWeight:400 }}>
+            Hello {userSelector.firstName} {userSelector.lastName}
+          </Typography>
+        </Box>
+      </MenuItem>
       <Divider />
 
 
       <MenuItem>
-        <Avatar /><Typography fontWeight={300}>My Account</Typography> 
+        <Avatar sx={{ width: '26px !important', height: '26px !important', marginLeft:'2px !important'}} />
+        <Typography fontWeight={300}>My Account</Typography>
       </MenuItem>
+
+
+      {localStorage.getItem(userSelector.userId + "spotifyAccessToken") ?
+      (<MenuItem onClick={(e) => e.stopPropagation()} sx={{ cursor: "default" }}>
+      <ListItemIcon sx={{ cursor: "default" }}>
+          <CheckCircleIcon fontSize="medium" sx={{color:"green"}} />
+        </ListItemIcon>
+      <Typography sx={{ cursor: "default" }} fontWeight={300}>Spotify Account Connected</Typography>
+    </MenuItem>):
+      (
+        <MenuItem onClick={() => openSpotifyWindow(userSelector.userId)}>
+          <Avatar />
+          <Typography fontWeight={300}>Connect Your Spotify</Typography>
+        </MenuItem>
+      )}
+
+
 
       <MenuItem component={Link} to={routes.settings.url}>
         <ListItemIcon>
-          <Settings fontSize="small" />
+          <Settings fontSize="medium" />
         </ListItemIcon>
         <Typography fontWeight={300}>Settings</Typography>
       </MenuItem>
       <Divider />
       <MenuItem onClick={onLogOut}>
         <ListItemIcon>
-          <Logout fontSize="small" />
+          <Logout fontSize="medium" />
         </ListItemIcon>
         <Typography fontWeight={300}>Log Out</Typography>
       </MenuItem>
     </Menu>
-
-
   );
 };
 

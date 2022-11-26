@@ -2,18 +2,19 @@ import { Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { routes } from "../constants";
+import { openSpotifyWindow } from "../controllers/Spotify/openSpotifyWindow";
 
-const LoggedOutPanel = () => {
+const DisconnectedSpotifyPanel = () => {
   return (
     <div style={{textAlign:"center", marginTop:'15vh'}}>
       <Typography fontWeight={400}>
-        Only Registered Users Can Create Playlists
+        It Seems That Your Spotify Account Isn't Connected
       </Typography>
       <Typography fontWeight={400}>
-        If You Still Don't Have an Account, You May Click <Link to={routes.signUp.url}>Here</Link> And Create One
+        You May Connect It <Link onClick={openSpotifyWindow}>Here</Link>
       </Typography>
     </div>
   );
 };
 
-export default LoggedOutPanel;
+export default DisconnectedSpotifyPanel;

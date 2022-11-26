@@ -1,16 +1,14 @@
 import { Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import useSpotifyAuth from "../../controllers/Spotify/useSpotifyAuth";
-import { useNavigate } from "react-router-dom";
 
 const code = new URLSearchParams(window.location.search).get("code");
-const RedirectPage = () => {
-
+const RedirectPage = ( { userId } ) => {
   // Use '.'  '..'  '...' animation:
   const [dotsNum, setDotsNum] = useState(0);
   const [isIncrementing, setIsIncrementing] = useState(true);
-  localStorage.setItem("spotifyAccessToken", useSpotifyAuth(code));
-
+  var spotifyAccessToken = useSpotifyAuth(code);
+  userId && localStorage.setItem(userId + "spotifyAccessToken", spotifyAccessToken);
   useEffect(() => {
     const dotsInterval = setInterval(() => {
       if (dotsNum === 6) {
@@ -28,8 +26,10 @@ const RedirectPage = () => {
   });
 
   useEffect(() => {
-    setTimeout(() => window.close(), 3500);
-  }, []);
+    if (localStorage.getItem(userId + "spotifyAccessToken")) {
+      setTimeout(() => window.close(), 4000);
+    }
+  }, [localStorage.getItem(userId + "spotifyAccessToken")]);
 
   return (
     <div

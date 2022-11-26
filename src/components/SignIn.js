@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
-import { loginUser } from "../model/UserSlice";
+import { loginUser } from "../model/userSlice";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -59,6 +59,7 @@ const SignIn = () => {
     if (res?.success) {
       dispatch(setLoginDrawerOpen(false));
       dispatch(loginUser(res?.data));
+      localStorage.setItem("user",JSON.stringify(res?.data));
       navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);

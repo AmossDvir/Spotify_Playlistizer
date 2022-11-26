@@ -18,8 +18,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { createUser } from "../controllers/user/CreateUser";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
 import ErrorLabel from "../generalComponents/ErrorLabel";
-import { loginUser } from "../model/UserSlice";
+import { loginUser } from "../model/userSlice";
 import {useNavigate} from "react-router-dom"
+import { routes } from "../constants";
 
 
 const theme = createTheme();
@@ -53,7 +54,8 @@ const SignUp = () => {
     if (res?.success) {
       console.log("Success!");
       dispatch(loginUser(res?.data));
-      navigate('/');
+      localStorage.setItem("user",JSON.stringify(res?.data));
+      navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);
     }
