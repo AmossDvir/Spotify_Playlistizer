@@ -1,12 +1,15 @@
 import { Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import useSpotifyAuth from "../../controllers/Spotify/useSpotifyAuth";
+import useSpotifyAuth from "../../controllers/spotify/useSpotifyAuth";
 
 const code = new URLSearchParams(window.location.search).get("code");
 const RedirectPage = ( { userId } ) => {
   // Use '.'  '..'  '...' animation:
   const [dotsNum, setDotsNum] = useState(0);
   const [isIncrementing, setIsIncrementing] = useState(true);
+  // try{
+
+  // }
   var spotifyAccessToken = useSpotifyAuth(code);
   userId && localStorage.setItem(userId + "spotifyAccessToken", spotifyAccessToken);
   useEffect(() => {

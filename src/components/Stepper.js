@@ -7,7 +7,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { Route, useNavigate } from "react-router-dom";
 import { routes } from "../constants";
-import { openSpotifyWindow } from "../controllers/Spotify/openSpotifyWindow";
+import { openSpotifyWindow } from "../controllers/spotify/openSpotifyWindow";
 
 const Stepper = () => {
   const navigate = useNavigate();

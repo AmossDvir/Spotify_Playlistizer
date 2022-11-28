@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { routes } from "../constants";
-import { openSpotifyWindow } from "../controllers/Spotify/openSpotifyWindow";
+import { openSpotifyWindow } from "../controllers/spotify/openSpotifyWindow";
 
 const DisconnectedSpotifyPanel = () => {
   return (

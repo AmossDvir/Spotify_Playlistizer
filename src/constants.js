@@ -8,7 +8,7 @@ const routes = {
   signUp: {url:"/sign_up"},
   settings: {url:'/settings'},
   redirect:{url:'/redirect',},
-  playlistView:{url:'/playlist',}
+  playlistView:{url:'/playlists',}
 };
 
 export { routes, baseUrl };

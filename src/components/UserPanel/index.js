@@ -13,12 +13,13 @@ import {
 import Logout from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import { logoutUser } from "../../model/userSlice";
 import { routes } from "../../constants";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import "./UserPanel.css";
-import { openSpotifyWindow } from "../../controllers/Spotify/openSpotifyWindow";
+import { openSpotifyWindow } from "../../controllers/spotify/openSpotifyWindow";
 
 const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
   const userSelector = useSelector((state) => state.user.value);
@@ -100,15 +101,25 @@ const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
           <Typography fontWeight={300}>Connect Your Spotify</Typography>
         </MenuItem>
       )}
-
-
-
+      
+      <MenuItem component={Link} to={routes.playlistView.url}>
+        <ListItemIcon>
+          <AudiotrackIcon fontSize="medium" />
+        </ListItemIcon>
+        <Typography fontWeight={300}>My Playlists</Typography>
+      </MenuItem>
+        
       <MenuItem component={Link} to={routes.settings.url}>
         <ListItemIcon>
           <Settings fontSize="medium" />
         </ListItemIcon>
         <Typography fontWeight={300}>Settings</Typography>
       </MenuItem>
+
+
+
+
+
       <Divider />
       <MenuItem onClick={onLogOut}>
         <ListItemIcon>

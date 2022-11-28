@@ -7,15 +7,15 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
-import { Box, Typography } from "@mui/material";
+import { Box, ListItem, TextField, Typography } from "@mui/material";
 import GenresList from "./GenresList";
-import { generatePlaylist } from "../../controllers/Spotify/generatePlaylistController";
-import SongsList from "../SongsList";
-import { savePlaylist } from "../../controllers/Spotify/savePlaylistController";
+import { generatePlaylist } from "../../controllers/spotify/generatePlaylistController";
+import { savePlaylist } from "../../controllers/spotify/savePlaylistController";
+import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenresController";
+import { TransferList, TransferListList, DraggableListItem } from "react-transfer-list";
+import GenresSelector from "./GenresSelector";
 
-const GenresPicker = () => {
-  const dispatch = useDispatch();
-  const userSelector = useSelector((state) => state.user.value);
+
   const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(purple[500]),
     display: "flex",
@@ -25,66 +25,115 @@ const GenresPicker = () => {
     },
   }));
 
+
+const GenresPicker = () => {
+  const dispatch = useDispatch();
+  const userSelector = useSelector((state) => state.user.value);
+
+
   const size = 75;
   const panelRef = createRef();
   const [bgColor, setBgColor] = useState("rgb(100,150,150)");
   const [position, setPosition] = useState();
+  const [genresList, setGenresList] = useState([]);
+  const [genre, setGenre] = useState();
+  const [availableGenres, setAvailableGenres] = useState([]);
+  const [creationErr, setCreationErr] = useState(false);
+  const [creationSuccess, setCreationSuccess] = useState(false);
 
   const onCreatePlaylist = async () => {
-    const result = await generatePlaylist(
-      ["Pop"],
-      localStorage.getItem(userSelector.userId + "spotifyAccessToken")
-    );
-    dispatch(addPlaylist(result.data));
-    savePlaylist(result.data, userSelector.userId);
+    try {
+      console.log(genresList);
+      const result = await generatePlaylist(
+        genresList ?? [""],
+        localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+      );
+      console.log(result);
+      dispatch(addPlaylist(result.data));
+      savePlaylist(result.data, userSelector.userId);
+      setCreationSuccess(true);
+      setCreationErr(false);
+    } catch (err) {
+      console.log(err);
+      setCreationErr(true);
+      setCreationSuccess(false);
+    }
   };
 
-  const handleMovement = (e, position) => {
-    setBgColor(
-      `rgb(${(position.y / panelRef.current.offsetHeight) * 255},${Math.abs(
-        (position.x / panelRef.current.offsetWidth) * 255
-      )},${Math.abs(
-        255 -
-          ((position.y + position.x) /
-            (panelRef.current.offsetWidth + panelRef.current.offsetHeight)) *
-            255
-      )})`
-    );
-  };
-  useEffect(
-    () =>
-      setPosition({
-        x: panelRef.current.offsetWidth / 2 - size / 2,
-        y: panelRef.current.offsetHeight / 2 - size / 2,
-      }),
-    []
-  );
+  // const onAddGenre = () => {
+  //   if (genresList.length === 0) {
+  //     genre && setGenresList([genre]);
+  //   } else {
+  //     genre && setGenresList([...genresList, genre]);
+  //   }
+  // };
+
+  // const handleMovement = (e, position) => {
+  //   setBgColor(
+  //     `rgb(${(position.y / panelRef.current.offsetHeight) * 255},${Math.abs(
+  //       (position.x / panelRef.current.offsetWidth) * 255
+  //     )},${Math.abs(
+  //       255 -
+  //         ((position.y + position.x) /
+  //           (panelRef.current.offsetWidth + panelRef.current.offsetHeight)) *
+  //           255
+  //     )})`
+  //   );
+  // };
+  
+  useEffect(() => {
+    const getGenres = async () => {
+      setAvailableGenres(
+        await getAvailableGenres(
+          localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        )
+      );
+    };
+    getGenres();
+
+    // setPosition({
+    //   x: panelRef.current.offsetWidth / 2 - size / 2,
+    //   y: panelRef.current.offsetHeight / 2 - size / 2,
+    // });
+  }, []);
+
+  useEffect(() => console.log(genresList), [genresList]);
   return (
-    <Grid
-      style={{ marginLeft: "100px", marginRight: "200px" }}
-      container
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-    >
-      <Grid item xs={4} md={2}>
-        <Grid container spacing={2}>
+    // <Grid
+    //   style={{ margin:'0 auto',  }}
+    //   container
+    //   display="flex"
+    //   justifyContent="center"
+    //   alignItems="center"
+    //   spacing={2}
+    // >
+    <Box sx={{ flexDirection: 'column' }} display="flex" justifyContent="center" alignItems="center">
+      {/* <Grid item xs={12}> */}
+            {availableGenres.length > 0 && <GenresSelector setGenresList={setGenresList} items={availableGenres}></GenresSelector>}
+          {/* </Grid> */}
+      {/* <Grid item xs={4} md={2}> */}
+        {/* <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography margin={"50px"}>
+            <Typography margin={"50px"} sx={{ fontWeight: 400 }}>
               Drag & drop genres onto the panel
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <GenresList></GenresList>
+            <TextField
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}
+            ></TextField>
           </Grid>
+
           <Grid item xs={12}>
-            <ColorButton variant="contained" onClick={onCreatePlaylist}>
+            <ColorButton variant="contained" onClick={onAddGenre}>
               Add Genre
             </ColorButton>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={8} md={10}>
+
+        </Grid> */}
+      {/* </Grid> */}
+      {/* <Grid item xs={8} md={10}>
         <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
           <div
             className="panel"
@@ -105,20 +154,31 @@ const GenresPicker = () => {
             )}
           </div>
         </Box>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid> */}
+      {/* <Grid item xs={12}> */}
         <Box display="flex" justifyContent="center">
           <ColorButton variant="contained" onClick={onCreatePlaylist}>
             Create Playlist
           </ColorButton>
         </Box>
-      </Grid>
-      {/* {playlist && <Grid container justifyContent="center" alignItems="center">
-      <Grid item xs={4} md={4}>
-<SongsList songsListData={playlist}></SongsList>
-      </Grid>
-      </Grid>} */}
-    </Grid>
+      {/* </Grid> */}
+      {creationSuccess && (
+        <Typography sx={{ fontWeight: 400 }}>
+          Playlist Created Successfully
+        </Typography>
+      )}
+      {creationErr &&
+        (genresList ? (
+          <Typography sx={{ fontWeight: 400 }}>
+            Failed to Create Playlist
+          </Typography>
+        ) : (
+          <Typography sx={{ fontWeight: 400 }}>
+            Please Enter at Least 1 Genre
+          </Typography>
+        ))}
+    {/* </Grid> */}
+    </Box>
   );
 };
 
