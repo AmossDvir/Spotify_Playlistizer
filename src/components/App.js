@@ -12,8 +12,7 @@ import UserSettingsPage from "./UserPanel/UserSettingsPage";
 import PlaylistView from "./PlaylistView/";
 import { routes } from "../constants";
 import "./App.css";
-import pinkfloydIcon from "../resources/pinkfloyd.jfif";
-import { loginUser } from "../model/userSlice";
+import { loginUser } from "../model/UserSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 
 const App = () => {

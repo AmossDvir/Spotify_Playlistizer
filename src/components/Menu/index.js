@@ -16,6 +16,7 @@ import SignIn from "../SignIn";
 import { routes } from "../../constants";
 import { styled } from "@mui/material/styles";
 import UserPanel from "../UserPanel";
+import AddIcon from '@mui/icons-material/Add';
 
 const StyleTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor: `rgb(100,100,100,${
@@ -68,14 +69,14 @@ const Menu = () => {
           aria-label="icon label tabs example"
         >
           <Tab
-            icon={<AudiotrackIcon />}
+            icon={<FavoriteIcon />}
             label=""
             component={Link}
             to={routes.home.url}
             value={routes.home.url}
           />
           <Tab
-            icon={<FavoriteIcon />}
+            icon={<AddIcon />}
             label="Create New Playlist"
             component={Link}
             to={routes.create.url}
@@ -116,14 +117,14 @@ const Menu = () => {
           aria-label="icon label tabs example"
         >
           <Tab
-            icon={<AudiotrackIcon />}
+            icon={<FavoriteIcon />}
             label=""
             component={Link}
             to={routes.home.url}
             value={routes.home.url}
           />
           <Tab
-            icon={<FavoriteIcon />}
+            icon={<AddIcon />}
             label="Create New Playlist"
             component={Link}
             to={routes.create.url}
@@ -150,24 +151,21 @@ const Menu = () => {
               </Tooltip>
             }
           ></Tab>
-          <div
-            onClick={() => {}}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <Typography
-              sx={{
-                right: "12vh",
-                position: "absolute",
-                borderStyle: "dotted",
-                borderWidth: "1px",
-                cursor: "pointer",
-                borderRadius: "10px",
-                padding: "8px",
-              }}
-            >
-              Hello {userSelector.firstName} {userSelector.lastName}
-            </Typography>
-          </div>
+
+          <Tab
+            icon={<AudiotrackIcon />}
+            sx={{
+              right: "10vh",
+              position: "absolute",
+              
+            }}
+            label="My Playlists"
+            component={Link}
+            to={routes.playlistView.url}
+            value={routes.playlistView.url}
+          />
+
+
         </StyleTabs>
         <UserPanel
           anchorEl={anchorElUserSettings}

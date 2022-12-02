@@ -12,7 +12,7 @@ import GenresList from "./GenresList";
 import { generatePlaylist } from "../../controllers/spotify/generatePlaylistController";
 import { savePlaylist } from "../../controllers/spotify/savePlaylistController";
 import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenresController";
-import { TransferList, TransferListList, DraggableListItem } from "react-transfer-list";
+// import { TransferList, TransferListList, DraggableListItem } from "react-transfer-list";
 import GenresSelector from "./GenresSelector";
 
 
@@ -43,12 +43,10 @@ const GenresPicker = () => {
 
   const onCreatePlaylist = async () => {
     try {
-      console.log(genresList);
       const result = await generatePlaylist(
         genresList ?? [""],
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       );
-      console.log(result);
       dispatch(addPlaylist(result.data));
       savePlaylist(result.data, userSelector.userId);
       setCreationSuccess(true);
@@ -109,7 +107,7 @@ const GenresPicker = () => {
     // >
     <Box sx={{ flexDirection: 'column' }} display="flex" justifyContent="center" alignItems="center">
       {/* <Grid item xs={12}> */}
-            {availableGenres.length > 0 && <GenresSelector setGenresList={setGenresList} items={availableGenres}></GenresSelector>}
+            {availableGenres?.length > 0 && <GenresSelector setGenresList={setGenresList} items={availableGenres}></GenresSelector>}
           {/* </Grid> */}
       {/* <Grid item xs={4} md={2}> */}
         {/* <Grid container spacing={2}>
@@ -156,7 +154,7 @@ const GenresPicker = () => {
         </Box>
       </Grid> */}
       {/* <Grid item xs={12}> */}
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" mt={10}>
           <ColorButton variant="contained" onClick={onCreatePlaylist}>
             Create Playlist
           </ColorButton>

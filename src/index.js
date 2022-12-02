@@ -7,6 +7,7 @@ import Store from "./model/Store";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { Theme } from "./components/Theme";
+import './fonts/Jost-Regular.ttf';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

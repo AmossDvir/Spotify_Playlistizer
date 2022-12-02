@@ -8,9 +8,10 @@ import { purple } from "@mui/material/colors";
 import { routes } from "../../constants";
 import { getUserPlaylists } from "../../controllers/spotify/getUserPlaylistsController";
 import { saveToSpotify } from "../../controllers/spotify/saveToSpotifyController";
-import VirtualSongsList from "../SongsList/VirtualSongsList";
+import VirtualSongsList from "./SongsList/VirtualSongsList";
 import DialogWindow from "../../generalComponents/DialogWindow";
 import SaveToSpotifyForm from "./SaveToSpotifyForm";
+import SongsList from "./SongsList";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -31,9 +32,17 @@ const PlaylistView = () => {
   const [noPlaylists, setNoPlaylists] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const onSaveToSpotify = async () => {
+  const onSaveToSpotify = () => {
     setDialogOpen(true);
   };
+
+  const onDeletePlaylist = async () => {
+  //   axios.delete('url', { data: payload }).then(
+  //     // Observe the data keyword this time. Very important
+  //     // payload is the request body
+  //     // Do something
+  //   )
+  }
 
   const onCloseDialog = () => {
     setDialogOpen(false);
@@ -57,12 +66,16 @@ const PlaylistView = () => {
       if (!userId || userId === "") {
         userId = JSON.parse(localStorage.getItem("user")).userId;
       }
-      const res = await getUserPlaylists(userId);
-      // response returned empty array- User doesn't have playlists:
-      if (res.data.length === 0) {
-        setNoPlaylists(true);
+      try {
+        const res = await getUserPlaylists(userId);
+        // response returned empty array- User doesn't have playlists:
+        if (res.data.length === 0) {
+          setNoPlaylists(true);
+        }
+        setUserPlaylists(res.data[0]);
+      } catch (err) {
+        console.log(err);
       }
-      setUserPlaylists(res.data[0]);
     };
     fetchUserPlaylists();
   }, []);
@@ -77,17 +90,25 @@ const PlaylistView = () => {
       </Typography>
     </Box>
   ) : userPlaylists && userPlaylists?.mostRecent ? (
-    <Box mt="10vh">
-      <VirtualSongsList
+    <Box mt="10vh" display='flex' flexDirection="column" alignItems="center" justifyContent="center">
+      {/* <VirtualSongsList
         songsListData={userPlaylists.mostRecent}
-      ></VirtualSongsList>
+      ></VirtualSongsList> */}
+      <SongsList songsList={userPlaylists?.mostRecent}></SongsList>
       <Box mt="10vh"></Box>
       <ColorButton
-        sx={{ margin: "0 auto" }}
+        sx={{ margin: "0 auto", marginTop:'20px' }}
         variant="contained"
         onClick={onSaveToSpotify}
       >
         Save To Spotify
+      </ColorButton>
+      <ColorButton
+        sx={{ margin: "0 auto", marginTop:'20px'  }}
+        variant="contained"
+        onClick={onDeletePlaylist}
+      >
+        Delete
       </ColorButton>
       <DialogWindow
         title="Playlist Properties"

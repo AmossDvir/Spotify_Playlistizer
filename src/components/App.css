@@ -17,6 +17,8 @@
 
 .all {
   height: 100vh;
+  scrollbar-gutter: stable !important;
+
 }
 
 body {
@@ -62,4 +64,6 @@ body {
   justify-content: center;
   margin-top: 50px;
   /* padding-top:5vh; */
+  scrollbar-gutter: stable !important;
+
 }

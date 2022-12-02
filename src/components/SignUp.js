@@ -18,7 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { createUser } from "../controllers/user/CreateUser";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
 import ErrorLabel from "../generalComponents/ErrorLabel";
-import { loginUser } from "../model/userSlice";
+import { loginUser } from "../model/UserSlice";
 import {useNavigate} from "react-router-dom"
 import { routes } from "../constants";
 

@@ -14,7 +14,7 @@ import Logout from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import { logoutUser } from "../../model/userSlice";
+import { logoutUser } from "../../model/UserSlice";
 import { routes } from "../../constants";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -102,12 +102,7 @@ const UserPanel = ({ position, anchorEl, open, onClose, onClick }) => {
         </MenuItem>
       )}
       
-      <MenuItem component={Link} to={routes.playlistView.url}>
-        <ListItemIcon>
-          <AudiotrackIcon fontSize="medium" />
-        </ListItemIcon>
-        <Typography fontWeight={300}>My Playlists</Typography>
-      </MenuItem>
+
         
       <MenuItem component={Link} to={routes.settings.url}>
         <ListItemIcon>
