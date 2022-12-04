@@ -1,5 +1,5 @@
 {
-  "name": "spotify_playlistizer_client",
+  "name": "spotify_playlist-generator",
   "version": "1.0.0",
   "scripts": {
     "start": "react-scripts start",
