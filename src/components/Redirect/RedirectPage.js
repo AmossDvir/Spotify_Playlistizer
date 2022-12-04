@@ -11,6 +11,7 @@ const RedirectPage = ( { userId } ) => {
 
   // }
   var spotifyAccessToken = useSpotifyAuth(code);
+  console.log(spotifyAccessToken);
   userId && localStorage.setItem(userId + "spotifyAccessToken", spotifyAccessToken);
   useEffect(() => {
     const dotsInterval = setInterval(() => {
