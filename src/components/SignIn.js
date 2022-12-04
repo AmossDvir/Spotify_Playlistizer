@@ -17,13 +17,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { login } from "../controllers/user/Login";
-import ErrorLabel ,{errorCodesLabels} from "../generalComponents/ErrorLabel";
+import ErrorLabel from "../generalComponents/ErrorLabel";
+import { errorCodesLabels } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
-import Snackbar from '@mui/material/Snackbar';
-import Slide from '@mui/material/Slide';
-
-import MuiAlert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
+import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
+import LoadingButton from "../generalComponents/LoadingButton";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -40,30 +42,33 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState(0); // 0 means no error
   const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(
     () => setError(0),
     [username, password, globalState.loginDrawerOpen]
   );
 
-  useEffect(() =>{
-    if (error!== 0){
+  useEffect(() => {
+    if (error !== 0) {
       setSnackBarOpen(true);
     }
   }, [error]);
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const res = await login({ username, password });
     console.log(res);
     if (res?.success) {
       dispatch(setLoginDrawerOpen(false));
       dispatch(loginUser(res?.data));
-      localStorage.setItem("user",JSON.stringify(res?.data));
+      localStorage.setItem("user", JSON.stringify(res?.data));
       navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);
     }
+    setLoading(false);
   };
 
   return (
@@ -113,15 +118,9 @@ const SignIn = () => {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            {!!error && <ErrorLabel errCode={error}></ErrorLabel>}
+
+            <LoadingButton label="Sign In" loading={loading}></LoadingButton>
+            {/* {!!error && <ErrorLabel errCode={error}></ErrorLabel>} */}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -143,16 +142,16 @@ const SignIn = () => {
           </Box>
         </Box>
       </Container>
-      <Snackbar
+      <ErrorSnackBar open={snackBarOpen || !!error} onClose={() => {setSnackBarOpen(false);setError(0)}} promptStr={errorCodesLabels[error]}></ErrorSnackBar>
+      {/* <Snackbar
         open={snackBarOpen}
         onClose={() => setSnackBarOpen(false)}
         TransitionComponent={(props) => <Slide {...props} direction="up" />}
         // message={<ErrorLabel errCode={error}></ErrorLabel>}
         // key={}
       >
-              <Alert severity="error">{errorCodesLabels[error]}</Alert>
-
-      </Snackbar>
+        <Alert severity="error">{errorCodesLabels[error]}</Alert>
+      </Snackbar> */}
     </ThemeProvider>
   );
 };

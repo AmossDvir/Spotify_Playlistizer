@@ -1,12 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
+import { errorCodesLabels } from "../constants";
 
-export const errorCodesLabels = {
-  0: "",
-  401: "You have entered an invalid username or password",
-  400: "User already exists",
-  "ERR_NETWORK": "Network error"
-};
 const ErrorLabel = ({ errCode }) => {
   return (
     <Typography style={{ color: "red" }}>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -11,7 +12,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,14 +20,13 @@ import { createUser } from "../controllers/user/CreateUser";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
 import ErrorLabel from "../generalComponents/ErrorLabel";
 import { loginUser } from "../model/userSlice";
-import {useNavigate} from "react-router-dom"
-import { routes } from "../constants";
-
+import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
+import LoadingButton from "../generalComponents/LoadingButton";
+import { routes, errorCodesLabels } from "../constants";
 
 const theme = createTheme();
 
 const SignUp = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const globalState = useSelector((state) => state.globalState.value);
@@ -36,12 +36,31 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState(0);
 
-  useEffect(() => setError(0), [firstName, lastName, username, email, password, globalState.loginDrawerOpen]);
+  useEffect(
+    () => setError(0),
+    [
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      globalState.loginDrawerOpen,
+    ]
+  );
+
+  useEffect(() => {
+    if (error !== 0) {
+      setSnackBarOpen(true);
+    }
+  }, [error]);
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const res = await createUser({
       firstName,
@@ -54,11 +73,12 @@ const SignUp = () => {
     if (res?.success) {
       console.log("Success!");
       dispatch(loginUser(res?.data));
-      localStorage.setItem("user",JSON.stringify(res?.data));
+      localStorage.setItem("user", JSON.stringify(res?.data));
       navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);
     }
+    setLoading(false);
   };
 
   return (
@@ -152,28 +172,28 @@ const SignUp = () => {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            { !!error && <ErrorLabel errCode={error}></ErrorLabel>}
+            <LoadingButton label="Sign Up" loading={loading}></LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                  <Link
-                    style={{ color: "black" }}
-                    onClick={() => dispatch(setLoginDrawerOpen(true))}
-                  >
-                    {"Already have an account? Sign in"}
-                  </Link>
+                <Link
+                  style={{ color: "black" }}
+                  onClick={() => dispatch(setLoginDrawerOpen(true))}
+                >
+                  {"Already have an account? Sign in"}
+                </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
       </Container>
+      <ErrorSnackBar
+        open={snackBarOpen || !!error}
+        onClose={() => {
+          setError(0);
+          setSnackBarOpen(false);
+        }}
+        promptStr={errorCodesLabels[error]}
+      ></ErrorSnackBar>
     </ThemeProvider>
   );
 };

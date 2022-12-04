@@ -1,6 +1,6 @@
 import HomePage from "./components/Stepper";
 
-const baseUrl = "https://spotify-playlist-generator-server.onrender.com/";
+const baseUrl = "http://localhost:3200/";
 
 const routes = {
   home: {url :"/"},
@@ -11,4 +11,12 @@ const routes = {
   playlistView:{url:'/playlists',}
 };
 
-export { routes, baseUrl };
+const errorCodesLabels = {
+  0: "",
+  401: "You have entered an invalid username or password",
+  400: "User already exists",
+  500: "Internal server error", 
+  "ERR_NETWORK": "Network error",
+};
+
+export { routes, baseUrl, errorCodesLabels };
