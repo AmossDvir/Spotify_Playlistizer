@@ -30,7 +30,7 @@ const RedirectPage = ( { userId } ) => {
 
   useEffect(() => {
     if (localStorage.getItem(userId + "spotifyAccessToken")) {
-      setTimeout(() => window.close(), 4000);
+      setTimeout(() => window.close(), 40000);
     }
   }, [localStorage.getItem(userId + "spotifyAccessToken")]);
 
