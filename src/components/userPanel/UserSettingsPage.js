@@ -6,4 +6,4 @@ const UserSettingsPage = () => {
   );
 };
 
-export default UserSettingsPage;
+export default UserSettingsPage; 
