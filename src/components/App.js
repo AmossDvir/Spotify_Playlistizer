@@ -12,7 +12,7 @@ import UserSettingsPage from "./UserPanel/UserSettingsPage";
 import PlaylistView from "./PlaylistView/";
 import { routes } from "../constants";
 import "./App.css";
-import { loginUser } from "../model/UserSlice";
+import { loginUser } from "../model/userSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 
 const App = () => {

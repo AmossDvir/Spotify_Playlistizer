@@ -5,24 +5,22 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
-import styled from "@emotion/styled";
 
 
 const SongTitle = ({ songName, songArtists, image }) => {
   return (
-    // <List sx={{ cursor: "default", width: "100%", marginTop: "10px" }}>
     <List sx={{ cursor: "default", width: "100%"}}>
       <ListItem>
         <ListItemAvatar>
           <Avatar variant="square">
             {image ? (
-              <img style={{ height: "inherit" }} src={image}></img>
+              <img alt="Album Cover" style={{ height: "inherit" }} src={image}></img>
             ) : (
               <AudiotrackIcon />
             )}
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={songName} secondary={songArtists} />
+        <ListItemText primary={songName} primaryTypographyProps={{style:{fontWeight:100}}} secondary={songArtists} secondaryTypographyProps={{style:{color:'#b5b5b5'}}}/>
       </ListItem>
     </List>
   );

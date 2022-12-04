@@ -25,7 +25,7 @@ const localize = (item) => {
     songNumber: "#",
     artists: "Artists",
     duration: "Duration",
-    genre: "Genre"
+    genre: "Genre",
   };
   return localization[item];
 };
@@ -42,20 +42,27 @@ const convertArtistsArrayToString = (array) => {
 };
 
 const calculateColFlexValue = (rows, col) => {
-   
-    return rows.reduce((accumSum, val) => accumSum + val[col].toString().length, 0)/rows.length
-  
+  return (
+    rows.reduce((accumSum, val) => {let value = val[col].props?.songName ?? val[col].props?.value ?? val[col];return accumSum + value.toString().length}, 0) /
+    rows.length
+  );
 };
 
-const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return (
-        seconds == 60 ?
-        (minutes+1) + ":00" :
-        minutes + ":" + (seconds < 10 ? "0" : "") + seconds
-      );
-  }
+const convertMillisToMinutesAndSeconds = (millis) => {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return seconds === 60
+    ? minutes + 1 + ":00"
+    : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+};
+
+const convertMSToSeconds = (hms) => {
+  var [minutes, seconds] = hms.split(":"); // split it at the colons
+  // minutes are worth 60 seconds. Hours are worth 60 minutes.
+  const secondsNum = Number(minutes) * 60 + Number(seconds);
+
+  return secondsNum;
+};
 
 export {
   generateRandomColorString,
@@ -63,5 +70,6 @@ export {
   localize,
   convertArtistsArrayToString,
   calculateColFlexValue,
-  millisToMinutesAndSeconds
+  convertMillisToMinutesAndSeconds,
+  convertMSToSeconds, 
 };

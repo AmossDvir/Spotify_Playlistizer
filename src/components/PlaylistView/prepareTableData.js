@@ -3,30 +3,43 @@ import {
   localize,
   convertArtistsArrayToString,
   calculateColFlexValue,
-  millisToMinutesAndSeconds,
+  convertMillisToMinutesAndSeconds,
+  convertMSToSeconds,
 } from "../common";
+import GenreChip from "../GenresPicker/GenreChip";
 import SongTitle from "./SongsList/SongTitle";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import "./SongsList/TableStyle.css";
 
-const prepareTableData = (rowsData, columnsLabels) => {
-  console.log(rowsData);
+const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
+  const sortTitles = (title1, title2) =>
+    title1.props.songName.localeCompare(title2.props.songName);
+  const sortGenres = (genre1, genre2) =>
+    genre1.props.value.localeCompare(genre2.props.value);
+  const sortDurations = (duration1, duration2) =>
+    convertMSToSeconds(duration1) - convertMSToSeconds(duration2);
 
-  const sortTitle = (title1, title2) => title1.props.songName > title2.props.songName;
-
-  const prepareRowsData = (
-  ) =>
+  const prepareRowsData = () =>
     rowsData.map((row, index) => {
       return {
         title: (
           <SongTitle
             songName={row.name}
             songArtists={convertArtistsArrayToString(row.artists)}
-            image={row.album.images[0].url}
+            image={row.album?.images[0]?.url}
+            hoveredRow={hoveredRow === index}
           ></SongTitle>
         ),
         // title: <div style={{}}>{row.name}</div>,
-        duration: millisToMinutesAndSeconds(row.duration_ms),
+        duration: convertMillisToMinutesAndSeconds(row.duration_ms),
         album: row.album.name,
-        genre: row.genre
+        genre: (
+          <GenreChip
+            value={row.genre.value}
+            color={row.genre.color}
+            bgColor={row.genre.bgColor}
+          />
+        ),
       };
     });
 
@@ -36,7 +49,17 @@ const prepareTableData = (rowsData, columnsLabels) => {
   const rows = [];
 
   for (let rowIndex = 0; rowIndex < rowsDataPrepared.length; rowIndex += 1) {
-    const row = { id: rowIndex, songNumber: rowIndex + 1 };
+    const row = {
+      id: rowIndex,
+      songNumber:
+        // hoveredRow === rowIndex ? (
+        //   <PlayArrowIcon
+        //     sx={{ width: 25, cursor: "pointer", alignContent: "center" }}
+        //   ></PlayArrowIcon>
+        // ) : (
+          rowIndex + 1,
+        // ),
+    };
 
     for (let colIndex = 1; colIndex < columnsLabels.length; colIndex += 1) {
       const columnLabel = columnsLabels[colIndex];
@@ -66,17 +89,23 @@ const prepareTableData = (rowsData, columnsLabels) => {
           {params.value}
         </Typography>
       ),
-      flex: calculateColFlexValue(rows, colField),
+      ...(colField === "songNumber"
+        ? { width: 70 }
+        : colField === "duration"
+        ? { width: 200 }
+        : { flex: calculateColFlexValue(rows, colField) }),
       field: colField,
       headerName: value,
+      headerClassName: "test",
       headerAlign: "left",
       align: "left",
-      minWidth: 50,
-      ...(colField === "title") ? {sortComparator:sortTitle}:{},
+      
+      ...(colField === "title" ? { sortComparator: sortTitles } : {}),
+      ...(colField === "genre" ? { sortComparator: sortGenres } : {}),
+      ...(colField === "duration" ? { sortComparator: sortDurations } : {}),
       // valueGetter: (params) => (colField === "title" ? params.row.title.props.songName:params.value),
     });
   }
-  console.log(columns);
 
   data.columns = columns;
   data.rows = rows;

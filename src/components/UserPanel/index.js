@@ -14,7 +14,7 @@ import Logout from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import { logoutUser } from "../../model/UserSlice";
+import { logoutUser } from "../../model/userSlice";
 import { routes } from "../../constants";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 

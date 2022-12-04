@@ -43,6 +43,7 @@ const GenresPicker = () => {
 
   const onCreatePlaylist = async () => {
     try {
+      console.log(genresList);
       const result = await generatePlaylist(
         genresList ?? [""],
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
