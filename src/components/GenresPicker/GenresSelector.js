@@ -52,8 +52,18 @@ const GenresSelector = ({ items, setGenresList }) => {
   }, [items]);
 
   const onGenreDelete = (e, value) => {
-    setGenresPicked(genresPicked.filter((genre) => genre !== value));
+    onUpdateGenres(genresPicked.filter((genre) => genre !== value))
+    // setGenresPicked(genresPicked.filter((genre) => genre !== value));
   };
+
+  const onUpdateGenres = (genres) => {
+    setGenresPicked(genres);
+    const genresWithColors = genres.map((genre) =>
+    availableGenres.find((colorSet) => colorSet.value === genre)
+  );
+    setGenresList(genresWithColors)
+
+  }
 
   const onGenreChange = (event) => {
     const {
@@ -112,7 +122,7 @@ const GenresSelector = ({ items, setGenresList }) => {
           endAdornment={
             <IconButton
               sx={{ visibility: genresPicked ? "visible" : "hidden" }}
-              onClick={() => setGenresPicked([])}
+              onClick={() => onUpdateGenres([])}
             >
               <ClearIcon
                 sx={{

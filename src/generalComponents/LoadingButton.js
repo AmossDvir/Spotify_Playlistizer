@@ -1,7 +1,6 @@
 import React from "react";
 // import { LoadingButton as LoadingButtonMui } from "@mui/lab";
 import { LoadingButton as LoadingButtonMui } from "@mui/lab";
-import Box from "@mui/material/Box";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const LoadingButton = ({
@@ -9,7 +8,9 @@ const LoadingButton = ({
   onClick,
   loading = false,
   loadingIcon = <ArrowForwardIosIcon />,
+  ...rest
 }) => {
+  console.log(rest)
   return (
       <LoadingButtonMui
       color="secondary"
@@ -21,6 +22,7 @@ const LoadingButton = ({
         type="submit"
         fullWidth
         sx={{mt:3, mb:3}}
+        {...rest}
       >
         {label}
       </LoadingButtonMui>

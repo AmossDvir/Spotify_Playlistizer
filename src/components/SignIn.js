@@ -27,9 +27,6 @@ import MuiAlert from "@mui/material/Alert";
 import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
 import LoadingButton from "../generalComponents/LoadingButton";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const theme = createTheme();
 
@@ -143,15 +140,6 @@ const SignIn = () => {
         </Box>
       </Container>
       <ErrorSnackBar open={snackBarOpen || !!error} onClose={() => {setSnackBarOpen(false);setError(0)}} promptStr={errorCodesLabels[error]}></ErrorSnackBar>
-      {/* <Snackbar
-        open={snackBarOpen}
-        onClose={() => setSnackBarOpen(false)}
-        TransitionComponent={(props) => <Slide {...props} direction="up" />}
-        // message={<ErrorLabel errCode={error}></ErrorLabel>}
-        // key={}
-      >
-        <Alert severity="error">{errorCodesLabels[error]}</Alert>
-      </Snackbar> */}
     </ThemeProvider>
   );
 };

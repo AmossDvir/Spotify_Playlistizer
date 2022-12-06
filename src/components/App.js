@@ -14,6 +14,7 @@ import { routes } from "../constants";
 import "./App.css";
 import { loginUser } from "../model/userSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
+import Home from "./Home";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -40,8 +41,8 @@ const App = () => {
     <div className="all">
       <Routes>
         <Route element={<HeaderAndFooter />}>
-          {/* <Route path={routes.home}> */}
-          <Route index element={<></>} />
+          {/* <Route path={routes.home} element={<Home/>}/> */}
+          <Route index element={<Home/>} />
           <Route path={routes.signUp.url} element={<SignUp />} />
           <Route path={routes.playlistView.url} element={<PlaylistView />} />
           <Route path={routes.settings.url} element={<UserSettingsPage />} />

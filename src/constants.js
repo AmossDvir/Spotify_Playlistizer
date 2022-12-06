@@ -7,8 +7,8 @@ const routes = {
   create: {url:"/create"},
   signUp: {url:"/sign_up"},
   settings: {url:'/settings'},
-  redirect:{url:'/redirect',},
-  playlistView:{url:'/playlists',}
+  redirect:{url:'/redirect'},
+  playlistView:{url:'/playlists'},
 };
 
 const errorCodesLabels = {

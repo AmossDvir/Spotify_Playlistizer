@@ -18,7 +18,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { createUser } from "../controllers/user/CreateUser";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
-import ErrorLabel from "../generalComponents/ErrorLabel";
 import { loginUser } from "../model/userSlice";
 import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
 import LoadingButton from "../generalComponents/LoadingButton";

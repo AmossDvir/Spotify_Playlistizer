@@ -12,7 +12,7 @@ import GenresList from "./GenresList";
 import { generatePlaylist } from "../../controllers/spotify/generatePlaylistController";
 import { savePlaylist } from "../../controllers/spotify/savePlaylistController";
 import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenresController";
-// import { TransferList, TransferListList, DraggableListItem } from "react-transfer-list";
+import LoadingButton from "../../generalComponents/LoadingButton";
 import GenresSelector from "./GenresSelector";
 
 
@@ -40,24 +40,30 @@ const GenresPicker = () => {
   const [availableGenres, setAvailableGenres] = useState([]);
   const [creationErr, setCreationErr] = useState(false);
   const [creationSuccess, setCreationSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const onCreatePlaylist = async () => {
+    setLoading(true);
     try {
-      console.log(genresList);
+      // console.log(genresList);
       const result = await generatePlaylist(
         genresList ?? [""],
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       );
       dispatch(addPlaylist(result.data));
-      savePlaylist(result.data, userSelector.userId);
+      await savePlaylist(result.data, userSelector.userId);
       setCreationSuccess(true);
       setCreationErr(false);
+      setLoading(false);
     } catch (err) {
       console.log(err);
       setCreationErr(true);
       setCreationSuccess(false);
     }
   };
+
+  useEffect(() => console.log(genresList), [genresList]);
 
   // const onAddGenre = () => {
   //   if (genresList.length === 0) {
@@ -96,7 +102,7 @@ const GenresPicker = () => {
     // });
   }, []);
 
-  useEffect(() => console.log(genresList), [genresList]);
+  useEffect(() => setButtonDisabled(!genresList || !(genresList.length > 0)), [genresList]);
   return (
     // <Grid
     //   style={{ margin:'0 auto',  }}
@@ -156,9 +162,10 @@ const GenresPicker = () => {
       </Grid> */}
       {/* <Grid item xs={12}> */}
         <Box display="flex" justifyContent="center" mt={10}>
-          <ColorButton variant="contained" onClick={onCreatePlaylist}>
+        <LoadingButton label="Create Playlist" loading={loading} onClick={onCreatePlaylist} disabled={buttonDisabled}></LoadingButton>
+          {/* <ColorButton variant="contained" onClick={onCreatePlaylist}>
             Create Playlist
-          </ColorButton>
+          </ColorButton> */}
         </Box>
       {/* </Grid> */}
       {creationSuccess && (
