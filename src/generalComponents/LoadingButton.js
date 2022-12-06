@@ -24,7 +24,7 @@ const LoadingButton = ({
         sx={{mt:3, mb:3}}
         {...rest}
       >
-        {label}
+        {!loading && label}
       </LoadingButtonMui>
   );
 };

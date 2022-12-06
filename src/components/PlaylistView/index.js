@@ -12,6 +12,7 @@ import VirtualSongsList from "./SongsList/VirtualSongsList";
 import DialogWindow from "../../generalComponents/DialogWindow";
 import SaveToSpotifyForm from "./SaveToSpotifyForm";
 import SongsList from "./SongsList";
+import AnimatedText from "../../generalComponents/AnimatedText";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -130,11 +131,12 @@ const PlaylistView = () => {
       </DialogWindow>
     </Box>
   ) : (
-    <Box mt="10vh" display="flex" justifyContent="center">
-      <Typography fontWeight={400} fontSize={100}>
-        Checking for Playlists...
-      </Typography>
-    </Box>
+    // <Box mt="10vh" display="flex" justifyContent="center">
+    //   <Typography fontWeight={400} fontSize={100}>
+    //     Checking for Playlists...
+    //   </Typography>
+    // </Box>
+    <AnimatedText textLines={[{value:"Checking for Playlists...", delay:0.5, infinite:true, direction:'alternate-reverse', duration:950}]}></AnimatedText>
   );
 };
 

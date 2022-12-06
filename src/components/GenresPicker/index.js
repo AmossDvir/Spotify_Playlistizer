@@ -15,21 +15,18 @@ import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenres
 import LoadingButton from "../../generalComponents/LoadingButton";
 import GenresSelector from "./GenresSelector";
 
-
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.getContrastText(purple[500]),
-    display: "flex",
-    backgroundColor: purple[500],
-    "&:hover": {
-      backgroundColor: purple[700],
-    },
-  }));
-
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(purple[500]),
+  display: "flex",
+  backgroundColor: purple[500],
+  "&:hover": {
+    backgroundColor: purple[700],
+  },
+}));
 
 const GenresPicker = () => {
   const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.user.value);
-
 
   const size = 75;
   const panelRef = createRef();
@@ -42,15 +39,18 @@ const GenresPicker = () => {
   const [creationSuccess, setCreationSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const onCreatePlaylist = async () => {
     setLoading(true);
+    setIsGenerating(true);
     try {
       // console.log(genresList);
       const result = await generatePlaylist(
         genresList ?? [""],
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       );
+      setIsGenerating(false);
       dispatch(addPlaylist(result.data));
       await savePlaylist(result.data, userSelector.userId);
       setCreationSuccess(true);
@@ -85,7 +85,7 @@ const GenresPicker = () => {
   //     )})`
   //   );
   // };
-  
+
   useEffect(() => {
     const getGenres = async () => {
       setAvailableGenres(
@@ -102,7 +102,10 @@ const GenresPicker = () => {
     // });
   }, []);
 
-  useEffect(() => setButtonDisabled(!genresList || !(genresList.length > 0)), [genresList]);
+  useEffect(
+    () => setButtonDisabled(!genresList || !(genresList.length > 0)),
+    [genresList]
+  );
   return (
     // <Grid
     //   style={{ margin:'0 auto',  }}
@@ -112,12 +115,37 @@ const GenresPicker = () => {
     //   alignItems="center"
     //   spacing={2}
     // >
-    <Box sx={{ flexDirection: 'column' }} display="flex" justifyContent="center" alignItems="center">
+    <Box
+      sx={{ flexDirection: "column" }}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
       {/* <Grid item xs={12}> */}
-            {availableGenres?.length > 0 && <GenresSelector setGenresList={setGenresList} items={availableGenres}></GenresSelector>}
-          {/* </Grid> */}
+      {availableGenres?.length > 0 && (
+        <>
+          <GenresSelector
+            setGenresList={setGenresList}
+            items={availableGenres}
+          ></GenresSelector>
+          <Box display="flex" justifyContent="center" mt={10}>
+            <LoadingButton
+              label="Create Playlist"
+              loading={loading}
+              onClick={onCreatePlaylist}
+              disabled={buttonDisabled}
+              loadingIndicator={
+                loading && isGenerating
+                  ? "Generating Playlist..."
+                  : "Saving Playlist..."
+              }
+            ></LoadingButton>
+          </Box>
+        </>
+      )}
+      {/* </Grid> */}
       {/* <Grid item xs={4} md={2}> */}
-        {/* <Grid container spacing={2}>
+      {/* <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography margin={"50px"} sx={{ fontWeight: 400 }}>
               Drag & drop genres onto the panel
@@ -161,13 +189,7 @@ const GenresPicker = () => {
         </Box>
       </Grid> */}
       {/* <Grid item xs={12}> */}
-        <Box display="flex" justifyContent="center" mt={10}>
-        <LoadingButton label="Create Playlist" loading={loading} onClick={onCreatePlaylist} disabled={buttonDisabled}></LoadingButton>
-          {/* <ColorButton variant="contained" onClick={onCreatePlaylist}>
-            Create Playlist
-          </ColorButton> */}
-        </Box>
-      {/* </Grid> */}
+
       {creationSuccess && (
         <Typography sx={{ fontWeight: 400 }}>
           Playlist Created Successfully
@@ -183,7 +205,6 @@ const GenresPicker = () => {
             Please Enter at Least 1 Genre
           </Typography>
         ))}
-    {/* </Grid> */}
     </Box>
   );
 };

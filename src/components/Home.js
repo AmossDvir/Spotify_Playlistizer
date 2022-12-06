@@ -1,34 +1,29 @@
+import React from "react";
 import MovingComponent from "react-moving-text";
 import { Box } from "@mui/material";
-import React from "react";
+import AnimatedText from "../generalComponents/AnimatedText";
 
 const Home = () => {
-    var time = 0;
+  var time = 0;
   return (
-    <Box justifyContent='center' display='flex' mt={10}>
-    <MovingComponent
-      type="fadeInFromBottom"
-      duration="1100ms"
-      delay={`${time += 1}s`}
-      direction="normal"
-      timing="ease-in-out"
-      iteration="1"
-      fillMode="both"
+    // <Box alignItems="center" display="flex" mt={10} flexDirection="column" fontSize={30} fontFamily="Jost">
+
+    <AnimatedText
+      textLines={[
+        { value: "Welcome.", style: { fontSize: 50 }, delay: 1 },
+        {
+          value:
+            "This tool will help you create your playlists by your favorite genres",
+          style: { fontSize: 35 },
+          delay: 1.5,
+        },
+      ]}
+      time={time}
     >
-      React-Moving-Text
-    </MovingComponent>
-    <MovingComponent
-      type="fadeInFromBottom"
-      duration="1100ms"
-      delay={`${time += 1}s`}
-      direction="normal"
-      timing="ease-in-out"
-      iteration="1"
-      fillMode="both"
-    >
-      React-Moving-Text
-    </MovingComponent>
-    </Box>
+      Welcome.
+    </AnimatedText>
+
+    // </Box>
   );
 };
 

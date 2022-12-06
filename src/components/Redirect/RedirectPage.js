@@ -3,17 +3,19 @@ import React, { useState, useEffect } from "react";
 import useSpotifyAuth from "../../controllers/spotify/useSpotifyAuth";
 
 const code = new URLSearchParams(window.location.search).get("code");
-const RedirectPage = ( { userId } ) => {
+const RedirectPage = ({ userId }) => {
   // Use '.'  '..'  '...' animation:
   const [dotsNum, setDotsNum] = useState(0);
+  const [alive, setAlive] = useState(true);
   const [isIncrementing, setIsIncrementing] = useState(true);
-  // try{
 
-  // }
   var spotifyAccessToken = useSpotifyAuth(code);
   console.log(spotifyAccessToken);
-  userId && localStorage.setItem(userId + "spotifyAccessToken", spotifyAccessToken);
+  userId &&
+    localStorage.setItem(userId + "spotifyAccessToken", spotifyAccessToken);
   useEffect(() => {
+    const aliveTimeout = setTimeout(() => setAlive(false), 20000);
+
     const dotsInterval = setInterval(() => {
       if (dotsNum === 6) {
         setIsIncrementing(false);
@@ -26,12 +28,22 @@ const RedirectPage = ( { userId } ) => {
       }
       setDotsNum(isIncrementing && dotsNum < 6 ? dotsNum + 1 : dotsNum - 1);
     }, 220);
-    return () => clearInterval(dotsInterval);
+    return () => {
+      // clearTimeout(aliveTimeout);
+      clearInterval(dotsInterval);
+    };
   });
 
   useEffect(() => {
-    if (localStorage.getItem(userId + "spotifyAccessToken")) {
-      setTimeout(() => window.close(), 4000);
+    if (!alive) {
+      window.close();
+    }
+  }, [alive]);
+
+  useEffect(() => {
+    if (localStorage.getItem(userId + "spotifyAccessToken") !== 'undefined') {
+      console.log(localStorage.getItem(userId + "spotifyAccessToken"))
+      // window.close();
     }
   }, [localStorage.getItem(userId + "spotifyAccessToken")]);
 
