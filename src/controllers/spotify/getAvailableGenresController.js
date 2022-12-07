@@ -7,7 +7,7 @@ export const getAvailableGenres = async (spotifyAccessToken) => {
       headers: {
         "content-type": "application/json",
       },
-      params: { access_token:spotifyAccessToken },
+      params: { access_token: spotifyAccessToken },
     });
     return res.data.body.genres;
   } catch (err) {
