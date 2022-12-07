@@ -1,6 +1,6 @@
 import HomePage from "./components/Stepper";
 
-const baseUrl = "http://localhost:3200/";
+const baseUrl = "https://spotify-playlist-generator-server.onrender.com/";
 
 const routes = {
   home: {url :"/"},
