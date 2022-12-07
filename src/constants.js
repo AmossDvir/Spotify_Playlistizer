@@ -1,4 +1,3 @@
-import HomePage from "./components/Stepper";
 
 const baseUrl = "http://localhost:3200/";
 

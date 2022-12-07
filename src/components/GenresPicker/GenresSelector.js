@@ -103,8 +103,9 @@ const GenresSelector = ({ items, setGenresList }) => {
           input={<OutlinedInput id="select-multiple-chip" label="pickgenre" />}
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-              {selected.map((value) => (
+              {selected.map((value, index) => (
                 <GenreChip
+                key={`${index}_${value}`}
                   value={value}
                   onGenreDelete={onGenreDelete}
                   color={

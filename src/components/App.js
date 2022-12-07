@@ -21,7 +21,7 @@ const App = () => {
 
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
+    // console.log(user);
     if (user) {
       dispatch(loginUser(user));
     }

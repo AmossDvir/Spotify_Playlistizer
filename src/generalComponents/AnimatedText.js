@@ -3,7 +3,7 @@ import MovingComponent from "react-moving-text";
 import { Box } from "@mui/material";
 
 // API: textLines is array of object, each has 'value', 'style', 'delay', 'duration' keys
-const AnimatedText = ({ textLines }) => {
+const AnimatedText = ({ textLines, ...rest }) => {
   var time = 0;
   return (
     <Box
@@ -14,9 +14,11 @@ const AnimatedText = ({ textLines }) => {
       fontSize={30}
       fontFamily="Jost"
       style={{cursor:'default'}}
+      {...rest}
     >
-      {textLines.map((line) => (
+      {textLines.map((line, index) => (
         <MovingComponent
+        key={index}
           type="fadeInFromBottom"
           duration={`${line.duration ?? 1100}ms`}
           delay={`${(time += line.delay)}s`}

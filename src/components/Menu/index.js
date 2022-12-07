@@ -130,12 +130,11 @@ const Menu = () => {
             to={routes.create.url}
             value={routes.create.url}
           />
-          <Tab value={routes.settings.url}
+          <Tab value={routes.settings.url} onClick={onUserSettingsOpen}
             sx={{ right: "0vh", position: "absolute", cursor:'default' }}
             icon={
               <Tooltip title="Account settings">
                 <IconButton
-                  onClick={onUserSettingsOpen}
                   size="medium"
                   // sx={{ ml: 2 }}
                   aria-controls={

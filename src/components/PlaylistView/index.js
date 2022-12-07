@@ -38,12 +38,12 @@ const PlaylistView = () => {
   };
 
   const onDeletePlaylist = async () => {
-  //   axios.delete('url', { data: payload }).then(
-  //     // Observe the data keyword this time. Very important
-  //     // payload is the request body
-  //     // Do something
-  //   )
-  }
+    //   axios.delete('url', { data: payload }).then(
+    //     // Observe the data keyword this time. Very important
+    //     // payload is the request body
+    //     // Do something
+    //   )
+  };
 
   const onCloseDialog = () => {
     setDialogOpen(false);
@@ -62,27 +62,36 @@ const PlaylistView = () => {
   };
 
   useEffect(() => {
-    const fetchUserPlaylists = async () => {
-      var userId = userSelector.userId;
-      if (!userId || userId === "") {
-        userId = JSON.parse(localStorage.getItem("user")).userId;
-      }
+    var userId = userSelector.userId;
+    if (!userId || userId === "") {
+      userId = JSON.parse(localStorage.getItem("user")).userId;
+    }
+    const spotifyAccessToken = localStorage.getItem(
+      userSelector.userId + "spotifyAccessToken"
+    );
+    console.log(spotifyAccessToken);
+    const fetchUserPlaylists = async (userId, spotifyAccessToken) => {
       try {
-        const res = await getUserPlaylists(userId);
+        const res = await getUserPlaylists(userId, spotifyAccessToken);
+        console.log(res.data);
         // response returned empty array- User doesn't have playlists:
         if (res.data.length === 0) {
           setNoPlaylists(true);
         }
-        setUserPlaylists(res.data[0]);
-        console.log(res.data[0]);
+        setUserPlaylists(res.data);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchUserPlaylists();
-  }, []);
+    if (userId && spotifyAccessToken) {
+      fetchUserPlaylists(userId, spotifyAccessToken);
+    }
+  }, [
+    localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+    localStorage.getItem("user"),
+  ]);
 
-  useEffect(() => console.log(userPlaylists?.mostRecent), []);
+  // useEffect(() => console.log(userPlaylists?.mostRecent), []);
 
   return noPlaylists ? (
     <Box mt="10vh" display="flex" justifyContent="center">
@@ -92,21 +101,27 @@ const PlaylistView = () => {
       </Typography>
     </Box>
   ) : userPlaylists && userPlaylists?.mostRecent ? (
-    <Box mt="10vh" display='flex' flexDirection="column" alignItems="center" justifyContent="center">
+    <Box
+      mt="10vh"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+    >
       {/* <VirtualSongsList
         songsListData={userPlaylists.mostRecent}
       ></VirtualSongsList> */}
       <SongsList songsList={userPlaylists?.mostRecent}></SongsList>
       <Box mt="10vh"></Box>
       <ColorButton
-        sx={{ margin: "0 auto", marginTop:'20px' }}
+        sx={{ margin: "0 auto", marginTop: "20px" }}
         variant="contained"
         onClick={onSaveToSpotify}
       >
         Save To Spotify
       </ColorButton>
       <ColorButton
-        sx={{ margin: "0 auto", marginTop:'20px'  }}
+        sx={{ margin: "0 auto", marginTop: "20px" }}
         variant="contained"
         onClick={onDeletePlaylist}
       >
@@ -131,12 +146,17 @@ const PlaylistView = () => {
       </DialogWindow>
     </Box>
   ) : (
-    // <Box mt="10vh" display="flex" justifyContent="center">
-    //   <Typography fontWeight={400} fontSize={100}>
-    //     Checking for Playlists...
-    //   </Typography>
-    // </Box>
-    <AnimatedText textLines={[{value:"Checking for Playlists...", delay:0.5, infinite:true, direction:'alternate-reverse', duration:950}]}></AnimatedText>
+    <AnimatedText
+      textLines={[
+        {
+          value: "Checking for Playlists...",
+          delay: 0.5,
+          infinite: true,
+          direction: "alternate-reverse",
+          duration: 950,
+        },
+      ]}
+    ></AnimatedText>
   );
 };
 

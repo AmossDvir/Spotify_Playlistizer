@@ -21,6 +21,9 @@ const useSpotifyAuth = (code) => {
       }
     };
     requestAccess();
+    const tryConnectAgain = setInterval(() => requestAccess(), 3000);
+    // return clearInterval(tryConnectAgain);
+
   }, [code]);
 
   useEffect(() => {

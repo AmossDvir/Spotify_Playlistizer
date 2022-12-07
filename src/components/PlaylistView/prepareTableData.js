@@ -21,6 +21,7 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
 
   const prepareRowsData = () =>
     rowsData.map((row, index) => {
+      
       return {
         title: (
           <SongTitle
@@ -31,13 +32,13 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
           ></SongTitle>
         ),
         // title: <div style={{}}>{row.name}</div>,
-        duration: convertMillisToMinutesAndSeconds(row.duration_ms),
-        album: row.album.name,
+        duration: convertMillisToMinutesAndSeconds(row?.duration_ms),
+        album: row?.album?.name,
         genre: (
           <GenreChip
-            value={row.genre.value}
-            color={row.genre.color}
-            bgColor={row.genre.bgColor}
+            value={row?.genre?.value}
+            color={row?.genre?.color}
+            bgColor={row?.genre?.bgColor}
           />
         ),
       };

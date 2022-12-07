@@ -1,12 +1,9 @@
 import axios from "axios";
 import { baseUrl } from "../../constants";
-export const getUserPlaylists = async (userId) => {
+export const getUserPlaylists = async (userId, spotifyAccessToken) => {
   try {
-    const res = await axios.get(baseUrl + "spotify/get", {
-      headers: {
-        "content-type": "application/json",
-      },
-      params: { userId },
+    const res = await axios.post(baseUrl + "spotify/playlists", {
+      userId, spotifyAccessToken 
     });
     return res;
   } catch (err) {

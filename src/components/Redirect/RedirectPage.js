@@ -1,49 +1,33 @@
 import { Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import useSpotifyAuth from "../../controllers/spotify/useSpotifyAuth";
+import AnimatedText from "../../generalComponents/AnimatedText";
 
 const code = new URLSearchParams(window.location.search).get("code");
 const RedirectPage = ({ userId }) => {
-  // Use '.'  '..'  '...' animation:
-  const [dotsNum, setDotsNum] = useState(0);
-  const [alive, setAlive] = useState(true);
-  const [isIncrementing, setIsIncrementing] = useState(true);
+  const [valid, setValid] = useState(false);
 
   var spotifyAccessToken = useSpotifyAuth(code);
-  console.log(spotifyAccessToken);
-  userId &&
+  if (userId && spotifyAccessToken) {
     localStorage.setItem(userId + "spotifyAccessToken", spotifyAccessToken);
-  useEffect(() => {
-    const aliveTimeout = setTimeout(() => setAlive(false), 20000);
+  }
 
-    const dotsInterval = setInterval(() => {
-      if (dotsNum === 6) {
-        setIsIncrementing(false);
-      }
-      if (dotsNum === 1) {
-        setIsIncrementing(true);
-      }
-      if (dotsNum < 0) {
-        setDotsNum(0);
-      }
-      setDotsNum(isIncrementing && dotsNum < 6 ? dotsNum + 1 : dotsNum - 1);
-    }, 220);
-    return () => {
-      // clearTimeout(aliveTimeout);
-      clearInterval(dotsInterval);
-    };
-  });
 
   useEffect(() => {
-    if (!alive) {
-      window.close();
+    var validTimeout, keepingAliveTimeout;
+    if (valid) {
+      validTimeout = setTimeout(() => window.close(), 4000);
     }
-  }, [alive]);
+    else{
+      keepingAliveTimeout = setTimeout(() => window.close(), 40000);
+    }
+    return () => {clearTimeout(keepingAliveTimeout); clearTimeout(validTimeout) }
+  }, [valid]);
 
   useEffect(() => {
-    if (localStorage.getItem(userId + "spotifyAccessToken") !== 'undefined') {
-      console.log(localStorage.getItem(userId + "spotifyAccessToken"))
-      // window.close();
+    if (localStorage.getItem(userId + "spotifyAccessToken")) {
+      console.log(localStorage.getItem(userId + "spotifyAccessToken"));
+      setValid(true);
     }
   }, [localStorage.getItem(userId + "spotifyAccessToken")]);
 
@@ -57,15 +41,19 @@ const RedirectPage = ({ userId }) => {
     >
       <Typography
         id="redirectText"
-        sx={{ marginTop: 50, fontSize: 35, fontWeight: 400 }}
+        sx={{ marginTop: 10, fontSize: 35, fontWeight: 400 }}
       >
-        Your Page is Being Redirected
-        {".".repeat(dotsNum) + " .".repeat(6 - dotsNum)}
-        {Array(dotsNum)
-          .fill(dotsNum)
-          .map((_, index) => (
-            <span key={index}>&nbsp;</span>
-          ))}
+        <AnimatedText
+          textLines={[
+            {
+              value: "Your Page is Being Redirected...",
+              delay: 0.5,
+              infinite: true,
+              direction: "alternate-reverse",
+              duration: 950,
+            },
+          ]}
+        ></AnimatedText>
       </Typography>
     </div>
   );
