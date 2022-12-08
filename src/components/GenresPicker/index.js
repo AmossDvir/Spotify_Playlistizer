@@ -14,6 +14,7 @@ import { savePlaylist } from "../../controllers/spotify/savePlaylistController";
 import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenresController";
 import LoadingButton from "../../generalComponents/LoadingButton";
 import GenresSelector from "./GenresSelector";
+import LengthSlider from "./LengthSlider";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -40,6 +41,7 @@ const GenresPicker = () => {
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [playlistLength, setPlaylistLength] = useState(25);
 
   const onCreatePlaylist = async () => {
     setLoading(true);
@@ -48,7 +50,8 @@ const GenresPicker = () => {
       // console.log(genresList);
       const result = await generatePlaylist(
         genresList ?? [""],
-        localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+        playlistLength
       );
       setIsGenerating(false);
       dispatch(addPlaylist(result.data));
@@ -128,6 +131,13 @@ const GenresPicker = () => {
             setGenresList={setGenresList}
             items={availableGenres}
           ></GenresSelector>
+          <LengthSlider
+            playlistLength={playlistLength}
+            onLengthChange={(e) => {
+              console.log(e.target.value);
+              setPlaylistLength(e.target.value);
+            }}
+          ></LengthSlider>
           <Box display="flex" justifyContent="center" mt={10}>
             <LoadingButton
               label="Create Playlist"

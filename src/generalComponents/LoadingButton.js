@@ -10,7 +10,6 @@ const LoadingButton = ({
   loadingIcon = <ArrowForwardIosIcon />,
   ...rest
 }) => {
-  console.log(rest)
   return (
       <LoadingButtonMui
       color="secondary"

@@ -1,4 +1,3 @@
-import HomePage from "./components/Stepper";
 
 const baseUrl = "https://spotify-playlist-generator-server.onrender.com/";
 

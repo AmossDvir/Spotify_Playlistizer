@@ -4,8 +4,9 @@ import { baseUrl } from "../../constants";
 // Save new playlist in the DB (create new entry if not exists already):
 export const savePlaylist = async (playlist, userId) => {
   try {
-    console.log(playlist);
-    const res = await axios.post(baseUrl + "spotify/save", {
+    // console.log(playlist);
+    const res = await axios.post(baseUrl + "spotify/save", {  
+      progress: progressEvent => console.log(progressEvent),
       headers: {
         "content-type": "application/json",
       },

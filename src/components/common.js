@@ -31,7 +31,7 @@ const localize = (item) => {
 };
 
 const convertArtistsArrayToString = (array) => {
-  if (array.length === 0) {
+  if (!array || array?.length === 0) {
     return "";
   }
   return array
@@ -43,7 +43,7 @@ const convertArtistsArrayToString = (array) => {
 
 const calculateColFlexValue = (rows, col) => {
   return (
-    rows.reduce((accumSum, val) => {let value = val[col].props?.songName ?? val[col].props?.value ?? val[col];return accumSum + value.toString().length}, 0) /
+    rows.reduce((accumSum, val) => {let value = val[col]?.props?.songName ?? val[col]?.props?.value ?? val[col];return accumSum + value?.toString().length}, 0) /
     rows.length
   );
 };
