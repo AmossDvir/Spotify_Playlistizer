@@ -41,9 +41,10 @@ const Stepper = () => {
         <Typography
           sx={{
             fontWeight: 500,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+            // whiteSpace: "nowrap",
+            // overflow: "hidden",
+            // textOverflow: "ellipsis",
+            // width:window.innerWidth/2,
             maxWidth: "fit-content",
           }}
         >
@@ -63,7 +64,7 @@ const Stepper = () => {
   useEffect(() => {
     if (isStepperUp) {
       setAnimationProps({
-        scale: 0.6,
+        scale: 0.55,
         scaleY: 1,
         y: -100,
       });
@@ -105,7 +106,7 @@ const Stepper = () => {
     >
       <Box
         sx={{
-          width: "80%",
+          width: window.innerWidth/1.3,
           backgroundColor: isStepperUp
             ? "transparent"
             : "rgb(255,255,255,0.45)",

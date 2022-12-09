@@ -9,14 +9,14 @@ const Home = () => {
   var time = 0;
   setTimeout(() => sessionStorage.setItem("firstTime", true), 2000);
   return (
-    <Box justifyContent="center" display="flex" fontSize={30} fontFamily="Jost">
+    <Box justifyContent="center" display="flex" fontSize={30} fontFamily="Jost" alignItems="center">
       {!sessionStorage.getItem("firstTime") ? (
         <AnimatedText
           textLines={[
             { value: title, style: { fontSize: 50 }, delay: 1 },
             {
               value:subTitle,
-              style: { fontSize: 35 },
+              style: { fontSize: 35, textAlign:"center"  },
               delay: 1.5,
             },
           ]}
@@ -33,7 +33,7 @@ const Home = () => {
             flexDirection="column"
             fontSize={30}
             fontFamily="Jost"
-            style={{ cursor: "default" }}
+            style={{ cursor: "default", textAlign:"center" }}
           ><div style={{fontSize:50}}>{title}</div><div>{subTitle}</div></Box>
         </div>
       )}

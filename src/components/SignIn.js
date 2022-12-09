@@ -70,7 +70,7 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="500vh" sx={{ minWidth: '250px',maxWidth:"300px"}}>
         <CssBaseline />
         <Box
           sx={{
