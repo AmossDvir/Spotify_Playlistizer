@@ -14,6 +14,7 @@ const RedirectPage = ({ userId }) => {
 
 
   useEffect(() => {
+    alert("gg")
     var validTimeout, keepingAliveTimeout;
     if (valid) {
       validTimeout = setTimeout(() => window.close(), 4000);

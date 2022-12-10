@@ -16,14 +16,14 @@ import SignIn from "../SignIn";
 import { routes } from "../../constants";
 import { styled } from "@mui/material/styles";
 import UserPanel from "../UserPanel";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 const StyleTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor: `rgb(100,100,100,${
     theme.palette.mode === "dark" ? 0.2 : 0.7
   })`,
   ...theme.typography.body2,
-
+height:"fit-content",
   textAlign: "center",
   justifyItems: "center",
   display: "flex",
@@ -40,8 +40,6 @@ const Menu = () => {
   const onMenuItemClick = (event, newValue) => {
     setValue(newValue);
   };
-
-
 
   const onUserSettingsOpen = (event) => {
     setAnchorElUserSettings(event.currentTarget);
@@ -67,17 +65,24 @@ const Menu = () => {
           value={value}
           onChange={onMenuItemClick}
           aria-label="icon label tabs example"
+
+          sx={{
+            "& .MuiTabs-flexContainer": {
+              flexWrap: "wrap",
+            },
+          }}
         >
           <Tab
-            icon={<FavoriteIcon />}
+            icon={<FavoriteIcon/>}
             label=""
             component={Link}
             to={routes.home.url}
             value={routes.home.url}
+            sx={{ minWidth:'0px'}}
           />
           <Tab
             icon={<AddIcon />}
-            label="Create New Playlist"
+            label="Create"
             component={Link}
             to={routes.create.url}
             value={routes.create.url}
@@ -117,21 +122,24 @@ const Menu = () => {
           aria-label="icon label tabs example"
         >
           <Tab
-            icon={<FavoriteIcon />}
+            icon={<FavoriteIcon/>}
             label=""
             component={Link}
             to={routes.home.url}
             value={routes.home.url}
+            sx={{}}
           />
           <Tab
             icon={<AddIcon />}
-            label="Create New Playlist"
+            label="Create"
             component={Link}
             to={routes.create.url}
             value={routes.create.url}
           />
-          <Tab value={routes.settings.url} onClick={onUserSettingsOpen}
-            sx={{ right: "0vh", position: "absolute", cursor:'default' }}
+          <Tab
+            value={routes.settings.url}
+            onClick={onUserSettingsOpen}
+            sx={{ right: "0vh", position: "absolute", cursor: "default" }}
             icon={
               <Tooltip title="Account settings">
                 <IconButton
@@ -145,7 +153,9 @@ const Menu = () => {
                     Boolean(anchorElUserSettings) ? "true" : undefined
                   }
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>{userSelector?.firstName[0]?.toUpperCase()}</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}>
+                    {userSelector?.firstName[0]?.toUpperCase()}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
             }
@@ -156,15 +166,12 @@ const Menu = () => {
             sx={{
               right: "10vh",
               position: "absolute",
-              
             }}
             label="My Playlists"
             component={Link}
             to={routes.playlistView.url}
             value={routes.playlistView.url}
           />
-
-
         </StyleTabs>
         <UserPanel
           anchorEl={anchorElUserSettings}
