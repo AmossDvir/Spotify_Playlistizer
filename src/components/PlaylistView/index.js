@@ -127,6 +127,8 @@ const PlaylistView = () => {
       >
         Delete
       </ColorButton>
+
+
       <DialogWindow
         title="Playlist Properties"
         bodyText="The Playlist Will Contain The Following Properties:"
@@ -134,6 +136,7 @@ const PlaylistView = () => {
         onClose={onCloseDialog}
         hasCancelButton
         onConfirm={onConfirmDialog}
+        confirmDisabled={playlistName.length <= 0}
       >
         <SaveToSpotifyForm
           playlistName={playlistName}

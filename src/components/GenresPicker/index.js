@@ -1,6 +1,7 @@
 import React, { useState, createRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPlaylist } from "../../model/playlistsSlice";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import DraggableKnob from "./DraggableKnob";
 import "./GenresPicker.css";
 import Button from "@mui/material/Button";
@@ -15,6 +16,8 @@ import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenres
 import LoadingButton from "../../generalComponents/LoadingButton";
 import GenresSelector from "./GenresSelector";
 import LengthSlider from "./LengthSlider";
+import SuccessSnackBar from "../../generalComponents/SuccessSnackBar";
+import ErrorSnackBar from "../../generalComponents/ErrorSnackBar";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -42,6 +45,7 @@ const GenresPicker = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [playlistLength, setPlaylistLength] = useState(25);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   const onCreatePlaylist = async () => {
     setLoading(true);
@@ -66,7 +70,7 @@ const GenresPicker = () => {
     }
   };
 
-  useEffect(() => console.log(genresList), [genresList]);
+  useEffect(() => setSnackBarOpen(true), [creationSuccess, creationErr]);
 
   // const onAddGenre = () => {
   //   if (genresList.length === 0) {
@@ -90,6 +94,7 @@ const GenresPicker = () => {
   // };
 
   useEffect(() => {
+    setSnackBarOpen(false);
     const getGenres = async () => {
       setAvailableGenres(
         await getAvailableGenres(
@@ -105,6 +110,15 @@ const GenresPicker = () => {
     // });
   }, []);
 
+  const reset = () => {
+    setCreationErr(false);
+    setCreationSuccess(false);
+    setLoading(false);
+    // setButtonDisabled(false);
+    setIsGenerating(false);
+    console.log("fff")
+  }
+
   useEffect(
     () => setButtonDisabled(!genresList || !(genresList.length > 0)),
     [genresList]
@@ -118,6 +132,7 @@ const GenresPicker = () => {
     //   alignItems="center"
     //   spacing={2}
     // >
+    <ClickAwayListener onClickAway={reset}>
     <Box
       sx={{ flexDirection: "column" }}
       display="flex"
@@ -201,21 +216,26 @@ const GenresPicker = () => {
       {/* <Grid item xs={12}> */}
 
       {creationSuccess && (
-        <Typography sx={{ fontWeight: 400 }}>
-          Playlist Created Successfully
-        </Typography>
+        <SuccessSnackBar
+          open={snackBarOpen}
+          onClose={() => setSnackBarOpen(false)}
+          promptStr="Playlist Created Successfully"
+        ></SuccessSnackBar>
       )}
       {creationErr &&
         (genresList ? (
-          <Typography sx={{ fontWeight: 400 }}>
-            Failed to Create Playlist
-          </Typography>
+          <ErrorSnackBar
+          open={snackBarOpen}
+          onClose={() => setSnackBarOpen(false)}
+          promptStr="Failed to Create Playlist"
+        ></ErrorSnackBar>
         ) : (
           <Typography sx={{ fontWeight: 400 }}>
             Please Enter at Least 1 Genre
           </Typography>
         ))}
     </Box>
+    </ClickAwayListener>
   );
 };
 
