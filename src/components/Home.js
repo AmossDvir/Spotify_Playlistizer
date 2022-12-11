@@ -2,10 +2,13 @@ import React from "react";
 import MovingComponent from "react-moving-text";
 import { Box } from "@mui/material";
 import AnimatedText from "../generalComponents/AnimatedText";
+import UseMobileWidth from "../generalComponents/UseMobileWidth";
+import "./Home.css";
 
 const title = "Welcome.";
 const subTitle = "This tool will help you create playlists by your favorite genres";
 const Home = () => {
+  const isMobile = UseMobileWidth();
   var time = 0;
   setTimeout(() => sessionStorage.setItem("firstTime", true), 2000);
   return (
@@ -16,7 +19,7 @@ const Home = () => {
             { value: title, style: { fontSize: 50 }, delay: 1 },
             {
               value:subTitle,
-              style: { fontSize: 35, textAlign:"center"  },
+              style: { fontSize:isMobile ?'35vw': '35', textAlign:"center"  },
               delay: 1.5,
             },
           ]}
@@ -31,7 +34,7 @@ const Home = () => {
             display="flex"
             mt={10}
             flexDirection="column"
-            fontSize={30}
+            fontSize={isMobile ?'6vw': 42}
             fontFamily="Jost"
             style={{ cursor: "default", textAlign:"center" }}
           ><div style={{fontSize:50}}>{title}</div><div>{subTitle}</div></Box>

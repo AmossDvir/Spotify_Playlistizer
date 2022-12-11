@@ -9,15 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import { openSpotifyWindow } from "../controllers/spotify/openSpotifyWindow";
 import "./Stepper.css"
+import UseMobileWidth from "../generalComponents/UseMobileWidth";
 
 const Stepper = () => {
   const navigate = useNavigate();
   const userSelector = useSelector((state) => state.user.value);
   const [activeStep, setActiveStep] = useState(0);
   const [isStepperUp, setIsStepperUp] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
+  const isMobile = UseMobileWidth();
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // window.addEventListener("resize", () => setIsMobile(window.innerWidth < 700));
 
-  useEffect(() => setIsMobile(window.innerWidth < 500), []);
+  // useEffect(() => {console.log(isMobile);setIsMobile(windowWidth < 500)}, [windowWidth]);
 
   const stepsButtons = [
     {
@@ -99,7 +103,7 @@ const Stepper = () => {
     }
   }, [window.location.pathname]);
 
-  return ( isStepperUp && window.innerWidth < 500? <></>:
+  return ( isStepperUp && isMobile? <></>:
     <motion.div
       animate={animationProps}
       transition={{ type: "spring", duration: 1 }}
