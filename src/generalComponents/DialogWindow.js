@@ -23,6 +23,7 @@ const DialogWindow = ({
   onClose,
   onCancel,
   onConfirm,
+  confirmDisabled=false,
   confirmButtonText="Confirm",
   cancelButtonText="Cancel", 
   hasCancelButton = false,
@@ -62,7 +63,7 @@ const DialogWindow = ({
           {hasCancelButton && (
             <Button onClick={onCancelButtonClicked} color="error">{cancelButtonText}</Button>
             )}
-          <Button onClick={onConfirmButtonClicked} color="primary">
+          <Button disabled={confirmDisabled} onClick={onConfirmButtonClicked} color="primary">
             {confirmButtonText}
           </Button>
         </DialogActions>

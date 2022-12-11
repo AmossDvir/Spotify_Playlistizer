@@ -29,6 +29,8 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
             songArtists={convertArtistsArrayToString(row.artists)}
             image={row.album?.images[0]?.url}
             hoveredRow={hoveredRow === index}
+            liked={row.liked}
+            songId={row.id}
           ></SongTitle>
         ),
         // title: <div style={{}}>{row.name}</div>,

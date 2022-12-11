@@ -10,17 +10,18 @@ const ErrorSnackBar = ({ open, onClose, promptStr }) => {
   ));
 
   return (
-    <ClickAwayListener onClickAway={() => console.log("df")}>
-      <Snackbar
-        autoHideDuration={6000}
-        open={open}
-        on
-        onClose={onClose}
-        TransitionComponent={(props) => <Slide {...props} direction="up" />}
-      >
-        <Alert severity="error">{promptStr}</Alert>
-      </Snackbar>
-    </ClickAwayListener>
+    // <ClickAwayListener>
+    <Snackbar
+      autoHideDuration={6000}
+      open={open}
+      onClose={onClose}
+      TransitionComponent={(props) => <Slide {...props} direction="up" />}
+    >
+      <Alert severity="error">
+        <div style={{ cursor: "default" }}>{promptStr}</div>
+      </Alert>
+    </Snackbar>
+    // </ClickAwayListener>
   );
 };
 

@@ -6,7 +6,7 @@ export const generatePlaylist = async (genres, spotifyAccessToken, length) => {
       headers: {
         "content-type": "application/json",
       },
-      params: { genres, access_token: spotifyAccessToken, length },
+      params: { genres, access_token: spotifyAccessToken, playlistLength:length },
     });
     return res;
   } catch (err) {

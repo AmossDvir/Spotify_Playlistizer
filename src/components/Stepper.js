@@ -5,24 +5,29 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { Box, Button, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import { openSpotifyWindow } from "../controllers/spotify/openSpotifyWindow";
+import "./Stepper.css"
 
 const Stepper = () => {
   const navigate = useNavigate();
   const userSelector = useSelector((state) => state.user.value);
   const [activeStep, setActiveStep] = useState(0);
   const [isStepperUp, setIsStepperUp] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => setIsMobile(window.innerWidth < 500), []);
 
   const stepsButtons = [
     {
-      text: "Sign In To Your Account/Create Your Account",
+      text: `Sign In${isMobile?"/Sign Up":" To Your Account/Create Your Account"}`,
       disabled: userSelector.loggedIn,
       onClick: () => navigate(routes.signUp.url),
     },
     {
-      text: "Connect To Your Spotify Account",
+      text: `Connect${isMobile?" To Spotify":" To Your Account/Create Your Account"}`,
+      // text: "Connect To Your Spotify Account",
       disabled: !(
         userSelector.loggedIn && !localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       ),
@@ -38,14 +43,15 @@ const Stepper = () => {
   ].map((step) => {
     return (
       <Button onClick={step.onClick} disabled={step.disabled}>
-        <Typography
+        <Typography className="stepper-label"
           sx={{
             fontWeight: 500,
+            // fontSize:"1px",
             // whiteSpace: "nowrap",
             // overflow: "hidden",
             // textOverflow: "ellipsis",
             // width:window.innerWidth/2,
-            maxWidth: "fit-content",
+            // maxWidth: "500px",
           }}
         >
           {step.text}
@@ -60,6 +66,8 @@ const Stepper = () => {
     y: [-100, 400, 300],
   };
   const [animationProps, setAnimationProps] = useState();
+
+  
 
   useEffect(() => {
     if (isStepperUp) {
@@ -91,7 +99,7 @@ const Stepper = () => {
     }
   }, [window.location.pathname]);
 
-  return (
+  return ( isStepperUp && window.innerWidth < 500? <></>:
     <motion.div
       animate={animationProps}
       transition={{ type: "spring", duration: 1 }}
@@ -105,16 +113,14 @@ const Stepper = () => {
       }}
     >
       <Box
+      className="stepper-frame"
         sx={{
-          width: window.innerWidth/1.3,
+
           backgroundColor: isStepperUp
             ? "transparent"
             : "rgb(255,255,255,0.45)",
-          transition: "all .3s ease",
-          WebkitTransition: "all .3s ease",
-          MozTransition: "all .3s ease",
-          padding: "2vh",
-          borderRadius: "13vh",
+
+
         }}
       >
         <MuiStepper activeStep={activeStep} alternativeLabel>

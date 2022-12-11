@@ -13,7 +13,9 @@ const AnimatedText = ({ textLines, ...rest }) => {
       flexDirection="column"
       fontSize={30}
       fontFamily="Jost"
+      textAlign='center'
       style={{cursor:'default'}}
+      sx={{textAlign:'center'}}
       {...rest}
     >
       {textLines.map((line, index) => (
@@ -26,7 +28,7 @@ const AnimatedText = ({ textLines, ...rest }) => {
           timing="ease-in-out"
           iteration={line.infinite? "infinite": "1"}
           fillMode="both"
-          style={line.style ?? { fontSize: 30 }}
+          style={line.style ?? { fontSize: 30, textAlign:'center' }}
         >
           {line.value}
         </MovingComponent>
