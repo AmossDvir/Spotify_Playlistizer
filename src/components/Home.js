@@ -19,7 +19,7 @@ const Home = () => {
             { value: title, style: { fontSize: 50 }, delay: 1 },
             {
               value:subTitle,
-              style: { fontSize:isMobile ?'35vw': '35', textAlign:"center"  },
+              style: { fontSize:isMobile ?'6vw': 42, textAlign:"center"  },
               delay: 1.5,
             },
           ]}
