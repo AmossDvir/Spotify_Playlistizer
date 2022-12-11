@@ -5,11 +5,13 @@ import {
   useGridApiContext,
 } from "@mui/x-data-grid";
 import prepareTableData from "../prepareTableData";
+import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 
 const SongsList = ({ songsList }) => {
   const [tableData, setTableData] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
 
+  const isMobile = UseMobileWidth();
   // const apiRef = useGridApiContext();
 
   // useEffect(() => {
@@ -23,7 +25,12 @@ const SongsList = ({ songsList }) => {
 
   useEffect(() => {
     setTableData(
-      prepareTableData(songsList, [
+      prepareTableData(songsList, isMobile?[
+        "songNumber",
+        "title",
+        // "album",
+        "genre",
+      ]:[
         "songNumber",
         "title",
         "album",
@@ -31,7 +38,7 @@ const SongsList = ({ songsList }) => {
         "genre",
       ], hoveredRow)
     );
-  }, [hoveredRow]);
+  }, [hoveredRow, isMobile]);
 
   return (
     <div

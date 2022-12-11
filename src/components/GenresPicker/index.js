@@ -28,7 +28,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const GenresPicker = () => {
+const GenresPicker = ({ defaultLength=100 }) => {
   const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.user.value);
 
@@ -44,7 +44,7 @@ const GenresPicker = () => {
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [playlistLength, setPlaylistLength] = useState(25);
+  const [playlistLength, setPlaylistLength] = useState(defaultLength);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   const onCreatePlaylist = async () => {
@@ -116,7 +116,6 @@ const GenresPicker = () => {
     setLoading(false);
     // setButtonDisabled(false);
     setIsGenerating(false);
-    console.log("fff")
   }
 
   useEffect(

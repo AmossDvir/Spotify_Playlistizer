@@ -43,8 +43,11 @@ const convertArtistsArrayToString = (array) => {
 
 const calculateColFlexValue = (rows, col) => {
   return (
-    rows.reduce((accumSum, val) => {let value = val[col]?.props?.songName ?? val[col]?.props?.value ?? val[col];return accumSum + value?.toString().length}, 0) /
-    rows.length
+    rows.reduce((accumSum, val) => {
+      let value =
+        val[col]?.props?.songName ?? val[col]?.props?.value ?? val[col];
+      return accumSum + value?.toString().length;
+    }, 0) / rows.length
   );
 };
 
@@ -71,5 +74,5 @@ export {
   convertArtistsArrayToString,
   calculateColFlexValue,
   convertMillisToMinutesAndSeconds,
-  convertMSToSeconds, 
+  convertMSToSeconds,
 };
