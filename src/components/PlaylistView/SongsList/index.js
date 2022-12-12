@@ -47,7 +47,7 @@ const SongsList = ({ songsList }) => {
         backgroundColor: "#4d4d4d",
         justifyContent: "center",
         height: "50vh",
-        width: "80%",
+        width: "93vw",
       }}
     >
       {tableData.rows && (

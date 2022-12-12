@@ -93,7 +93,7 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
         </Typography>
       ),
       ...(colField === "songNumber"
-        ? { width: 70 }
+        ? { width: 50 }
         : colField === "duration"
         ? { width: 200 }
         : { flex: calculateColFlexValue(rows, colField) }),

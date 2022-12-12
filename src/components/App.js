@@ -15,10 +15,12 @@ import "./App.css";
 import { loginUser } from "../model/userSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 import Home from "./Home";
+import SpotifyPlayer from "react-spotify-web-playback";
 
 const App = () => {
   const dispatch = useDispatch();
-
+  const userSelector = useSelector((state) => state.user.value);
+  const spotifyAccessToken = localStorage.getItem(userSelector.userId + "spotifyAccessToken");
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     // console.log(user);
@@ -33,10 +35,10 @@ const App = () => {
       <Stepper />
       <Outlet />
       <BottomLine></BottomLine>
+      {userSelector.loggedIn && spotifyAccessToken!==undefined && <SpotifyPlayer token={spotifyAccessToken} ></SpotifyPlayer>}
     </>
   );
 
-  const userSelector = useSelector((state) => state.user.value);
   return (
     <div className="all">
       <Routes>
