@@ -13,7 +13,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { likeSong } from "../../../controllers/spotify/likeSongController";
 import "./SongTitle.css";
-
+import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 
 
 const SongTitle = ({
@@ -24,7 +24,7 @@ const SongTitle = ({
   hoveredRow,
   songId,
 }) => {
-
+  const isMobile = UseMobileWidth();
   const onLikeClick = (e) => {
     likeSong(songId, true, localStorage.getItem(userSelector.userId + "spotifyAccessToken"));
     setIsLiked(!isLiked);
@@ -68,9 +68,9 @@ const SongTitle = ({
 
         <ListItemText
           primary={songName}
-          primaryTypographyProps={{ style: { fontWeight: 100 } }}
+          primaryTypographyProps={{ style: { fontWeight: 100, fontSize:isMobile?"18px":'22px' } }}
           secondary={songArtists}
-          secondaryTypographyProps={{ style: { color: "#b5b5b5" } }}
+          secondaryTypographyProps={{ style: { color: "#b5b5b5", fontSize:isMobile?"15px":'19px' } }}
         />
       </ListItem>
     </List>
