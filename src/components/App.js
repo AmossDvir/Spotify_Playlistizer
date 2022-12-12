@@ -35,7 +35,7 @@ const App = () => {
       <Stepper />
       <Outlet />
       <BottomLine></BottomLine>
-      {userSelector.loggedIn && spotifyAccessToken!==undefined && <SpotifyPlayer token={spotifyAccessToken} ></SpotifyPlayer>}
+      {/* {userSelector.loggedIn && spotifyAccessToken!==undefined && <SpotifyPlayer token={spotifyAccessToken} ></SpotifyPlayer>} */}
     </>
   );
 
