@@ -32,7 +32,7 @@ const SongTitle = ({
   const userSelector = useSelector((state) => state.user.value);
   const [isLiked, setIsLiked] = useState(liked);
   return (
-    <List sx={{ cursor: "default", width: "100%" }}>
+    <List sx={{ cursor: "default", width: "100%", paddingLeft:'0px' }}>
       <ListItem>
       <Tooltip title={`${isLiked? "Remove from":"Save to"} Your Library`} enterDelay={500} placement="top">
           

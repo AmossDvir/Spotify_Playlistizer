@@ -11,7 +11,7 @@ import SongTitle from "./SongsList/SongTitle";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import "./SongsList/TableStyle.css";
 
-const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
+const prepareTableData = (rowsData, columnsLabels, hoveredRow, onPlaySongClick) => {
   const sortTitles = (title1, title2) =>
     title1.props.songName.localeCompare(title2.props.songName);
   const sortGenres = (genre1, genre2) =>
@@ -55,13 +55,13 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
     const row = {
       id: rowIndex,
       songNumber:
-        // hoveredRow === rowIndex ? (
-        //   <PlayArrowIcon
-        //     sx={{ width: 25, cursor: "pointer", alignContent: "center" }}
-        //   ></PlayArrowIcon>
-        // ) : (
-          rowIndex + 1,
-        // ),
+        hoveredRow === rowIndex ? (
+          <PlayArrowIcon onClick={() => onPlaySongClick(rowIndex)}
+            sx={{ width: 30, cursor: "pointer",  textAlign:'left',  }}
+          ></PlayArrowIcon>
+        ) : (
+          rowIndex + 1
+        ),
     };
 
     for (let colIndex = 1; colIndex < columnsLabels.length; colIndex += 1) {
@@ -93,7 +93,7 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
         </Typography>
       ),
       ...(colField === "songNumber"
-        ? { width: 50 }
+        ? { width: 50, paddingLeft:'0px' }
         : colField === "duration"
         ? { width: 200 }
         : { flex: calculateColFlexValue(rows, colField) }),
@@ -101,7 +101,8 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow) => {
       headerName: value,
       headerClassName: "test",
       headerAlign: "left",
-      align: "left",
+      align: colField === "songNumber"?'center':"left",
+      // textAlign:'left',
       
       ...(colField === "title" ? { sortComparator: sortTitles } : {}),
       ...(colField === "genre" ? { sortComparator: sortGenres } : {}),

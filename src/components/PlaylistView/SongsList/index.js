@@ -6,12 +6,20 @@ import {
 } from "@mui/x-data-grid";
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
+import { useDispatch } from "react-redux";
+import { playSong } from "../../../model/songPlaybackSlice";
 
 const SongsList = ({ songsList }) => {
   const [tableData, setTableData] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
 
   const isMobile = UseMobileWidth();
+  const dispatch = useDispatch();
+
+  const onPlaySongClick = (rowIndex) => {
+    console.log(songsList[rowIndex]);
+    dispatch(playSong(songsList[rowIndex]));
+  }
   // const apiRef = useGridApiContext();
 
   // useEffect(() => {
@@ -36,7 +44,7 @@ const SongsList = ({ songsList }) => {
         "album",
         "duration",
         "genre",
-      ], hoveredRow)
+      ], hoveredRow, onPlaySongClick)
     );
   }, [hoveredRow, isMobile]);
 

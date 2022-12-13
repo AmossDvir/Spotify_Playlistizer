@@ -35,7 +35,15 @@ const App = () => {
       <Stepper />
       <Outlet />
       <BottomLine></BottomLine>
-      {/* {userSelector.loggedIn && spotifyAccessToken!==undefined && <SpotifyPlayer token={spotifyAccessToken} ></SpotifyPlayer>} */}
+      {userSelector.loggedIn && spotifyAccessToken!==undefined && <div style={{position:'fixed', bottom:'0px',left: '0vw',right: '0vw'}} ><SpotifyPlayer magnifySliderOnHover showSaveIcon  styles={{
+    activeColor: '#fff',
+    bgColor: '#333',
+    color: '#fff',
+    loaderColor: '#fff',
+    sliderColor: '#1cb954',
+    trackArtistColor: '#ccc',
+    trackNameColor: '#fff',
+  }} token={spotifyAccessToken} ></SpotifyPlayer></div>}
     </>
   );
 
