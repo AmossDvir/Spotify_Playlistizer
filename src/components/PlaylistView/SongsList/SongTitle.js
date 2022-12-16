@@ -37,15 +37,14 @@ const SongTitle = ({
       <Tooltip title={`${isLiked? "Remove from":"Save to"} Your Library`} enterDelay={500} placement="top">
           
         <ListItemIcon
-          className={hoveredRow ? "liked-icon" : ""}
           onClick={onLikeClick}
           
         >
           {isLiked ? (
             <FavoriteIcon
               // className={hoveredRow ? "liked-icon" : ""}
-              sx={{ color: "rgb(142 36 170)"}}
-
+              // sx={{ color: "secondary"}}
+              color="primary"
             />
           ) : (
             <FavoriteBorderIcon className={hoveredRow ? "liked-icon" : ""}/>

@@ -8,6 +8,7 @@ import {
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 import { playSong } from "../../../model/songPlaybackSlice";
+import PlayerControlButtons from "./PlayerControlButtons";
 
 const SongsList = ({ songsList }) => {
   const [tableData, setTableData] = useState([]);
@@ -65,6 +66,7 @@ const SongsList = ({ songsList }) => {
              
             }}
             sx={{
+              backgroundColor:'#424554',
               "& .MuiDataGrid-columnHeader": { cursor: "default" },
               borderColor: "primary.light",
               "& .MuiDataGrid-cell:hover": {
@@ -92,6 +94,8 @@ const SongsList = ({ songsList }) => {
             rowHeight={65}
             withBorder={false}
             hideFooterSelectedRowCount={true}
+            components={{Toolbar:PlayerControlButtons}}
+            hideFooterPagination={false}
             // onRowMouseEnter={(params, event) => {
             //   console.log(params);
             // }}
