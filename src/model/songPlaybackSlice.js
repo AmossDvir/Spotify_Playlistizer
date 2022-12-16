@@ -14,12 +14,12 @@ export const songPlaybackSlice = createSlice({
       state.value.isPlaying = true;
       state.value.song = action.payload;
     },
-    stopSong: (state) => {
-      state = initialState;
+    pauseSong: (state) => {
+      state.value = initialState;
     },
   },
 });
 
-export const { playSong } = songPlaybackSlice.actions;
+export const { playSong, pauseSong } = songPlaybackSlice.actions;
 
 export default songPlaybackSlice.reducer;

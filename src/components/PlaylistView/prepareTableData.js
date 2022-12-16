@@ -1,3 +1,5 @@
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Typography } from "@mui/material";
 import {
   localize,
@@ -9,9 +11,42 @@ import {
 import GenreChip from "../GenresPicker/GenreChip";
 import SongTitle from "./SongsList/SongTitle";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import { pauseSong } from "../../model/songPlaybackSlice";
 import "./SongsList/TableStyle.css";
+import AnimatedSoundBars from "../../generalComponents/AnimatedSoundBars";
 
-const prepareTableData = (rowsData, columnsLabels, hoveredRow, onPlaySongClick) => {
+const DisplayIcon = ({ onPlaySongClick, rowIndex, songId, hoveredRow, rowsData }) => {
+  const playerSelector = useSelector((state) => state.songPlayback.value);
+  
+  const playedSongExistsInPlaylist = playerSelector.isPlaying && rowsData.filter(song => song.id === playerSelector.song.id).length > 0;
+  const dispatch = useDispatch();
+  const onPauseSongClick = () => {
+    dispatch(pauseSong());
+  };
+  var icon = null;
+  if (hoveredRow === rowIndex) {
+    if (playedSongExistsInPlaylist && playerSelector.song.id === songId) {
+      icon = <PauseIcon onClick={onPauseSongClick} />;
+    } else {
+      icon = <PlayArrowIcon onClick={() => onPlaySongClick(rowIndex)} />;
+    }
+  } else {
+    if (playedSongExistsInPlaylist && playerSelector.song.id === songId) {
+      icon = <AnimatedSoundBars></AnimatedSoundBars>;
+    } else {
+      icon = rowIndex + 1;
+    }
+  }
+  return icon;
+};
+
+const prepareTableData = (
+  rowsData,
+  columnsLabels,
+  hoveredRow,
+  onPlaySongClick
+) => {
   const sortTitles = (title1, title2) =>
     title1.props.songName.localeCompare(title2.props.songName);
   const sortGenres = (genre1, genre2) =>
@@ -21,7 +56,6 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow, onPlaySongClick) 
 
   const prepareRowsData = () =>
     rowsData.map((row, index) => {
-      
       return {
         title: (
           <SongTitle
@@ -54,14 +88,7 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow, onPlaySongClick) 
   for (let rowIndex = 0; rowIndex < rowsDataPrepared.length; rowIndex += 1) {
     const row = {
       id: rowIndex,
-      songNumber:
-        hoveredRow === rowIndex ? (
-          <PlayArrowIcon onClick={() => onPlaySongClick(rowIndex)}
-            sx={{ width: 30, cursor: "pointer",  textAlign:'left',  }}
-          ></PlayArrowIcon>
-        ) : (
-          rowIndex + 1
-        ),
+      songNumber: <DisplayIcon onPlaySongClick={onPlaySongClick} rowIndex={rowIndex} songId={rowsData[rowIndex].id} hoveredRow={hoveredRow} rowsData={rowsData}></DisplayIcon>,
     };
 
     for (let colIndex = 1; colIndex < columnsLabels.length; colIndex += 1) {
@@ -93,7 +120,7 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow, onPlaySongClick) 
         </Typography>
       ),
       ...(colField === "songNumber"
-        ? { width: 50, paddingLeft:'0px' }
+        ? { width: 50, paddingLeft: "0px" }
         : colField === "duration"
         ? { width: 200 }
         : { flex: calculateColFlexValue(rows, colField) }),
@@ -101,9 +128,9 @@ const prepareTableData = (rowsData, columnsLabels, hoveredRow, onPlaySongClick) 
       headerName: value,
       headerClassName: "test",
       headerAlign: "left",
-      align: colField === "songNumber"?'center':"left",
+      align: colField === "songNumber" ? "center" : "left",
       // textAlign:'left',
-      
+
       ...(colField === "title" ? { sortComparator: sortTitles } : {}),
       ...(colField === "genre" ? { sortComparator: sortGenres } : {}),
       ...(colField === "duration" ? { sortComparator: sortDurations } : {}),

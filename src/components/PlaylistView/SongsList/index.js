@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   DataGrid,
   useGridApiEventHandler,
@@ -6,7 +7,6 @@ import {
 } from "@mui/x-data-grid";
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
-import { useDispatch } from "react-redux";
 import { playSong } from "../../../model/songPlaybackSlice";
 
 const SongsList = ({ songsList }) => {
@@ -17,7 +17,6 @@ const SongsList = ({ songsList }) => {
   const dispatch = useDispatch();
 
   const onPlaySongClick = (rowIndex) => {
-    console.log(songsList[rowIndex]);
     dispatch(playSong(songsList[rowIndex]));
   }
   // const apiRef = useGridApiContext();
