@@ -11,19 +11,18 @@ import LoggedOutPanel from "./LoggedOutPanel";
 import UserSettingsPage from "./UserPanel/UserSettingsPage";
 import PlaylistView from "./PlaylistView/";
 import { routes } from "../constants";
-import "./App.css";
 import { loginUser } from "../model/userSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 import Home from "./Home";
-import SpotifyPlayer from "react-spotify-web-playback";
+import Player from "../generalComponents/Player";
+import "./App.css";
 
 const App = () => {
   const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.user.value);
-  const spotifyAccessToken = localStorage.getItem(userSelector.userId + "spotifyAccessToken");
+
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
-    // console.log(user);
     if (user) {
       dispatch(loginUser(user));
     }
@@ -35,7 +34,7 @@ const App = () => {
       <Stepper />
       <Outlet />
       <BottomLine></BottomLine>
-      {/* {userSelector.loggedIn && spotifyAccessToken!==undefined && <SpotifyPlayer token={spotifyAccessToken} ></SpotifyPlayer>} */}
+      <Player></Player>
     </>
   );
 
@@ -44,7 +43,7 @@ const App = () => {
       <Routes>
         <Route element={<HeaderAndFooter />}>
           {/* <Route path={routes.home} element={<Home/>}/> */}
-          <Route index element={<Home/>} />
+          <Route index element={<Home />} />
           <Route path={routes.signUp.url} element={<SignUp />} />
           <Route path={routes.playlistView.url} element={<PlaylistView />} />
           <Route path={routes.settings.url} element={<UserSettingsPage />} />

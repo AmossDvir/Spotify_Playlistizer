@@ -6,11 +6,19 @@ export const Theme = createTheme({
         primary: {
           main: 'rgb(142, 36, 170)',
           light:'rgb(142, 36, 170, 0.2)',
+          dark: '#7b1fa2'
         },
         mode:'dark',
         secondary: {
           main: '#ffa726',
         },
+        neutral: {
+          main: '#bfc5cc',
+          contrastText: '#fff',
+        },
+        songlist:{
+          main: '#bfc5cc'
+        }
       },
     typography: {
         fontFamily: 'Jost',

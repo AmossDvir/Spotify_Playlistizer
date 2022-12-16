@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   DataGrid,
   useGridApiEventHandler,
@@ -6,12 +7,19 @@ import {
 } from "@mui/x-data-grid";
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
+import { playSong } from "../../../model/songPlaybackSlice";
+import PlayerControlButtons from "./PlayerControlButtons";
 
 const SongsList = ({ songsList }) => {
   const [tableData, setTableData] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
 
   const isMobile = UseMobileWidth();
+  const dispatch = useDispatch();
+
+  const onPlaySongClick = (rowIndex) => {
+    dispatch(playSong(songsList[rowIndex]));
+  }
   // const apiRef = useGridApiContext();
 
   // useEffect(() => {
@@ -36,7 +44,7 @@ const SongsList = ({ songsList }) => {
         "album",
         "duration",
         "genre",
-      ], hoveredRow)
+      ], hoveredRow, onPlaySongClick)
     );
   }, [hoveredRow, isMobile]);
 
@@ -58,6 +66,7 @@ const SongsList = ({ songsList }) => {
              
             }}
             sx={{
+              backgroundColor:'#424554',
               "& .MuiDataGrid-columnHeader": { cursor: "default" },
               borderColor: "primary.light",
               "& .MuiDataGrid-cell:hover": {
@@ -85,6 +94,8 @@ const SongsList = ({ songsList }) => {
             rowHeight={65}
             withBorder={false}
             hideFooterSelectedRowCount={true}
+            components={{Toolbar:PlayerControlButtons}}
+            hideFooterPagination={false}
             // onRowMouseEnter={(params, event) => {
             //   console.log(params);
             // }}

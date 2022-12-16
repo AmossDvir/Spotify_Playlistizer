@@ -7,13 +7,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Divider } from "@mui/material";
+import UseMobileWidth from "./UseMobileWidth";
 
 
-
-const useStyles = makeStyles((theme) => ({
-  dialogStyle: { backgroundColor:`${theme.palette.grey[100]} !important`, width: "35%", height: "55vh", maxWidth:'50%' }
-
-}));
 
 const DialogWindow = ({
   title,
@@ -29,7 +25,11 @@ const DialogWindow = ({
   hasCancelButton = false,
   closesOnClickingOutside = false,
 }) => {
-
+  const isMobile = UseMobileWidth();
+  const useStyles = makeStyles((theme) => ({
+    dialogStyle: { backgroundColor:`${theme.palette.grey[100]} !important`, width: isMobile?'80%':"40%", height: "55vh", maxWidth:isMobile? '80%':'50%' }
+  }));
+  
   const classes = useStyles();
 
 
