@@ -1,0 +1,35 @@
+.back{
+    width:100vw;
+    background-color: #4245548a;
+    height:60px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.song-details{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar-back{
+    width:100vw;
+    background-color: aliceblue;
+    height:inherit;
+    /* top: 4px;
+    position: relative; */
+}
+.progress-bar{
+    height:4px;
+}
+/* 
+.progress-bar:hover{
+    height:7px;
+} */
+
+.player{
+    bottom:0px;
+    position: fixed;
+}

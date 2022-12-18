@@ -16,12 +16,8 @@ const Stepper = () => {
   const userSelector = useSelector((state) => state.user.value);
   const [activeStep, setActiveStep] = useState(0);
   const [isStepperUp, setIsStepperUp] = useState(false);
-  // const [isMobile, setIsMobile] = useState(false);
   const isMobile = UseMobileWidth();
-  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  // window.addEventListener("resize", () => setIsMobile(window.innerWidth < 700));
 
-  // useEffect(() => {console.log(isMobile);setIsMobile(windowWidth < 500)}, [windowWidth]);
 
   const stepsButtons = [
     {
@@ -30,8 +26,7 @@ const Stepper = () => {
       onClick: () => navigate(routes.signUp.url),
     },
     {
-      text: `Connect${isMobile?" To Spotify":" To Your Account/Create Your Account"}`,
-      // text: "Connect To Your Spotify Account",
+      text: `Connect${isMobile?" Your Spotify":" Your Spotify Account"}`,
       disabled: !(
         userSelector.loggedIn && !localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       ),
@@ -50,12 +45,6 @@ const Stepper = () => {
         <Typography className="stepper-label"
           sx={{
             fontWeight: 500,
-            // fontSize:"1px",
-            // whiteSpace: "nowrap",
-            // overflow: "hidden",
-            // textOverflow: "ellipsis",
-            // width:window.innerWidth/2,
-            // maxWidth: "500px",
           }}
         >
           {step.text}

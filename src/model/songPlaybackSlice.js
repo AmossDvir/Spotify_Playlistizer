@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: {
+    isActive:false,
     isPlaying: false,
     song: {},
   },
@@ -11,6 +12,7 @@ export const songPlaybackSlice = createSlice({
   initialState,
   reducers: {
     playSong: (state, action) => {
+      state.value.isActive = true;
       state.value.isPlaying = true;
       state.value.song = action.payload;
     },

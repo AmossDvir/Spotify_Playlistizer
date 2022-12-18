@@ -14,8 +14,9 @@ import { routes } from "../constants";
 import { loginUser } from "../model/userSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 import Home from "./Home";
-import Player from "../generalComponents/Player";
+import PlayerProvider from "../generalComponents/Player/PlayerProvider";
 import "./App.css";
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,8 +34,7 @@ const App = () => {
       <Menu></Menu>
       <Stepper />
       <Outlet />
-      <BottomLine></BottomLine>
-      <Player></Player>
+      {/* <BottomLine></BottomLine> */}
     </>
   );
 

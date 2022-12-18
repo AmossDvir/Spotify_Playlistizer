@@ -13,6 +13,8 @@ import DialogWindow from "../../generalComponents/DialogWindow";
 import SaveToSpotifyForm from "./SaveToSpotifyForm";
 import SongsList from "./SongsList";
 import AnimatedText from "../../generalComponents/AnimatedText";
+import Player from "../../generalComponents/Player/Player";
+import PlayerProvider from "../../generalComponents/Player/PlayerProvider";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -147,6 +149,8 @@ const PlaylistView = () => {
           setIsPublic={setIsPublic}
         ></SaveToSpotifyForm>
       </DialogWindow>
+      <PlayerProvider visible={true}></PlayerProvider>
+
     </Box>
   ) : (
     <AnimatedText

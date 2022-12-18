@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 
 import List from "@mui/material/List";
@@ -23,14 +23,18 @@ const SongTitle = ({
   liked,
   hoveredRow,
   songId,
+  small=false,
 }) => {
   const isMobile = UseMobileWidth();
+  const userSelector = useSelector((state) => state.user.value);
+  const [isLiked, setIsLiked] = useState(liked);
+
   const onLikeClick = (e) => {
     likeSong(songId, true, localStorage.getItem(userSelector.userId + "spotifyAccessToken"));
     setIsLiked(!isLiked);
   };
-  const userSelector = useSelector((state) => state.user.value);
-  const [isLiked, setIsLiked] = useState(liked);
+
+  useEffect(() => setIsLiked(liked), [liked]);
   return (
     <List sx={{ cursor: "default", width: "100%", paddingLeft:'0px' }}>
       <ListItem>
@@ -42,7 +46,7 @@ const SongTitle = ({
         >
           {isLiked ? (
             <FavoriteIcon
-              // className={hoveredRow ? "liked-icon" : ""}
+              // className={hoverable ? "liked-icon" : ""}
               // sx={{ color: "secondary"}}
               color="primary"
             />
@@ -67,9 +71,9 @@ const SongTitle = ({
 
         <ListItemText
           primary={songName}
-          primaryTypographyProps={{ style: { fontWeight: 100, fontSize:isMobile?"18px":'22px' } }}
+          primaryTypographyProps={{ style: { fontWeight: 100, fontSize:isMobile?"18px":small?"18px":'22px' } }}
           secondary={songArtists}
-          secondaryTypographyProps={{ style: { color: "#b5b5b5", fontSize:isMobile?"15px":'19px' } }}
+          secondaryTypographyProps={{ style: { color: "#b5b5b5", fontSize:isMobile?"15px":small?"15px":'19px' } }}
         />
       </ListItem>
     </List>
