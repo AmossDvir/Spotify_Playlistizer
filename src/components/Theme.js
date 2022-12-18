@@ -14,6 +14,8 @@ export const Theme = createTheme({
         },
         neutral: {
           main: '#bfc5cc',
+          dark: '#aeb5bd',
+          light: '#d5dce3',
           contrastText: '#fff',
         },
         songlist:{

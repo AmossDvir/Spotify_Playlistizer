@@ -8,7 +8,7 @@ import {
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 import { playSong } from "../../../model/songPlaybackSlice";
-import PlayerControlButtons from "./PlayerControlButtons";
+// import PlayerControlButtons from "./PlayerControlButtons";
 
 const SongsList = ({ songsList }) => {
   const [tableData, setTableData] = useState([]);
@@ -94,7 +94,7 @@ const SongsList = ({ songsList }) => {
             rowHeight={65}
             withBorder={false}
             hideFooterSelectedRowCount={true}
-            components={{Toolbar:PlayerControlButtons}}
+            // components={{Toolbar:PlayerControlButtons}}
             hideFooterPagination={false}
             // onRowMouseEnter={(params, event) => {
             //   console.log(params);
