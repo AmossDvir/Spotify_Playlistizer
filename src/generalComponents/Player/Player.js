@@ -93,7 +93,7 @@ const Player = ({ token }) => {
     <div className="player">
       {webPlaybackSDKReady && device ? (
         <div>
-          <motion className="progress-bar">
+          <div className="progress-bar">
             <motion.div
               whileHover={{
                 scaleY: 2.2,
@@ -119,7 +119,7 @@ const Player = ({ token }) => {
                 ></motion.div>
               )}
             </motion.div>
-          </motion>
+          </div>
           {playbackState && (
             <div style={{ position: "fixed", paddingTop: "0px" }}>
               <SongTitle
