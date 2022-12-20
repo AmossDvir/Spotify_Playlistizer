@@ -4,10 +4,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { routes } from "../../constants";
 import { getUserPlaylists } from "../../controllers/spotify/getUserPlaylistsController";
-import { saveToSpotify } from "../../controllers/spotify/saveToSpotifyController";
-import VirtualSongsList from "./SongsList/VirtualSongsList";
-import DialogWindow from "../../generalComponents/DialogWindow";
-import SaveToSpotifyForm from "./SaveToSpotifyForm";
 import SongsList from "./SongsList";
 import AnimatedText from "../../generalComponents/AnimatedText";
 import Player from "../../generalComponents/Player/Player";
@@ -18,20 +14,8 @@ import ColoredButton from "../../generalComponents/ColoredButton";
 const PlaylistView = () => {
   const userSelector = useSelector((state) => state.user.value);
 
-
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [noPlaylists, setNoPlaylists] = useState(false);
-
-
-
-  const onDeletePlaylist = async () => {
-    //   axios.delete('url', { data: payload }).then(
-    //     // Observe the data keyword this time. Very important
-    //     // payload is the request body
-    //     // Do something
-    //   )
-  };
-
 
 
   useEffect(() => {
@@ -86,13 +70,13 @@ const PlaylistView = () => {
       ></VirtualSongsList> */}
       <SongsList songsList={userPlaylists?.mostRecent} userPlaylists={userPlaylists}></SongsList>
       <Box mt="10vh"></Box>
-      <ColoredButton
+      {/* <ColoredButton
         sx={{ margin: "0 auto", marginTop: "20px" }}
         variant="contained"
-        onClick={onDeletePlaylist}
+        onClick={() => {}}
       >
         Delete
-      </ColoredButton>
+      </ColoredButton> */}
 
 
 

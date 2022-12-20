@@ -9,8 +9,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Divider } from "@mui/material";
 import UseMobileWidth from "./UseMobileWidth";
 
-
-
 const DialogWindow = ({
   title,
   bodyText,
@@ -19,23 +17,35 @@ const DialogWindow = ({
   onClose,
   onCancel,
   onConfirm,
-  confirmDisabled=false,
-  confirmButtonText="Confirm",
-  cancelButtonText="Cancel", 
+  confirmDisabled = false,
+  confirmButtonText = "Confirm",
+  cancelButtonText = "Cancel",
   hasCancelButton = false,
   closesOnClickingOutside = false,
 }) => {
   const isMobile = UseMobileWidth();
   const useStyles = makeStyles((theme) => ({
-    dialogStyle: { backgroundColor:`${theme.palette.grey[100]} !important`, width: isMobile?'80%':"40%", height: "55vh", maxWidth:isMobile? '80%':'50%' }
+    dialogStyle: {
+      backgroundColor: `${theme.palette.grey[100]} !important`,
+      width: isMobile ? "80%" : "40%",
+      height: "55vh",
+      maxWidth: isMobile ? "80%" : "50%",
+    },
   }));
-  
+
   const classes = useStyles();
 
+  const onConfirmButtonClicked = async () => {
 
-  const onConfirmButtonClicked = () => {
-    onConfirm && onConfirm();
-    onClose();
+    if (onConfirm) {
+      const res = await onConfirm();
+      if (res.status === 200){
+        onClose();
+      }
+      else{
+
+      }
+    }
   };
 
   const onCancelButtonClicked = () => {
@@ -46,24 +56,34 @@ const DialogWindow = ({
   return (
     <>
       <Dialog
-        PaperProps={{ className:classes.dialogStyle}}
+        PaperProps={{ className: classes.dialogStyle }}
         open={isOpen}
-        
         {...(closesOnClickingOutside && { onClose: onClose })}
       >
-        <DialogTitle color="primary"  id="max-width-dialog-title">{title}</DialogTitle>
+        <DialogTitle color="primary" id="max-width-dialog-title">
+          {title}
+        </DialogTitle>
         <DialogContent>
-          <Divider sx={{marginTop:'1vh', marginBottom:'2vh'}} />
-          <DialogContentText sx={{fontWeight:400}} id="alert-dialog-description">
+          <Divider sx={{ marginTop: "1vh", marginBottom: "2vh" }} />
+          <DialogContentText
+            sx={{ fontWeight: 400 }}
+            id="alert-dialog-description"
+          >
             {bodyText}
           </DialogContentText>
           {children}
         </DialogContent>
         <DialogActions>
           {hasCancelButton && (
-            <Button onClick={onCancelButtonClicked} color="error">{cancelButtonText}</Button>
-            )}
-          <Button disabled={confirmDisabled} onClick={onConfirmButtonClicked} color="primary">
+            <Button onClick={onCancelButtonClicked} color="error">
+              {cancelButtonText}
+            </Button>
+          )}
+          <Button
+            disabled={confirmDisabled}
+            onClick={onConfirmButtonClicked}
+            color="primary"
+          >
             {confirmButtonText}
           </Button>
         </DialogActions>
