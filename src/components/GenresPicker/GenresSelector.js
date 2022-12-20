@@ -82,7 +82,7 @@ const GenresSelector = ({ items, setGenresList }) => {
 
   return (
     <div className="genres-selector">
-      <FormControl sx={{ mt: 10, width: "100%", height:'50vh' }} size="medium">
+      <FormControl sx={{ width: "100%", height:'50vh' }} size="medium">
         <InputLabel sx={{ fontWeight: 400 }} id="demo-multiple-chip-label">
           Pick Genres
         </InputLabel>

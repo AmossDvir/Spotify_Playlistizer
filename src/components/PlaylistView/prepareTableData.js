@@ -58,6 +58,7 @@ const prepareTableData = (
     rowsData.map((row, index) => {
       return {
         title: (
+          <div style={{paddingTop:'16px', alignItems:'center', justifyContent:'center'}}>
           <SongTitle
             songName={row.name}
             songArtists={convertArtistsArrayToString(row.artists)}
@@ -65,7 +66,7 @@ const prepareTableData = (
             hoveredRow={hoveredRow === index}
             liked={row.liked}
             songId={row.id}
-          ></SongTitle>
+          ></SongTitle></div>
         ),
         // title: <div style={{}}>{row.name}</div>,
         duration: convertMillisToMinutesAndSeconds(row?.duration_ms),

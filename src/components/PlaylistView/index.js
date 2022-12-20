@@ -2,9 +2,6 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import { purple } from "@mui/material/colors";
 import { routes } from "../../constants";
 import { getUserPlaylists } from "../../controllers/spotify/getUserPlaylistsController";
 import { saveToSpotify } from "../../controllers/spotify/saveToSpotifyController";
@@ -15,29 +12,17 @@ import SongsList from "./SongsList";
 import AnimatedText from "../../generalComponents/AnimatedText";
 import Player from "../../generalComponents/Player/Player";
 import PlayerProvider from "../../generalComponents/Player/PlayerProvider";
+import ColoredButton from "../../generalComponents/ColoredButton";
 
-const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(purple[500]),
-  display: "flex",
-  backgroundColor: purple[500],
-  "&:hover": {
-    backgroundColor: purple[700],
-  },
-}));
 
 const PlaylistView = () => {
   const userSelector = useSelector((state) => state.user.value);
 
-  const [playlistName, setPlaylistName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPublic, setIsPublic] = useState(true);
+
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [noPlaylists, setNoPlaylists] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const onSaveToSpotify = () => {
-    setDialogOpen(true);
-  };
+
 
   const onDeletePlaylist = async () => {
     //   axios.delete('url', { data: payload }).then(
@@ -47,21 +32,7 @@ const PlaylistView = () => {
     //   )
   };
 
-  const onCloseDialog = () => {
-    setDialogOpen(false);
-  };
 
-  const onConfirmDialog = () => {
-    if (userPlaylists && userPlaylists?.mostRecent) {
-      saveToSpotify(
-        playlistName,
-        description,
-        isPublic,
-        userPlaylists,
-        localStorage.getItem(userSelector.userId + "spotifyAccessToken")
-      );
-    }
-  };
 
   useEffect(() => {
     var userId = userSelector.userId;
@@ -113,42 +84,18 @@ const PlaylistView = () => {
       {/* <VirtualSongsList
         songsListData={userPlaylists.mostRecent}
       ></VirtualSongsList> */}
-      <SongsList songsList={userPlaylists?.mostRecent}></SongsList>
+      <SongsList songsList={userPlaylists?.mostRecent} userPlaylists={userPlaylists}></SongsList>
       <Box mt="10vh"></Box>
-      <ColorButton
-        sx={{ margin: "0 auto", marginTop: "20px" }}
-        variant="contained"
-        onClick={onSaveToSpotify}
-      >
-        Save To Spotify
-      </ColorButton>
-      <ColorButton
+      <ColoredButton
         sx={{ margin: "0 auto", marginTop: "20px" }}
         variant="contained"
         onClick={onDeletePlaylist}
       >
         Delete
-      </ColorButton>
+      </ColoredButton>
 
 
-      <DialogWindow
-        title="Playlist Properties"
-        bodyText="The Playlist Will Contain The Following Properties:"
-        isOpen={dialogOpen}
-        onClose={onCloseDialog}
-        hasCancelButton
-        onConfirm={onConfirmDialog}
-        confirmDisabled={playlistName.length <= 0}
-      >
-        <SaveToSpotifyForm
-          playlistName={playlistName}
-          description={description}
-          isPublic={isPublic}
-          setPlaylistName={setPlaylistName}
-          setDescription={setDescription}
-          setIsPublic={setIsPublic}
-        ></SaveToSpotifyForm>
-      </DialogWindow>
+
       <PlayerProvider visible={true}></PlayerProvider>
 
     </Box>

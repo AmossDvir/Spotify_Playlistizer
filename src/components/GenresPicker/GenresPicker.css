@@ -12,3 +12,11 @@
     width:50%;
     /* height:1000px; */
 }
+
+.title-label{
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+}
+.genres-label{
+    padding-top: 7vh;
+}

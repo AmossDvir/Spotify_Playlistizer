@@ -14,6 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { likeSong } from "../../../controllers/spotify/likeSongController";
 import "./SongTitle.css";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
+import ColoredTooltip from "../../../generalComponents/ColoredTooltip";
 
 
 const SongTitle = ({
@@ -24,6 +25,7 @@ const SongTitle = ({
   hoveredRow,
   songId,
   small=false,
+  // noPadding=false
 }) => {
   const isMobile = UseMobileWidth();
   const userSelector = useSelector((state) => state.user.value);
@@ -36,9 +38,9 @@ const SongTitle = ({
 
   useEffect(() => setIsLiked(liked), [liked]);
   return (
-    <List sx={{ cursor: "default", width: "100%", paddingLeft:'0px' }}>
-      <ListItem>
-      <Tooltip title={`${isLiked? "Remove from":"Save to"} Your Library`} enterDelay={500} placement="top">
+    <List sx={{ cursor: "default", width: "100%", paddingLeft:'0px', paddingTop:'0px' }}>
+      <ListItem >
+      <ColoredTooltip title={`${isLiked? "Remove from":"Save to"} Your Library`} enterDelay={500} placement="top">
           
         <ListItemIcon
           onClick={onLikeClick}
@@ -54,7 +56,7 @@ const SongTitle = ({
             <FavoriteBorderIcon className={hoveredRow ? "liked-icon" : ""}/>
           )}
         </ListItemIcon>
-        </Tooltip>
+        </ColoredTooltip>
         <ListItemAvatar>
           <Avatar variant="square">
             {image ? (

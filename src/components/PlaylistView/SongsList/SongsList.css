@@ -1,0 +1,16 @@
+.header-main {
+  background-color: #ffffff24;
+  display: flex;
+  color: #bfc5cc;
+}
+
+.header-icons {
+  width: 50rem;
+}
+
+.header-title {
+  color: #bfc5cc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
