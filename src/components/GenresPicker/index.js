@@ -141,10 +141,14 @@ const GenresPicker = ({ defaultLength=100 }) => {
       {/* <Grid item xs={12}> */}
       {availableGenres?.length > 0 && (
         <>
+        <div className="title-label genres-label">
+          <Typography>Which Genres?</Typography></div>
           <GenresSelector
             setGenresList={setGenresList}
             items={availableGenres}
           ></GenresSelector>
+          <div className="title-label">
+          <Typography>How Many Songs?</Typography></div>
           <LengthSlider
             playlistLength={playlistLength}
             onLengthChange={(e) => {
@@ -152,7 +156,7 @@ const GenresPicker = ({ defaultLength=100 }) => {
               setPlaylistLength(e.target.value);
             }}
           ></LengthSlider>
-          <Box display="flex" justifyContent="center" mt={10}>
+          <Box display="flex" justifyContent="center" mt={2}>
             <LoadingButton
               label="Create Playlist"
               loading={loading}

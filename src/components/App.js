@@ -17,7 +17,6 @@ import Home from "./Home";
 import PlayerProvider from "../generalComponents/Player/PlayerProvider";
 import "./App.css";
 
-
 const App = () => {
   const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.user.value);
@@ -42,70 +41,55 @@ const App = () => {
     <div className="all">
       <Routes>
         <Route element={<HeaderAndFooter />}>
-          {/* <Route path={routes.home} element={<Home/>}/> */}
           <Route index element={<Home />} />
-          <Route path={routes.signUp.url} element={<SignUp />} />
-          <Route path={routes.playlistView.url} element={<PlaylistView />} />
-          <Route path={routes.settings.url} element={<UserSettingsPage />} />
+          <Route
+            path={routes.signUp.url}
+            element={
+              <div className="main-frame">
+                <SignUp />
+              </div>
+            }
+          />
+          <Route
+            path={routes.playlistView.url}
+            element={
+              <div className="main-frame">
+                <PlaylistView />
+              </div>
+            }
+          />
+          <Route
+            path={routes.settings.url}
+            element={
+              <div className="main-frame">
+                <UserSettingsPage />
+              </div>
+            }
+          />
           <Route
             path={routes.create.url}
             element={
-              userSelector.loggedIn ? (
-                localStorage.getItem(
-                  userSelector.userId + "spotifyAccessToken"
-                ) ? (
-                  <GenresPicker />
+              <div className="main-frame">
+                {userSelector.loggedIn ? (
+                  localStorage.getItem(
+                    userSelector.userId + "spotifyAccessToken"
+                  ) ? (
+                    <GenresPicker />
+                  ) : (
+                    <DisconnectedSpotifyPanel></DisconnectedSpotifyPanel>
+                  )
                 ) : (
-                  <DisconnectedSpotifyPanel></DisconnectedSpotifyPanel>
-                )
-              ) : (
-                <LoggedOutPanel></LoggedOutPanel>
-              )
+                  <LoggedOutPanel></LoggedOutPanel>
+                )}
+              </div>
             }
           />
-          {/* </Route> */}
         </Route>
         <Route
           path={routes.redirect.url}
           element={<RedirectPage userId={userSelector.userId} />}
         />
       </Routes>
-
-      {/* <Menu></Menu>
-      <HomePage />
-
-      <div className="main-content">
-        <Routes>
-          <Route
-            path={routes.create.url}
-            element={
-              userSelector.loggedIn ? (
-                <PlaylistPanel />
-              ) : (
-                <LoggedOutPanel></LoggedOutPanel>
-              )
-            }
-          />
-          <Route path={routes.signUp.url} element={<SignUp />} />
-          <Route path={routes.settings.url} element={<UserSettingsPage />} />
-          <Route path={routes.redirect.url} element={<RedirectPage />} />
-          <Route
-            path={routes.playlistView.url}
-            element={
-              <PlaylistView
-                songs={[
-                  { title: "Smells Like Teen Spirit", artist: "Nirvana" },
-                  { title: "Hey You", artist: "Pink Floyd" },
-                  { title: "Creep", artist: "Radiohead", cover: pinkfloydIcon },
-                  { title: "Dogs", artist: "Pink Floyd" },
-                  { title: "Bold as Love", artist: "Jimi Hendrix" },
-                ]}
-              />
-            }
-          />
-        </Routes>
-      </div>
-      <BottomLine></BottomLine> */}
     </div>
   );
 };

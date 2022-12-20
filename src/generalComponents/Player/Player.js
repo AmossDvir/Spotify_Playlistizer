@@ -145,7 +145,7 @@ const Player = ({ token }) => {
               </div>
             </div>
             <div style={{ position: "fixed", right: "0vw" }}>
-              <VolumeSlider onVolumeChange={() => {}}></VolumeSlider>
+              <VolumeSlider onVolumeChange={(volume) => {console.log(volume);player.setVolume(volume)}}></VolumeSlider>
             </div>
           </div>
         </div>

@@ -67,3 +67,12 @@ body {
   scrollbar-gutter: stable !important;
 
 }
+
+
+.main-frame{
+  
+  /* height: calc(100% - 64px); */
+  /* position: absolute; */
+  /* top: 77.344px; Header Height */
+  /* bottom: 64px; Footer Height */
+}
