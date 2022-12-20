@@ -25,7 +25,6 @@ const SongTitle = ({
   hoveredRow,
   songId,
   small=false,
-  // noPadding=false
 }) => {
   const isMobile = UseMobileWidth();
   const userSelector = useSelector((state) => state.user.value);
@@ -39,7 +38,7 @@ const SongTitle = ({
   useEffect(() => setIsLiked(liked), [liked]);
   return (
     <List sx={{ cursor: "default", width: "100%", paddingLeft:'0px', paddingTop:'0px' }}>
-      <ListItem >
+      <ListItem sx={{paddingTop:'0px'}}>
       <ColoredTooltip title={`${isLiked? "Remove from":"Save to"} Your Library`} enterDelay={500} placement="top">
           
         <ListItemIcon
@@ -48,8 +47,6 @@ const SongTitle = ({
         >
           {isLiked ? (
             <FavoriteIcon
-              // className={hoverable ? "liked-icon" : ""}
-              // sx={{ color: "secondary"}}
               color="primary"
             />
           ) : (

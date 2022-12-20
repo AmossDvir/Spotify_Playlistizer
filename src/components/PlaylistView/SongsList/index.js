@@ -39,15 +39,16 @@ const SongsList = ({ songsList, userPlaylists }) => {
     setDialogOpen(false);
   };
 
-  const onConfirmDialog = () => {
+  const onConfirmDialog = async () => {
     if (userPlaylists && userPlaylists?.mostRecent) {
-      saveToSpotify(
+      const res = await saveToSpotify(
         playlistName,
         description,
         isPublic,
         userPlaylists,
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       );
+      return res;
     }
   };
 
@@ -60,7 +61,6 @@ const SongsList = ({ songsList, userPlaylists }) => {
   const onPlaySongClick = (rowIndex) => {
     dispatch(playSong(songsList[rowIndex]));
   };
-
 
   useEffect(() => {
     setTableData(
@@ -81,14 +81,7 @@ const SongsList = ({ songsList, userPlaylists }) => {
   }, [hoveredRow, isMobile]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "70vh",
-        width: "93vw",
-      }}
-    >
+    <div className="songs-list-main">
       {tableData.rows && (
         <DataGrid
           componentsProps={{
@@ -135,18 +128,26 @@ const SongsList = ({ songsList, userPlaylists }) => {
             Header: () => (
               <div className="header-main">
                 <div className="header-icons">
-              <IconButton aria-label="save-to-spotify" color="primary" onClick={onSaveToSpotify}>
-                <ColoredTooltip title="Save to Spotify">
-                  <IosShareIcon />
-                </ColoredTooltip>
-              </IconButton></div>
-              <div className="header-title"><Typography>Playlist #1</Typography></div></div>
+                  <IconButton
+                    aria-label="save-to-spotify"
+                    color="primary"
+                    onClick={onSaveToSpotify}
+                  >
+                    <ColoredTooltip title="Save to Spotify">
+                      <IosShareIcon />
+                    </ColoredTooltip>
+                  </IconButton>
+                </div>
+                <div className="header-title">
+                  <Typography>Playlist #1</Typography>
+                </div>
+              </div>
             ),
           }}
           hideFooterPagination={false}
         />
       )}
-            <DialogWindow
+      <DialogWindow
         title="Playlist Properties"
         bodyText="The Playlist Will Contain The Following Properties:"
         isOpen={dialogOpen}
