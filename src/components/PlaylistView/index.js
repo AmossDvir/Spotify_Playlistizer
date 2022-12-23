@@ -26,11 +26,9 @@ const PlaylistView = () => {
     const spotifyAccessToken = localStorage.getItem(
       userSelector.userId + "spotifyAccessToken"
     );
-    console.log(spotifyAccessToken);
     const fetchUserPlaylists = async (userId, spotifyAccessToken) => {
       try {
         const res = await getUserPlaylists(userId, spotifyAccessToken);
-        console.log(res.data);
         // response returned empty array- User doesn't have playlists:
         if (res.data.length === 0) {
           setNoPlaylists(true);

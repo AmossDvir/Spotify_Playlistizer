@@ -10,6 +10,7 @@ export const generatePlaylist = async (genres, spotifyAccessToken, length) => {
     });
     return res;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    return err;
   }
 };

@@ -171,7 +171,7 @@ const SignUp = () => {
                 />
               </Grid>
             </Grid>
-            <LoadingButton label="Sign Up" loading={loading}></LoadingButton>
+            <LoadingButton label="Sign Up" loading={loading} fullWidth></LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link

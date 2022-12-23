@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -17,7 +17,9 @@ import ColoredTooltip from "../../../generalComponents/ColoredTooltip";
 import DialogWindow from "../../../generalComponents/DialogWindow";
 import SaveToSpotifyForm from "../SaveToSpotifyForm";
 import { saveToSpotify } from "../../../controllers/spotify/saveToSpotifyController";
-
+import SuccessSnackBar from "../../../generalComponents/SuccessSnackBar";
+import ErrorSnackBar from "../../../generalComponents/ErrorSnackBar";
+import { errorCodesLabels } from "../../../constants";
 import "./SongsList.css";
 import { Typography } from "@mui/material";
 
@@ -30,6 +32,9 @@ const SongsList = ({ songsList, userPlaylists }) => {
   const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [successSnackBarOpen, setSuccessSnackBarOpen] = useState(false);
+  const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
+  const [error, setError] = useState(0);
 
   const onSaveToSpotify = () => {
     setDialogOpen(true);
@@ -48,6 +53,14 @@ const SongsList = ({ songsList, userPlaylists }) => {
         userPlaylists,
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       );
+      if (res?.status === 200) {
+        onCloseDialog();
+        setSuccessSnackBarOpen(true);
+      } else {
+        console.log(res);
+        setError(res?.status || res.code);
+        setErrorSnackBarOpen(true);
+      }
       return res;
     }
   };
@@ -79,6 +92,33 @@ const SongsList = ({ songsList, userPlaylists }) => {
       )
     );
   }, [hoveredRow, isMobile]);
+
+  const SuccessSnackBarMemoized = useMemo(
+    () => (
+      <SuccessSnackBar
+        open={successSnackBarOpen}
+        onClose={() => setSuccessSnackBarOpen(false)}
+        promptStr="Playlist Saved Successfully"
+      ></SuccessSnackBar>
+    ),
+    [successSnackBarOpen]
+  );
+
+  const ErrorSnackBarMemoized = useMemo(
+    () => (
+      <ErrorSnackBar
+        open={errorSnackBarOpen}
+        onClose={() => setErrorSnackBarOpen(false)}
+        promptStr={errorCodesLabels[error]}
+      ></ErrorSnackBar>
+    ),
+    [errorSnackBarOpen]
+  );
+
+  useEffect(() => {
+    setSuccessSnackBarOpen(false);
+    setErrorSnackBarOpen(false);
+  }, []);
 
   return (
     <div className="songs-list-main">
@@ -123,7 +163,6 @@ const SongsList = ({ songsList, userPlaylists }) => {
           rowsPerPageOptions={[]}
           withBorder={false}
           hideFooterSelectedRowCount={true}
-          // components={{Pagination: () => <TablePagination rowsPerPageOptions={[]} component="div" count={songsList.length} page={page} onPageChange={onPageChange} rowsPerPage={rowsPerPage} onRowsPerPageChange={handleChangeRowsPerPage}></TablePagination>}}
           components={{
             Header: () => (
               <div className="header-main">
@@ -155,6 +194,7 @@ const SongsList = ({ songsList, userPlaylists }) => {
         hasCancelButton
         onConfirm={onConfirmDialog}
         confirmDisabled={playlistName.length <= 0}
+        hasLoading
       >
         <SaveToSpotifyForm
           playlistName={playlistName}
@@ -165,6 +205,8 @@ const SongsList = ({ songsList, userPlaylists }) => {
           setIsPublic={setIsPublic}
         ></SaveToSpotifyForm>
       </DialogWindow>
+      {SuccessSnackBarMemoized}
+      {ErrorSnackBarMemoized}
     </div>
   );
 };

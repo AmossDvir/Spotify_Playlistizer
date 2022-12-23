@@ -120,7 +120,7 @@ const Player = ({ token }) => {
               )}
             </motion.div>
           </div>
-          {playbackState && (
+          {playbackState?.track_window?.current_track && (
             <div style={{ position: "fixed", paddingTop: "0px" }}>
               <SongTitle
                 songId={playbackState.track_window.current_track.id}
@@ -145,7 +145,7 @@ const Player = ({ token }) => {
               </div>
             </div>
             <div style={{ position: "fixed", right: "0vw" }}>
-              <VolumeSlider onVolumeChange={(volume) => {console.log(volume);player.setVolume(volume)}}></VolumeSlider>
+              <VolumeSlider onVolumeChange={(volume) => {player.setVolume(volume)}}></VolumeSlider>
             </div>
           </div>
         </div>

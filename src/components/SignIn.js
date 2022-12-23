@@ -116,7 +116,7 @@ const SignIn = () => {
               label="Remember me"
             />
 
-            <LoadingButton label="Sign In" loading={loading}></LoadingButton>
+            <LoadingButton label="Sign In" loading={loading} fullWidth></LoadingButton>
             {/* {!!error && <ErrorLabel errCode={error}></ErrorLabel>} */}
             <Grid container>
               <Grid item xs>
