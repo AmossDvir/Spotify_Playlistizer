@@ -15,6 +15,7 @@ const errorCodesLabels = {
   401: "You have entered an invalid username or password",
   400: "User already exists",
   500: "Internal server error", 
+  429: "Too Many Songs",
   "ERR_NETWORK": "Network error",
 };
 

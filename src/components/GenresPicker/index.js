@@ -28,7 +28,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const GenresPicker = ({ defaultLength=100 }) => {
+const GenresPicker = ({ defaultLength = 100 }) => {
   const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.user.value);
 
@@ -50,24 +50,36 @@ const GenresPicker = ({ defaultLength=100 }) => {
   const onCreatePlaylist = async () => {
     setLoading(true);
     setIsGenerating(true);
-    try {
-      // console.log(genresList);
-      const result = await generatePlaylist(
-        genresList ?? [""],
-        localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
-        playlistLength
-      );
+
+    // console.log(genresList);
+    const generateResult = await generatePlaylist(
+      genresList ?? [""],
+      localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+      playlistLength
+    );
+    if (generateResult?.status === 200) {
       setIsGenerating(false);
-      dispatch(addPlaylist(result.data));
-      await savePlaylist(result.data, userSelector.userId);
-      setCreationSuccess(true);
+      dispatch(addPlaylist(generateResult.data));
+      const savingResult = await savePlaylist(generateResult.data, userSelector.userId);
+      if(savingResult?.status === 200){
+              setCreationSuccess(true);
       setCreationErr(false);
       setLoading(false);
-    } catch (err) {
-      console.log(err);
+      }
+      else{
+        setCreationErr(true);
+        setCreationSuccess(false);
+      }
+
+    }
+    else{
       setCreationErr(true);
       setCreationSuccess(false);
     }
+    // console.log(result);
+
+    // console.log(err);
+
   };
 
   useEffect(() => setSnackBarOpen(true), [creationSuccess, creationErr]);
@@ -116,7 +128,7 @@ const GenresPicker = ({ defaultLength=100 }) => {
     setLoading(false);
     // setButtonDisabled(false);
     setIsGenerating(false);
-  }
+  };
 
   useEffect(
     () => setButtonDisabled(!genresList || !(genresList.length > 0)),
@@ -132,48 +144,49 @@ const GenresPicker = ({ defaultLength=100 }) => {
     //   spacing={2}
     // >
     <ClickAwayListener onClickAway={reset}>
-    <Box
-      sx={{ flexDirection: "column" }}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
-      {/* <Grid item xs={12}> */}
-      {availableGenres?.length > 0 && (
-        <>
-        <div className="title-label genres-label">
-          <Typography>Which Genres?</Typography></div>
-          <GenresSelector
-            setGenresList={setGenresList}
-            items={availableGenres}
-          ></GenresSelector>
-          <div className="title-label">
-          <Typography>How Many Songs?</Typography></div>
-          <LengthSlider
-            playlistLength={playlistLength}
-            onLengthChange={(e) => {
-              console.log(e.target.value);
-              setPlaylistLength(e.target.value);
-            }}
-          ></LengthSlider>
-          <Box display="flex" justifyContent="center" mt={2}>
-            <LoadingButton
-              label="Create Playlist"
-              loading={loading}
-              onClick={onCreatePlaylist}
-              disabled={buttonDisabled}
-              loadingIndicator={
-                loading && isGenerating
-                  ? "Generating Playlist..."
-                  : "Saving Playlist..."
-              }
-            ></LoadingButton>
-          </Box>
-        </>
-      )}
-      {/* </Grid> */}
-      {/* <Grid item xs={4} md={2}> */}
-      {/* <Grid container spacing={2}>
+      <Box
+        sx={{ flexDirection: "column" }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {/* <Grid item xs={12}> */}
+        {availableGenres?.length > 0 && (
+          <>
+            <div className="title-label genres-label">
+              <Typography>Which Genres?</Typography>
+            </div>
+            <GenresSelector
+              setGenresList={setGenresList}
+              items={availableGenres}
+            ></GenresSelector>
+            <div className="title-label">
+              <Typography>How Many Songs?</Typography>
+            </div>
+            <LengthSlider
+              playlistLength={playlistLength}
+              onLengthChange={(e) => {
+                console.log(e.target.value);
+                setPlaylistLength(e.target.value);
+              }}
+            ></LengthSlider>
+            <Box display="flex" justifyContent="center" mt={2}>
+              <LoadingButton
+                label="Create Playlist"
+                loading={loading}
+                onClick={onCreatePlaylist}
+                disabled={buttonDisabled}
+                loadingIndicator={`${
+                  loading && isGenerating ? "Generating " : "Saving "
+                }Playlist...`}
+                fullWidth
+              ></LoadingButton>
+            </Box>
+          </>
+        )}
+        {/* </Grid> */}
+        {/* <Grid item xs={4} md={2}> */}
+        {/* <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography margin={"50px"} sx={{ fontWeight: 400 }}>
               Drag & drop genres onto the panel
@@ -193,8 +206,8 @@ const GenresPicker = ({ defaultLength=100 }) => {
           </Grid>
 
         </Grid> */}
-      {/* </Grid> */}
-      {/* <Grid item xs={8} md={10}>
+        {/* </Grid> */}
+        {/* <Grid item xs={8} md={10}>
         <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
           <div
             className="panel"
@@ -216,28 +229,28 @@ const GenresPicker = ({ defaultLength=100 }) => {
           </div>
         </Box>
       </Grid> */}
-      {/* <Grid item xs={12}> */}
+        {/* <Grid item xs={12}> */}
 
-      {creationSuccess && (
-        <SuccessSnackBar
-          open={snackBarOpen}
-          onClose={() => setSnackBarOpen(false)}
-          promptStr="Playlist Created Successfully"
-        ></SuccessSnackBar>
-      )}
-      {creationErr &&
-        (genresList ? (
-          <ErrorSnackBar
-          open={snackBarOpen}
-          onClose={() => setSnackBarOpen(false)}
-          promptStr="Failed to Create Playlist"
-        ></ErrorSnackBar>
-        ) : (
-          <Typography sx={{ fontWeight: 400 }}>
-            Please Enter at Least 1 Genre
-          </Typography>
-        ))}
-    </Box>
+        {creationSuccess && (
+          <SuccessSnackBar
+            open={snackBarOpen}
+            onClose={() => setSnackBarOpen(false)}
+            promptStr="Playlist Created Successfully"
+          ></SuccessSnackBar>
+        )}
+        {creationErr &&
+          (genresList ? (
+            <ErrorSnackBar
+              open={snackBarOpen}
+              onClose={() => setSnackBarOpen(false)}
+              promptStr="Failed to Create Playlist"
+            ></ErrorSnackBar>
+          ) : (
+            <Typography sx={{ fontWeight: 400 }}>
+              Please Enter at Least 1 Genre
+            </Typography>
+          ))}
+      </Box>
     </ClickAwayListener>
   );
 };

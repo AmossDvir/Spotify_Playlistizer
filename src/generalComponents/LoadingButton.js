@@ -1,6 +1,7 @@
 import React from "react";
 // import { LoadingButton as LoadingButtonMui } from "@mui/lab";
 import { LoadingButton as LoadingButtonMui } from "@mui/lab";
+// import { LoadingButton as LoadingButtonMui } from "@mui/lab";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const LoadingButton = ({
@@ -8,19 +9,20 @@ const LoadingButton = ({
   onClick,
   loading = false,
   loadingIcon = <ArrowForwardIosIcon />,
+  sx, 
   ...rest
 }) => {
   return (
       <LoadingButtonMui
-      color="secondary"
+      color="primary"
         {...(onClick ? { onClick } : {})}
         endIcon={loadingIcon}
         loading={loading}
         loadingPosition="end"
         variant="contained"
         type="submit"
-        fullWidth
-        sx={{mt:3, mb:3}}
+        sx={{...sx, mt:3, mb:3}}
+        
         {...rest}
       >
         {!loading && label}

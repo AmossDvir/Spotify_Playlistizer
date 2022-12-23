@@ -14,6 +14,7 @@ export const savePlaylist = async (playlist, userId) => {
     });
     return res;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    return err;
   }
 };

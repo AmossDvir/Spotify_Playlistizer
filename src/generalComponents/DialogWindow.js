@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -8,6 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Divider } from "@mui/material";
 import UseMobileWidth from "./UseMobileWidth";
+import { LoadingButton } from "@mui/lab";
 
 const DialogWindow = ({
   title,
@@ -22,7 +23,9 @@ const DialogWindow = ({
   cancelButtonText = "Cancel",
   hasCancelButton = false,
   closesOnClickingOutside = false,
+  hasLoading = false,
 }) => {
+  const [loading, setLoading] = useState(false);
   const isMobile = UseMobileWidth();
   const useStyles = makeStyles((theme) => ({
     dialogStyle: {
@@ -36,14 +39,13 @@ const DialogWindow = ({
   const classes = useStyles();
 
   const onConfirmButtonClicked = async () => {
-
     if (onConfirm) {
-      const res = await onConfirm();
-      if (res.status === 200){
-        onClose();
+      if (hasLoading) {
+        setLoading(true);
       }
-      else{
-
+      await onConfirm();
+      if (hasLoading) {
+        setLoading(false);
       }
     }
   };
@@ -73,19 +75,35 @@ const DialogWindow = ({
           </DialogContentText>
           {children}
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{paddingRight:"2em", paddingBottom:"1em"}}>
           {hasCancelButton && (
-            <Button onClick={onCancelButtonClicked} color="error">
+            <Button onClick={onCancelButtonClicked} color="error" variant="outlined" size="small"
+            >
               {cancelButtonText}
             </Button>
           )}
-          <Button
-            disabled={confirmDisabled}
-            onClick={onConfirmButtonClicked}
-            color="primary"
-          >
-            {confirmButtonText}
-          </Button>
+          {hasLoading ? (
+            <LoadingButton
+              onClick={onConfirmButtonClicked}
+              color="primary"
+              loading={loading}
+              variant="outlined"
+              loadingIndicator="Saving..."
+              size="small"
+            >Save to Spotify
+            </LoadingButton>
+          ) : (
+            <Button
+              disabled={confirmDisabled}
+              onClick={onConfirmButtonClicked}
+              color="primary"
+              variant="outlined"
+              size="small"
+
+            >
+              {confirmButtonText}
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </>

@@ -1,0 +1,19 @@
+/* .MuiSlider-thumb:not(:hover) {
+  display: none;
+} */
+
+.MuiSlider-thumb {
+  display: none;
+}
+
+.MuiSlider-root:hover .MuiSlider-thumb{
+  display: block;
+}
+.MuiSlider-root:active .MuiSlider-thumb{
+  display: block;
+}
+
+
+.MuiSlider-root{
+    height:3px;
+}
