@@ -1,3 +1,5 @@
+import { lowerCaseList } from "../constants";
+
 const generateRandomColorString = (alpha = 1) => {
   const randomBetween = (min, max) =>
     min + Math.floor(Math.random() * (max - min + 1));
@@ -63,8 +65,17 @@ const convertMSToSeconds = (hms) => {
   var [minutes, seconds] = hms.split(":"); // split it at the colons
   // minutes are worth 60 seconds. Hours are worth 60 minutes.
   const secondsNum = Number(minutes) * 60 + Number(seconds);
-
   return secondsNum;
+};
+
+
+const toTitleCase = (str) => {
+  return str.replace(/\p{L}+/gu, function (txt) {
+    if (str.indexOf(txt) !== 0 && lowerCaseList.includes(txt.toLowerCase())) {
+      return txt.toLowerCase();
+    }
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 };
 
 export {
@@ -75,4 +86,5 @@ export {
   calculateColFlexValue,
   convertMillisToMinutesAndSeconds,
   convertMSToSeconds,
+  toTitleCase,
 };

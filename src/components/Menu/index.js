@@ -17,6 +17,7 @@ import { routes } from "../../constants";
 import { styled } from "@mui/material/styles";
 import UserPanel from "../UserPanel";
 import AddIcon from "@mui/icons-material/Add";
+import ScienceIcon from '@mui/icons-material/Science';
 
 const StyleTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor: `rgb(100,100,100,${
@@ -135,6 +136,13 @@ const Menu = () => {
             component={Link}
             to={routes.create.url}
             value={routes.create.url}
+          />
+          <Tab
+            icon={<ScienceIcon />}
+            label="Analyze"
+            component={Link}
+            to={routes.analyzer.url}
+            value={routes.analyzer.url}
           />
           <Tab
             value={routes.settings.url}
