@@ -1,0 +1,14 @@
+.main{
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.cake-chart-area{
+    margin-top:5vh;
+}
+
+.analyze-button{
+    margin-top:5vh;
+}

@@ -15,6 +15,7 @@ import { loginUser } from "../model/userSlice";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 import Home from "./Home";
 import PlayerProvider from "../generalComponents/Player/PlayerProvider";
+import Analyzer from "./Analyzer";
 import "./App.css";
 
 const App = () => {
@@ -66,6 +67,15 @@ const App = () => {
               </div>
             }
           />
+          <Route
+            path={routes.analyzer.url}
+            element={
+              <div className="main-frame">
+                <Analyzer />
+              </div>
+            }
+          />
+          
           <Route
             path={routes.create.url}
             element={
