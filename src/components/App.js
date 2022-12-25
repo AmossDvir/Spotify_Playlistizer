@@ -17,6 +17,7 @@ import Home from "./Home";
 import PlayerProvider from "../generalComponents/Player/PlayerProvider";
 import Analyzer from "./Analyzer";
 import "./App.css";
+import ArtistTinder from "./ArtistTinder.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -72,6 +73,14 @@ const App = () => {
             element={
               <div className="main-frame">
                 <Analyzer />
+              </div>
+            }
+          />
+          <Route
+            path={routes.artistTinder.url}
+            element={
+              <div className="main-frame">
+                <ArtistTinder />
               </div>
             }
           />

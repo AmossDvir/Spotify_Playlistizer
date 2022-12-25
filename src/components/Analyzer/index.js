@@ -27,7 +27,7 @@ const Analyzer = () => {
     try {
       var classification = await analyzeLibrary(SpotifyAccessToken);
       classification = classification.data;
-      setGenresSegmentation(classification.genres_segmentation_normalized);
+      setGenresSegmentation(classification.genres_segmentation);
       setArtists(classification.artists);
       var info = await getArtistsInfo(
         classification.artists.slice(0, 10).map((artist) => artist.name)

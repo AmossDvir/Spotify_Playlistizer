@@ -78,6 +78,39 @@ const toTitleCase = (str) => {
   });
 };
 
+const removeHTMLTags = (str) => {
+  return str.replace(/<[^>]*>/g, '');
+};
+
+const modifyArtistSummaryString = (summary) => {
+  return removeHTMLTags(summary).replace('Read more on Last.fm', '');
+}
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const selectLikelyArtists = (artists) => {
+  const selectedArtists = [];
+  for (const artist of artists) {
+    if (artist.frequency >= 70) {
+      // Higher popularity means higher likelihood of being selected
+      const likelihood = artist.frequency / 100;
+      if (Math.random() < likelihood) {
+        selectedArtists.push(artist.name);
+      }
+    }
+    if (selectedArtists.length === 20) {
+      break;
+    }
+  }
+  return selectedArtists;
+};
+
 export {
   generateRandomColorString,
   getAvarageRGBValue,
@@ -87,4 +120,8 @@ export {
   convertMillisToMinutesAndSeconds,
   convertMSToSeconds,
   toTitleCase,
+  removeHTMLTags,
+  modifyArtistSummaryString,
+  shuffleArray,
+  selectLikelyArtists
 };

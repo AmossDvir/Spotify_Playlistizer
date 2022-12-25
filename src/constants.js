@@ -8,6 +8,7 @@ const routes = {
   analyzer: { url: "/analyze" },
   redirect: { url: "/redirect" },
   playlistView: { url: "/playlists" },
+  artistTinder: { url: "/artist_tinder" },
 };
 
 const errorCodesLabels = {

@@ -18,6 +18,7 @@ import { styled } from "@mui/material/styles";
 import UserPanel from "../UserPanel";
 import AddIcon from "@mui/icons-material/Add";
 import ScienceIcon from '@mui/icons-material/Science';
+import NightlifeIcon from '@mui/icons-material/Nightlife';
 
 const StyleTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor: `rgb(100,100,100,${
@@ -143,6 +144,13 @@ const Menu = () => {
             component={Link}
             to={routes.analyzer.url}
             value={routes.analyzer.url}
+          />
+          <Tab
+            icon={<NightlifeIcon />}
+            label="Artist Tinder"
+            component={Link}
+            to={routes.artistTinder.url}
+            value={routes.artistTinder.url}
           />
           <Tab
             value={routes.settings.url}
