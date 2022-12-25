@@ -43,7 +43,7 @@ const DataCarousel = ({ genresSegmentation, artists, summaries }) => {
   };
 
   return (
-    <Box sx={{ maxWidth: "70vw", flexGrow: 1 }}>
+    <Box sx={{ width:'85vw', maxWidth: "85vw", flexGrow: 1 }}>
       <Paper
         square
         elevation={0}
@@ -54,9 +54,10 @@ const DataCarousel = ({ genresSegmentation, artists, summaries }) => {
           pl: 2,
           bgcolor: "background.default",
           justifyContent: "center",
+          backgroundColor:'rgb(100,100,100,0.2)'
         }}
       >
-        <Typography sx={{ textAlign: "center" }}>
+        <Typography sx={{ textAlign: "center", }}>
           {componentsToRender[activeStep].title}
         </Typography>
       </Paper>

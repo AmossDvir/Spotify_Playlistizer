@@ -51,7 +51,7 @@ const CakeChart = ({ data }) => {
     if (data && data?.length > 0) {
       let labelsSlice = data.map((genre) => genre.genre).slice(0, 10);
       let valuesSlice = data
-        .map((genre) => Math.round(genre.frequency * 100 * 100) / 100 )
+        .map((genre) => Math.round(genre.frequency * 100 ) / 100 )
         .slice(0, 10);
       setLabels(labelsSlice);
       setValues(valuesSlice);
