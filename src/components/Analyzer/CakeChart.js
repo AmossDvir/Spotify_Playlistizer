@@ -15,7 +15,7 @@ const CakeChart = ({ data }) => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 200,
+            width: 400,
           },
           legend: {
             show: false,
@@ -24,15 +24,15 @@ const CakeChart = ({ data }) => {
       },
     ],
     legend: {
-      position: "right",
+      position: "top",
       offsetY: 0,
-      height: 230,
+      height: 100,
     },
     plotOptions: {
       pie: {
         expandOnClick: false,
         donut: {
-          size: "55%",
+          size: "65%",
           labels: {
             show: true,
             name: {
@@ -64,7 +64,7 @@ const CakeChart = ({ data }) => {
         <ReactApexChart
           type="donut"
           options={options}
-          width={480}
+          width={650}
           series={values}
         ></ReactApexChart>
       )}
