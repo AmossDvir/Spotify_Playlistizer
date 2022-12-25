@@ -3,19 +3,19 @@ import { baseUrl } from "../../constants";
 
 const analyzeLibrary = async (spotifyAccessToken) => {
   try {
-    var artists = await axios.get(baseUrl + "spotify/liked_artists", {
+    var library = await axios.get(baseUrl + "spotify/liked_artists", {
       headers: {
         "content-type": "application/json",
       },
       params: { access_token: spotifyAccessToken },
     });
-    artists = artists.data;
+    library = library.data;
     await new Promise(resolve => setTimeout(resolve, 10000));
     const res = await axios.post(baseUrl + "spotify/analyze", {
         headers: {
           "content-type": "application/json",
         },
-        data:{access_token: spotifyAccessToken, artists}
+        data:{access_token: spotifyAccessToken, library}
       });
     return res;
   } catch (err) {
