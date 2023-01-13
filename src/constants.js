@@ -19,6 +19,9 @@ const errorCodesLabels = {
   429: "Too Many Songs",
   ERR_NETWORK: "Network error",
 };
+const successCodes = [
+  200,201
+];
 
 const lowerCaseList = [
   "of",
@@ -48,4 +51,4 @@ const lowerCaseList = [
   "via",
 ];
 
-export { routes, baseUrl, errorCodesLabels, lowerCaseList };
+export { routes, baseUrl, errorCodesLabels, lowerCaseList, successCodes };

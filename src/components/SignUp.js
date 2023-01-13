@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-// import { Link as MuiLink } from "@mui/material";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -171,7 +169,11 @@ const SignUp = () => {
                 />
               </Grid>
             </Grid>
-            <LoadingButton label="Sign Up" loading={loading} fullWidth></LoadingButton>
+            <LoadingButton
+              label="Sign Up"
+              loading={loading}
+              fullWidth
+            ></LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link

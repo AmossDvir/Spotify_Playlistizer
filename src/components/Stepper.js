@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import { openSpotifyWindow } from "../controllers/spotify/openSpotifyWindow";
-import "./Stepper.css"
+import "./Stepper.css";
 import UseMobileWidth from "../generalComponents/UseMobileWidth";
 
 const Stepper = () => {
@@ -18,31 +18,35 @@ const Stepper = () => {
   const [isStepperUp, setIsStepperUp] = useState(false);
   const isMobile = UseMobileWidth();
 
-
   const stepsButtons = [
     {
-      text: `Sign In${isMobile?"/Sign Up":" To Your Account/Create Your Account"}`,
+      text: `Sign In${
+        isMobile ? "/Sign Up" : " To Your Account/Create Your Account"
+      }`,
       disabled: userSelector.loggedIn,
       onClick: () => navigate(routes.signUp.url),
     },
     {
-      text: `Connect${isMobile?" Your Spotify":" Your Spotify Account"}`,
+      text: `Connect${isMobile ? " Your Spotify" : " Your Spotify Account"}`,
       disabled: !(
-        userSelector.loggedIn && !localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        userSelector.loggedIn &&
+        !localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       ),
       onClick: () => openSpotifyWindow(userSelector.userId),
     },
     {
       text: "Create a Playlist",
       disabled: !(
-        userSelector.loggedIn && localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        userSelector.loggedIn &&
+        localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       ),
       onClick: () => navigate(routes.create.url),
     },
   ].map((step) => {
     return (
       <Button onClick={step.onClick} disabled={step.disabled}>
-        <Typography className="stepper-label"
+        <Typography
+          className="stepper-label"
           sx={{
             fontWeight: 500,
           }}
@@ -59,8 +63,6 @@ const Stepper = () => {
     y: [-100, 400, 300],
   };
   const [animationProps, setAnimationProps] = useState();
-
-  
 
   useEffect(() => {
     if (isStepperUp) {
@@ -82,17 +84,25 @@ const Stepper = () => {
           : 1
         : 0
     ); // if user is logged in = 1, otherwise: = 0
-  }, [userSelector, localStorage.getItem(userSelector.userId + "spotifyAccessToken")]);
+  }, [
+    userSelector,
+    localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+  ]);
 
   useEffect(() => {
-    if (window.location.pathname === "" || window.location.pathname === routes.home.url) {
+    if (
+      window.location.pathname === "" ||
+      window.location.pathname === routes.home.url
+    ) {
       setIsStepperUp(false);
     } else {
       setIsStepperUp(true);
     }
   }, [window.location.pathname]);
 
-  return ( isStepperUp && isMobile? <></>:
+  return isStepperUp && isMobile ? (
+    <></>
+  ) : (
     <motion.div
       animate={animationProps}
       transition={{ type: "spring", duration: 1 }}
@@ -106,14 +116,11 @@ const Stepper = () => {
       }}
     >
       <Box
-      className="stepper-frame"
+        className="stepper-frame"
         sx={{
-
           backgroundColor: isStepperUp
             ? "transparent"
             : "rgb(255,255,255,0.45)",
-
-
         }}
       >
         <MuiStepper activeStep={activeStep} alternativeLabel>

@@ -87,6 +87,7 @@ const DialogWindow = ({
               onClick={onConfirmButtonClicked}
               color="primary"
               loading={loading}
+              disabled={confirmDisabled}
               variant="outlined"
               loadingIndicator="Saving..."
               size="small"

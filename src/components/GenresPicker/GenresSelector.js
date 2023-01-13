@@ -10,7 +10,6 @@ import GenreChip from "./GenreChip";
 import { generateRandomColorString, getAvarageRGBValue } from "../common";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
-import CancelIcon from "@mui/icons-material/Cancel";
 import "./GenresPicker.css";
 
 const ITEM_HEIGHT = 52;
@@ -52,18 +51,17 @@ const GenresSelector = ({ items, setGenresList }) => {
   }, [items]);
 
   const onGenreDelete = (e, value) => {
-    onUpdateGenres(genresPicked.filter((genre) => genre !== value))
+    onUpdateGenres(genresPicked.filter((genre) => genre !== value));
     // setGenresPicked(genresPicked.filter((genre) => genre !== value));
   };
 
   const onUpdateGenres = (genres) => {
     setGenresPicked(genres);
     const genresWithColors = genres.map((genre) =>
-    availableGenres.find((colorSet) => colorSet.value === genre)
-  );
-    setGenresList(genresWithColors)
-
-  }
+      availableGenres.find((colorSet) => colorSet.value === genre)
+    );
+    setGenresList(genresWithColors);
+  };
 
   const onGenreChange = (event) => {
     const {
@@ -82,7 +80,7 @@ const GenresSelector = ({ items, setGenresList }) => {
 
   return (
     <div className="genres-selector">
-      <FormControl sx={{ width: "100%", height:'50vh' }} size="medium">
+      <FormControl sx={{ width: "100%" }} size="medium">
         <InputLabel sx={{ fontWeight: 400 }} id="demo-multiple-chip-label">
           Pick Genres
         </InputLabel>
@@ -105,7 +103,7 @@ const GenresSelector = ({ items, setGenresList }) => {
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
               {selected.map((value, index) => (
                 <GenreChip
-                key={`${index}_${value}`}
+                  key={`${index}_${value}`}
                   value={value}
                   onGenreDelete={onGenreDelete}
                   color={

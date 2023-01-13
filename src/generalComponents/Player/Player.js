@@ -2,9 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PlayerControlButtons from "./PlayerControlButtons";
 import SongTitle from "../../components/PlaylistView/SongsList/SongTitle";
-import { getPlayerState } from "./getPlayerState";
 import "./Player.css";
-import usePlayerFuncs from "./usePlayerFuncs.js";
 import {
   useWebPlaybackSDKReady,
   usePlaybackState,

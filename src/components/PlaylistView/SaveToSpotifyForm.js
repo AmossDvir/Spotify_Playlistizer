@@ -30,9 +30,6 @@ const SaveToSpotifyForm = ({
   setIsPublic,
 }) => {
   const classes = useStyles();
-  //   const [isPublic, setIsPublic] = useState(true);
-  //   const [playlistName, setPlaylistName] = useState("");
-  //   const [description, setDescription] = useState("");
 
   const onIsPublicChange = (e) => {
     setIsPublic(e.target.checked);
@@ -103,7 +100,6 @@ const SaveToSpotifyForm = ({
         </Grid>
       </Grid>
     </FormControl>
-    // <div>SaveToSpotifyForm</div>
   );
 };
 

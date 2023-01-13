@@ -8,7 +8,6 @@ const ErrorLabel = ({ errCode }) => {
       {errorCodesLabels[errCode] ?? "Unknown error"}
     </Typography>
   );
-  //   return <div>{errorCodesLabels.hasOwnProperty(errCode) ? errorCodesLabels[errCode] : "Unknown error"}</div>;
 };
 
 export default ErrorLabel;
