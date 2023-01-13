@@ -1,29 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-  DataGrid,
-  useGridApiEventHandler,
-  useGridApiContext,
-} from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 import { playSong } from "../../../model/songPlaybackSlice";
-import ColoredButton from "../../../generalComponents/ColoredButton";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import ColoredTooltip from "../../../generalComponents/ColoredTooltip";
 import DialogWindow from "../../../generalComponents/DialogWindow";
 import SaveToSpotifyForm from "../SaveToSpotifyForm";
 import { saveToSpotify } from "../../../controllers/spotify/saveToSpotifyController";
 import SuccessSnackBar from "../../../generalComponents/SuccessSnackBar";
 import ErrorSnackBar from "../../../generalComponents/ErrorSnackBar";
-import { errorCodesLabels } from "../../../constants";
+import { errorCodesLabels, successCodes } from "../../../constants";
 import "./SongsList.css";
 import { Typography } from "@mui/material";
 
-// import PlayerControlButtons from "./PlayerControlButtons";
 
 const SongsList = ({ songsList, userPlaylists }) => {
   const itemsPerPage = 100;
@@ -53,7 +45,7 @@ const SongsList = ({ songsList, userPlaylists }) => {
         userPlaylists,
         localStorage.getItem(userSelector.userId + "spotifyAccessToken")
       );
-      if (res?.status === 200) {
+      if (successCodes.includes(res?.status)) {
         onCloseDialog();
         setSuccessSnackBarOpen(true);
       } else {

@@ -1,8 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import List from "@mui/material/List";
-import { Tooltip } from "@mui/material";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -16,7 +14,6 @@ import "./SongTitle.css";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 import ColoredTooltip from "../../../generalComponents/ColoredTooltip";
 
-
 const SongTitle = ({
   songName,
   songArtists,
@@ -24,35 +21,44 @@ const SongTitle = ({
   liked,
   hoveredRow,
   songId,
-  small=false,
+  small = false,
 }) => {
   const isMobile = UseMobileWidth();
   const userSelector = useSelector((state) => state.user.value);
   const [isLiked, setIsLiked] = useState(liked);
 
-  const onLikeClick = (e) => {
-    likeSong(songId, true, localStorage.getItem(userSelector.userId + "spotifyAccessToken"));
+  const onLikeClick = () => {
+    likeSong(
+      songId,
+      true,
+      localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+    );
     setIsLiked(!isLiked);
   };
 
   useEffect(() => setIsLiked(liked), [liked]);
   return (
-    <List sx={{ cursor: "default", width: "100%", paddingLeft:'0px', paddingTop:'0px' }}>
-      <ListItem sx={{paddingTop:'0px'}}>
-      <ColoredTooltip title={`${isLiked? "Remove from":"Save to"} Your Library`} enterDelay={500} placement="top">
-          
-        <ListItemIcon
-          onClick={onLikeClick}
-          
+    <List
+      sx={{
+        cursor: "default",
+        width: "100%",
+        paddingLeft: "0px",
+        paddingTop: "0px",
+      }}
+    >
+      <ListItem sx={{ paddingTop: "0px" }}>
+        <ColoredTooltip
+          title={`${isLiked ? "Remove from" : "Save to"} Your Library`}
+          enterDelay={500}
+          placement="top"
         >
-          {isLiked ? (
-            <FavoriteIcon
-              color="primary"
-            />
-          ) : (
-            <FavoriteBorderIcon className={hoveredRow ? "liked-icon" : ""}/>
-          )}
-        </ListItemIcon>
+          <ListItemIcon onClick={onLikeClick}>
+            {isLiked ? (
+              <FavoriteIcon color="primary" />
+            ) : (
+              <FavoriteBorderIcon className={hoveredRow ? "liked-icon" : ""} />
+            )}
+          </ListItemIcon>
         </ColoredTooltip>
         <ListItemAvatar>
           <Avatar variant="square">
@@ -70,9 +76,19 @@ const SongTitle = ({
 
         <ListItemText
           primary={songName}
-          primaryTypographyProps={{ style: { fontWeight: 100, fontSize:isMobile?"18px":small?"18px":'22px' } }}
+          primaryTypographyProps={{
+            style: {
+              fontWeight: 100,
+              fontSize: isMobile ? "18px" : small ? "18px" : "22px",
+            },
+          }}
           secondary={songArtists}
-          secondaryTypographyProps={{ style: { color: "#b5b5b5", fontSize:isMobile?"15px":small?"15px":'19px' } }}
+          secondaryTypographyProps={{
+            style: {
+              color: "#b5b5b5",
+              fontSize: isMobile ? "15px" : small ? "15px" : "19px",
+            },
+          }}
         />
       </ListItem>
     </List>

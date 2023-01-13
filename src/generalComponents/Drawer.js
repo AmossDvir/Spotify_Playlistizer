@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-
 const Drawer = ({ direction, children, open, setOpen }) => {
-
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => setIsOpen(open), [open]);

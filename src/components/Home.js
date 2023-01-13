@@ -1,5 +1,4 @@
 import React from "react";
-import MovingComponent from "react-moving-text";
 import { Box } from "@mui/material";
 import AnimatedText from "../generalComponents/AnimatedText";
 import UseMobileWidth from "../generalComponents/UseMobileWidth";

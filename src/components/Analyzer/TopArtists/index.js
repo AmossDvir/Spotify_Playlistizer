@@ -10,7 +10,7 @@ const TopArtists = ({ artists, summaries }) => {
     if (artists && artists.length > 0) {
       setRenderedArtists(
         artists.map((artist, index) => (
-          <div className="card">
+          <div className="artist-card">
             <Artist
               artist={artist}
               index={index + 1}

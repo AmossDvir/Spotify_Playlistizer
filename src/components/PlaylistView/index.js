@@ -6,17 +6,12 @@ import { routes } from "../../constants";
 import { getUserPlaylists } from "../../controllers/spotify/getUserPlaylistsController";
 import SongsList from "./SongsList";
 import AnimatedText from "../../generalComponents/AnimatedText";
-import Player from "../../generalComponents/Player/Player";
 import PlayerProvider from "../../generalComponents/Player/PlayerProvider";
-import ColoredButton from "../../generalComponents/ColoredButton";
-
 
 const PlaylistView = () => {
   const userSelector = useSelector((state) => state.user.value);
-
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [noPlaylists, setNoPlaylists] = useState(false);
-
 
   useEffect(() => {
     var userId = userSelector.userId;
@@ -46,8 +41,6 @@ const PlaylistView = () => {
     localStorage.getItem("user"),
   ]);
 
-  // useEffect(() => console.log(userPlaylists?.mostRecent), []);
-
   return noPlaylists ? (
     <Box mt="10vh" display="flex" justifyContent="center">
       <Typography fontWeight={400} fontSize={70}>
@@ -63,10 +56,10 @@ const PlaylistView = () => {
       alignItems="center"
       justifyContent="center"
     >
-      {/* <VirtualSongsList
-        songsListData={userPlaylists.mostRecent}
-      ></VirtualSongsList> */}
-      <SongsList songsList={userPlaylists?.mostRecent} userPlaylists={userPlaylists}></SongsList>
+      <SongsList
+        songsList={userPlaylists?.mostRecent}
+        userPlaylists={userPlaylists}
+      ></SongsList>
       <Box mt="10vh"></Box>
       {/* <ColoredButton
         sx={{ margin: "0 auto", marginTop: "20px" }}
@@ -76,10 +69,7 @@ const PlaylistView = () => {
         Delete
       </ColoredButton> */}
 
-
-
       <PlayerProvider visible={true}></PlayerProvider>
-
     </Box>
   ) : (
     <AnimatedText

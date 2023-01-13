@@ -9,14 +9,14 @@ const SuccessSnackBar = ({ open, onClose, promptStr }) => {
   ));
 
   return (
-      <Snackbar
-        autoHideDuration={6000}
-        open={open}
-        onClose={onClose}
-        TransitionComponent={(props) => <Slide {...props} direction="up" />}
-      >
-        <Alert severity="success">{promptStr}</Alert>
-      </Snackbar>
+    <Snackbar
+      autoHideDuration={6000}
+      open={open}
+      onClose={onClose}
+      TransitionComponent={(props) => <Slide {...props} direction="up" />}
+    >
+      <Alert severity="success">{promptStr}</Alert>
+    </Snackbar>
   );
 };
 

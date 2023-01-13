@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
 import { loginUser } from "../model/userSlice";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-// import { Link as MuiLink } from "@mui/material";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -17,16 +15,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { login } from "../controllers/user/Login";
-import ErrorLabel from "../generalComponents/ErrorLabel";
 import { errorCodesLabels } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
-import Snackbar from "@mui/material/Snackbar";
-import Slide from "@mui/material/Slide";
-import MuiAlert from "@mui/material/Alert";
 import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
 import LoadingButton from "../generalComponents/LoadingButton";
-
 
 const theme = createTheme();
 
@@ -70,7 +63,11 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="500vw" sx={{ minWidth: '250px',maxWidth:"300px"}}>
+      <Container
+        component="main"
+        maxWidth="500vw"
+        sx={{ minWidth: "250px", maxWidth: "300px" }}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -116,8 +113,11 @@ const SignIn = () => {
               label="Remember me"
             />
 
-            <LoadingButton label="Sign In" loading={loading} fullWidth></LoadingButton>
-            {/* {!!error && <ErrorLabel errCode={error}></ErrorLabel>} */}
+            <LoadingButton
+              label="Sign In"
+              loading={loading}
+              fullWidth
+            ></LoadingButton>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -125,7 +125,6 @@ const SignIn = () => {
                 </Link>
               </Grid>
               <Grid item>
-                {/* <MuiLink variant="body2"> */}
                 <Link
                   style={{ color: "black" }}
                   onClick={() => dispatch(setLoginDrawerOpen(false))}
@@ -133,13 +132,19 @@ const SignIn = () => {
                 >
                   {"Don't have an account? Sign Up"}
                 </Link>
-                {/* </MuiLink> */}
               </Grid>
             </Grid>
           </Box>
         </Box>
       </Container>
-      <ErrorSnackBar open={snackBarOpen || !!error} onClose={() => {setSnackBarOpen(false);setError(0)}} promptStr={errorCodesLabels[error]}></ErrorSnackBar>
+      <ErrorSnackBar
+        open={snackBarOpen || !!error}
+        onClose={() => {
+          setSnackBarOpen(false);
+          setError(0);
+        }}
+        promptStr={errorCodesLabels[error]}
+      ></ErrorSnackBar>
     </ThemeProvider>
   );
 };
