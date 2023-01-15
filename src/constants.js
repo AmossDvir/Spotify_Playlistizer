@@ -1,4 +1,5 @@
-const baseUrl = "https://spotify-playlist-generator-server.onrender.com/";
+
+const baseUrl = process.env.NODE_ENV === "production" ? "https://spotify-playlist-generator-server.onrender.com/":"http://localhost:3200/";
 
 const routes = {
   home: { url: "/" },
