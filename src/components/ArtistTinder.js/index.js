@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useContext } from "react";
 import { Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import ArtistTinderTitle from "./ArtistTinderTitle";
@@ -8,9 +7,11 @@ import GenresSelector from "../GenresPicker/GenresSelector";
 import { getAvailableGenres } from "../../controllers/spotify/getAvailableGenresController";
 import "./Deck.css";
 import { retrieveArtistsByGenres } from "../../controllers/spotify/retrieveArtistsByGenresController";
+import { UserContext } from "../../context/UserContext";
 
 const ArtistTinder = () => {
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const [availableGenres, setAvailableGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,22 +19,19 @@ const ArtistTinder = () => {
   const [artists, setArtists] = useState([]);
   const [selectedArtists, setSelectedArtists] = useState([]);
   const SpotifyAccessToken = localStorage.getItem(
-    userSelector.userId + "spotifyAccessToken"
+    userContext?.userId + "spotifyAccessToken"
   );
 
 const onSwipeRight = (artist) => {
   setSelectedArtists([...selectedArtists, artist]);
 }
 
-useEffect(() => console.log("selected: ", selectedArtists), [selectedArtists]);
-
-
   // Fetch genres list
   useEffect(() => {
     const getGenres = async () => {
       setAvailableGenres(
         await getAvailableGenres(
-          localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+          localStorage.getItem(userContext?.userId + "spotifyAccessToken")
         )
       );
     };

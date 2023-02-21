@@ -3,7 +3,7 @@ import { baseUrl } from "../../constants";
 
 /**
  * Sends a POST request to the server with the data of the user.
- * Format should be: firstName, lastName, userEmail, userName, userCredentials, userPassword, authCode (optional), userId (optional)
+ * Format should be: firstName, lastName, email, username, credentials, password, authCode (optional), userId (optional)
  * @param {*} userData: data of the user
  * @returns {success, data} where success tells whether the request was successful or not, data is the data of the response
  */
@@ -14,15 +14,17 @@ export const createUser = async (userData) => {
         "content-type": "application/json",
       },
       data: {
-        userName: userData.username,
-        userPassword: userData.password,
+        username: userData.username,
+        password: userData.password,
         firstName: userData.firstName,
         lastName: userData.lastName,
-        userEmail: userData.email,
-        userCredentials: "read, write",
+        email: userData.email,
+        credentials: "read, write",
       },
     });
-    return { success: true, data: res.data };
+    console.log(res)
+
+    return res;
   } catch (err) {
     console.error(err?.message);
     return { success: false, data: err };

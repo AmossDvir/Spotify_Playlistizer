@@ -69,7 +69,6 @@ const GenresSelector = ({ items, setGenresList }) => {
     } = event;
     // On autofill we get a stringified value.
     const genres = typeof value === "string" ? value.split(",") : value;
-    // console.log(genres);
 
     const genresWithColors = genres.map((genre) =>
       availableGenres.find((colorSet) => colorSet.value === genre)

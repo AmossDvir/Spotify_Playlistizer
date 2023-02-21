@@ -25,7 +25,6 @@ const Deck = ({ artists, onSwipeRight }) => {
   }, [swipedElIndex]);
   const onSwipe = (direction, nameToDelete, index) => {
     setCurrentCardIndex(index - 1);
-    console.log(index);
     if (direction === "right") {
       setSwipedElIndex(index);
       // onSwipeRight({...artists[index]});

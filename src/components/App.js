@@ -1,7 +1,7 @@
 import Menu from "./Menu";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Stepper from "./Stepper";
 import SignUp from "./SignUp";
 import GenresPicker from "./GenresPicker";
@@ -10,24 +10,73 @@ import BottomLine from "./BottomLine";
 import LoggedOutPanel from "./LoggedOutPanel";
 import UserSettingsPage from "./UserPanel/UserSettingsPage";
 import PlaylistView from "./PlaylistView/";
-import { routes } from "../constants";
-import { loginUser } from "../model/userSlice";
+import { baseUrl, REFRESH_TIMER, routes } from "../constants";
 import DisconnectedSpotifyPanel from "./DisconnectedSpotifyPanel";
 import Home from "./Home";
 import Analyzer from "./Analyzer";
 import "./App.css";
 import ArtistTinder from "./ArtistTinder.js";
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
+import useVerifyUser from "../controllers/user/useVerifyUser";
+import { getUserInfo } from "../controllers/user/getUserInfo";
 
 const App = () => {
   const dispatch = useDispatch();
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
+  const userVerified = useVerifyUser();
+
+  const verifyUser = async () => {
+    if (localStorage.getItem("access_token")) {
+      try {
+        const response = await axios.post(
+          baseUrl + "users/refresh_token",
+          {},
+          { withCredentials: true }
+        );
+        if (response?.data?.success) {
+          localStorage.setItem("access_token", response.data.accessToken);
+        } else {
+          localStorage.removeItem("access_token");
+        }
+      } catch (error) {
+        localStorage.removeItem("access_token");
+      }
+    }
+  };
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch(loginUser(user));
-    }
+    verifyUser();
+    const intervalId = setInterval(verifyUser, REFRESH_TIMER);
+    return () => clearInterval(intervalId);
   }, []);
+
+
+  useEffect(() => {
+    const updateUserData = async () => {
+      const accessToken = localStorage.getItem("access_token");
+  
+      if (accessToken && !userContext?.loggedIn) {
+
+        const user = await getUserInfo(accessToken);
+        setUserContext((oldValues) => {
+          return {...oldValues, ...user.data, loggedIn: true} ;
+        });
+      }
+      else if(!accessToken && userContext?.loggedIn){
+        setUserContext((oldValues) => {
+          return {} ;
+        });
+      }
+    }
+    updateUserData();
+    window.addEventListener('storage', updateUserData)
+  
+    return () => {
+      window.removeEventListener('storage', updateUserData)
+    }
+  }, [])
+
 
   const HeaderAndFooter = () => (
     <>
@@ -88,9 +137,9 @@ const App = () => {
             path={routes.create.url}
             element={
               <div className="main-frame">
-                {userSelector.loggedIn ? (
+                {userVerified ? (
                   localStorage.getItem(
-                    userSelector.userId + "spotifyAccessToken"
+                    userContext?.userId + "spotifyAccessToken"
                   ) ? (
                     <GenresPicker />
                   ) : (
@@ -105,7 +154,7 @@ const App = () => {
         </Route>
         <Route
           path={routes.redirect.url}
-          element={<RedirectPage userId={userSelector.userId} />}
+          element={<RedirectPage userId={userContext?.userId} />}
         />
       </Routes>
     </div>

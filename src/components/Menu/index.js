@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Tabs from "@mui/material/Tabs";
-import { Tab, Typography } from "@mui/material";
+import { Tab } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoginDrawerOpen } from "../../model/globalStateSlice";
@@ -19,6 +19,8 @@ import UserPanel from "../UserPanel";
 import AddIcon from "@mui/icons-material/Add";
 import ScienceIcon from '@mui/icons-material/Science';
 import NightlifeIcon from '@mui/icons-material/Nightlife';
+import { UserContext } from "../../context/UserContext";
+import useVerifyUser from "../../controllers/user/useVerifyUser";
 
 const StyleTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor: `rgb(100,100,100,${
@@ -33,7 +35,9 @@ height:"fit-content",
 }));
 
 const Menu = () => {
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext)
+  const userVerified = useVerifyUser();
+
   const dispatch = useDispatch();
   const globalState = useSelector((state) => state.globalState.value);
   const [value, setValue] = useState(routes.home.url);
@@ -52,9 +56,8 @@ const Menu = () => {
   };
 
   useEffect(() => setValue(window.location.pathname));
-
   const renderUserMenuItems = () => {
-    return !userSelector.loggedIn ? (
+    return !userVerified? (
       <div>
         <Drawer
           direction="right"
@@ -75,7 +78,7 @@ const Menu = () => {
           }}
         >
           <Tab
-            icon={<FavoriteIcon/>}
+            icon={<FavoriteIcon />}
             label=""
             component={Link}
             to={routes.home.url}
@@ -170,7 +173,7 @@ const Menu = () => {
                   }
                 >
                   <Avatar sx={{ width: 32, height: 32 }}>
-                    {userSelector?.firstName[0]?.toUpperCase()}
+                    {userContext?.firstName?.length > 0 ? userContext?.firstName[0]?.toUpperCase() : ""}
                   </Avatar>
                 </IconButton>
               </Tooltip>

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
 import { Stepper as MuiStepper } from "@mui/material";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -10,10 +9,11 @@ import { routes } from "../constants";
 import { openSpotifyWindow } from "../controllers/spotify/openSpotifyWindow";
 import "./Stepper.css";
 import UseMobileWidth from "../generalComponents/UseMobileWidth";
+import { UserContext } from "../context/UserContext";
 
 const Stepper = () => {
   const navigate = useNavigate();
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
   const [activeStep, setActiveStep] = useState(0);
   const [isStepperUp, setIsStepperUp] = useState(false);
   const isMobile = UseMobileWidth();
@@ -23,22 +23,22 @@ const Stepper = () => {
       text: `Sign In${
         isMobile ? "/Sign Up" : " To Your Account/Create Your Account"
       }`,
-      disabled: userSelector.loggedIn,
+      disabled: userContext?.loggedIn,
       onClick: () => navigate(routes.signUp.url),
     },
     {
       text: `Connect${isMobile ? " Your Spotify" : " Your Spotify Account"}`,
       disabled: !(
-        userSelector.loggedIn &&
-        !localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        userContext?.loggedIn &&
+        !localStorage.getItem(userContext?.userId + "spotifyAccessToken")
       ),
-      onClick: () => openSpotifyWindow(userSelector.userId),
+      onClick: () => openSpotifyWindow(userContext?.userId),
     },
     {
       text: "Create a Playlist",
       disabled: !(
-        userSelector.loggedIn &&
-        localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        userContext?.loggedIn &&
+        localStorage.getItem(userContext?.userId + "spotifyAccessToken")
       ),
       onClick: () => navigate(routes.create.url),
     },
@@ -78,15 +78,15 @@ const Stepper = () => {
 
   useEffect(() => {
     setActiveStep(
-      userSelector.loggedIn
-        ? localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+      userContext?.loggedIn
+        ? localStorage.getItem(userContext?.userId + "spotifyAccessToken")
           ? 2
           : 1
         : 0
     ); // if user is logged in = 1, otherwise: = 0
   }, [
-    userSelector,
-    localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+    userContext,
+    localStorage.getItem(userContext?.userId + "spotifyAccessToken"),
   ]);
 
   useEffect(() => {

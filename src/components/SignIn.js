@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
-import { loginUser } from "../model/userSlice";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -14,12 +13,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { login } from "../controllers/user/Login";
+import { login } from "../controllers/user/login";
 import { errorCodesLabels } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
 import LoadingButton from "../generalComponents/LoadingButton";
+import { UserContext } from "../context/UserContext";
+import { getUserInfo } from "../controllers/user/getUserInfo";
 
 const theme = createTheme();
 
@@ -27,6 +28,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const globalState = useSelector((state) => state.globalState.value);
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -49,11 +51,22 @@ const SignIn = () => {
     setLoading(true);
     event.preventDefault();
     const res = await login({ username, password });
-    console.log(res);
-    if (res?.success) {
+    if (res?.data?.success) {
+      // setUserContext((oldValues) => {
+      //   return {
+      //     ...oldValues,
+      //     accessToken: res?.data?.accessToken,
+      //     refreshToken: res?.refreshToken, 
+      //     loggedIn: true,
+      //   };
+      // });
+      localStorage.setItem("access_token", res?.data?.accessToken);
+      const user = await getUserInfo(res?.data?.accessToken);
+      setUserContext((oldValues) => {
+        return { ...oldValues, ...user.data, loggedIn: true };
+      });
+      // dispatch(loginUser(res?.data));
       dispatch(setLoginDrawerOpen(false));
-      dispatch(loginUser(res?.data));
-      localStorage.setItem("user", JSON.stringify(res?.data));
       navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);

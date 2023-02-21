@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useContext } from "react";
 import AnalyzerTitle from "./AnalyzerTitle";
 import "./Analyzer.css";
 import { Box, Typography } from "@mui/material";
@@ -10,11 +9,13 @@ import { useEffect } from "react";
 import TopArtists from "./TopArtists";
 import DataCarousel from "./DataCarousel";
 import getArtistsInfo from "../../controllers/lastFm/getArtistsInfoController";
+import { UserContext } from "../../context/UserContext";
 
 const Analyzer = () => {
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const SpotifyAccessToken = localStorage.getItem(
-    userSelector.userId + "spotifyAccessToken"
+    userContext.userId + "spotifyAccessToken"
   );
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

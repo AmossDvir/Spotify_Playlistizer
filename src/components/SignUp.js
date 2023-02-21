@@ -1,8 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
+import { UserContext } from "../context/UserContext";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -14,13 +15,12 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { createUser } from "../controllers/user/CreateUser";
+import { createUser } from "../controllers/user/createUser";
 import { setLoginDrawerOpen } from "../model/globalStateSlice";
-import { loginUser } from "../model/userSlice";
 import ErrorSnackBar from "../generalComponents/ErrorSnackBar";
 import LoadingButton from "../generalComponents/LoadingButton";
 import { routes, errorCodesLabels } from "../constants";
-
+import { getUserInfo } from "../controllers/user/getUserInfo";
 const theme = createTheme();
 
 const SignUp = () => {
@@ -35,6 +35,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const [error, setError] = useState(0);
 
@@ -66,11 +67,15 @@ const SignUp = () => {
       email,
       password,
     });
-    console.log(res);
-    if (res?.success) {
-      console.log("Success!");
-      dispatch(loginUser(res?.data));
-      localStorage.setItem("user", JSON.stringify(res?.data));
+    if (res?.data?.success) {
+      console.log("Signed up successfully! fetching the user info...");
+
+      localStorage.setItem("access_token", res?.data?.accessToken);
+      const user = await getUserInfo(res?.data?.accessToken);
+      setUserContext((oldValues) => {
+        return { ...oldValues, ...user.data };
+      });
+      // dispatch(loginUser(res?.data));
       navigate(routes.home.url);
     } else {
       setError(res?.data?.response?.status ?? res?.data?.code);

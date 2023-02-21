@@ -1,25 +1,24 @@
+import React, { useEffect, useState, useContext } from "react";
 import { Box, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { routes } from "../../constants";
 import { getUserPlaylists } from "../../controllers/spotify/getUserPlaylistsController";
 import SongsList from "./SongsList";
 import AnimatedText from "../../generalComponents/AnimatedText";
 import PlayerProvider from "../../generalComponents/Player/PlayerProvider";
+import { UserContext } from "../../context/UserContext";
 
 const PlaylistView = () => {
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [noPlaylists, setNoPlaylists] = useState(false);
 
   useEffect(() => {
-    var userId = userSelector.userId;
-    if (!userId || userId === "") {
-      userId = JSON.parse(localStorage.getItem("user")).userId;
-    }
+    var userId = userContext?.userId;
+
     const spotifyAccessToken = localStorage.getItem(
-      userSelector.userId + "spotifyAccessToken"
+      userContext.userId + "spotifyAccessToken"
     );
     const fetchUserPlaylists = async (userId, spotifyAccessToken) => {
       try {
@@ -37,8 +36,7 @@ const PlaylistView = () => {
       fetchUserPlaylists(userId, spotifyAccessToken);
     }
   }, [
-    localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
-    localStorage.getItem("user"),
+    localStorage.getItem(userContext.userId + "spotifyAccessToken"),
   ]);
 
   return noPlaylists ? (

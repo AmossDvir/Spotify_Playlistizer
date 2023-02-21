@@ -51,4 +51,6 @@ const lowerCaseList = [
   "via",
 ];
 
-export { routes, baseUrl, errorCodesLabels, lowerCaseList, successCodes };
+const REFRESH_TIMER = 30 * 60 * 1000;
+
+export { routes, baseUrl, errorCodesLabels, lowerCaseList, successCodes, REFRESH_TIMER };
