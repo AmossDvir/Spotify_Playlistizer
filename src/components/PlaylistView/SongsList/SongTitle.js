@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -13,6 +12,8 @@ import { likeSong } from "../../../controllers/spotify/likeSongController";
 import "./SongTitle.css";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
 import ColoredTooltip from "../../../generalComponents/ColoredTooltip";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
 
 const SongTitle = ({
   songName,
@@ -24,14 +25,15 @@ const SongTitle = ({
   small = false,
 }) => {
   const isMobile = UseMobileWidth();
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const [isLiked, setIsLiked] = useState(liked);
 
   const onLikeClick = () => {
     likeSong(
       songId,
       true,
-      localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+      localStorage.getItem(userContext?.userId + "spotifyAccessToken")
     );
     setIsLiked(!isLiked);
   };

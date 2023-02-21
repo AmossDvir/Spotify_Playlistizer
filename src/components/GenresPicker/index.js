@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addPlaylist } from "../../model/playlistsSlice";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import "./GenresPicker.css";
@@ -13,11 +13,12 @@ import LengthSlider from "./LengthSlider";
 import SuccessSnackBar from "../../generalComponents/SuccessSnackBar";
 import ErrorSnackBar from "../../generalComponents/ErrorSnackBar";
 import { successCodes } from "../../constants";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const GenresPicker = ({ defaultLength = 100 }) => {
   const dispatch = useDispatch();
-  const userSelector = useSelector((state) => state.user.value);
-
+  const [userContext, setUserContext] = useContext(UserContext);
   const [genresList, setGenresList] = useState([]);
   const [availableGenres, setAvailableGenres] = useState([]);
   const [creationErr, setCreationErr] = useState(false);
@@ -34,7 +35,7 @@ const GenresPicker = ({ defaultLength = 100 }) => {
 
     const generateResult = await generatePlaylist(
       genresList ?? [""],
-      localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+      localStorage.getItem(userContext?.userId + "spotifyAccessToken"),
       playlistLength
     );
     if (successCodes.includes(generateResult?.status)) {
@@ -42,7 +43,7 @@ const GenresPicker = ({ defaultLength = 100 }) => {
       dispatch(addPlaylist(generateResult.data));
       const savingResult = await savePlaylist(
         generateResult.data,
-        userSelector.userId
+        userContext.userId
       );
       if (successCodes.includes(savingResult?.status)) {
         setCreationSuccess(true);
@@ -63,9 +64,10 @@ const GenresPicker = ({ defaultLength = 100 }) => {
   useEffect(() => {
     setSnackBarOpen(false);
     const getGenres = async () => {
+      debugger
       setAvailableGenres(
         await getAvailableGenres(
-          localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+          localStorage.getItem(userContext?.userId + "spotifyAccessToken")
         )
       );
     };
@@ -106,7 +108,6 @@ const GenresPicker = ({ defaultLength = 100 }) => {
             <LengthSlider
               playlistLength={playlistLength}
               onLengthChange={(e) => {
-                console.log(e.target.value);
                 setPlaylistLength(e.target.value);
               }}
             ></LengthSlider>

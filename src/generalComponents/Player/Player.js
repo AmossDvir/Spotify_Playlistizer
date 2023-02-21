@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PlayerControlButtons from "./PlayerControlButtons";
 import SongTitle from "../../components/PlaylistView/SongsList/SongTitle";
@@ -15,18 +15,20 @@ import VolumeSlider from "./VolumeSlider";
 import { getSongLiked } from "../../controllers/spotify/getSongLiked";
 import playSong from "../../controllers/spotify/playSongController";
 import { playSong as updateSongInStore } from "../../model/songPlaybackSlice";
+import { UserContext } from "../../context/UserContext";
 
 const calculateBarPosition = (position, overall) => {
   return (position / overall) * 100;
 };
 
 const Player = ({ token }) => {
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const dispatch = useDispatch();
   const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const player = useSpotifyPlayer();
   const barRef = useRef(null);
   const device = usePlayerDevice();
-  const userSelector = useSelector((state) => state.user.value);
   const playerSelector = useSelector((state) => state.songPlayback.value);
   const [isLiked, setIsLiked] = useState(false);
   const [barWidth, setBarWidth] = useState(0);
@@ -43,7 +45,7 @@ const Player = ({ token }) => {
     if (device && playbackState?.track_window?.current_track?.id) {
       
       const getLiked = async () => setIsLiked(await getSongLiked(
-          localStorage.getItem(userSelector.userId + "spotifyAccessToken"),
+          localStorage.getItem(userContext?.userId + "spotifyAccessToken"),
           playbackState?.track_window?.current_track?.id
         ));
       getLiked();
@@ -53,9 +55,9 @@ const Player = ({ token }) => {
 
   useEffect(() => {
     if(playerSelector?.isPlaying){
-      playSong(localStorage.getItem(userSelector.userId + "spotifyAccessToken"), device, playerSelector.song);
+      playSong(localStorage.getItem(userContext?.userId + "spotifyAccessToken"), device, playerSelector.song);
     }
-  }, [playerSelector?.song, device, userSelector.userId]);
+  }, [playerSelector?.song, device, userContext?.userId]);
 
   useEffect(() => {
     if (playbackState && !isPressingBar) {

@@ -26,7 +26,6 @@ const RedirectPage = ({ userId }) => {
 
   useEffect(() => {
     if (localStorage.getItem(userId + "spotifyAccessToken")) {
-      console.log(localStorage.getItem(userId + "spotifyAccessToken"));
       setValid(true);
     }
   }, [localStorage.getItem(userId + "spotifyAccessToken")]);

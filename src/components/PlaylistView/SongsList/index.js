@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useMemo, useState, useContext } from "react";
+import { useDispatch } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import prepareTableData from "../prepareTableData";
 import UseMobileWidth from "../../../generalComponents/UseMobileWidth";
@@ -15,11 +15,13 @@ import ErrorSnackBar from "../../../generalComponents/ErrorSnackBar";
 import { errorCodesLabels, successCodes } from "../../../constants";
 import "./SongsList.css";
 import { Typography } from "@mui/material";
+import { UserContext } from "../../../context/UserContext";
 
 
 const SongsList = ({ songsList, userPlaylists }) => {
   const itemsPerPage = 100;
-  const userSelector = useSelector((state) => state.user.value);
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const [playlistName, setPlaylistName] = useState("");
   const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(true);
@@ -43,7 +45,7 @@ const SongsList = ({ songsList, userPlaylists }) => {
         description,
         isPublic,
         userPlaylists,
-        localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+        localStorage.getItem(userContext?.userId + "spotifyAccessToken")
       );
       if (successCodes.includes(res?.status)) {
         onCloseDialog();

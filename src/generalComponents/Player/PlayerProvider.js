@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
-import { useSelector } from "react-redux";
+import React, { useCallback, useContext } from 'react';
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
+import { UserContext } from '../../context/UserContext';
 import Player from './Player';
 
 const PlayerProvider = ({ visible }) => {
-    const userSelector = useSelector((state) => state.user.value);
-    const getSpotifyAccessToken = () =>  localStorage.getItem(userSelector.userId + "spotifyAccessToken")
+    const [userContext, setUserContext] = useContext(UserContext);
+
+    const getSpotifyAccessToken = () =>  localStorage.getItem(userContext?.userId + "spotifyAccessToken")
     const getOAuthToken = useCallback(callback => {
         const token = getSpotifyAccessToken();
         callback(token);
