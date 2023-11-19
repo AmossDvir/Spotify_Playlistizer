@@ -53,28 +53,28 @@ const App = () => {
 
 
   useEffect(() => {
-    const updateUserData = async () => {
-      const accessToken = localStorage.getItem("access_token");
+    // const updateUserData = async () => {
+    //   const accessToken = localStorage.getItem("access_token");
   
-      if (accessToken && !userContext?.loggedIn) {
+    //   if (accessToken && !userContext?.loggedIn) {
 
-        const user = await getUserInfo(accessToken);
-        setUserContext((oldValues) => {
-          return {...oldValues, ...user.data, loggedIn: true} ;
-        });
-      }
-      else if(!accessToken && userContext?.loggedIn){
-        setUserContext((oldValues) => {
-          return {} ;
-        });
-      }
-    }
-    updateUserData();
-    window.addEventListener('storage', updateUserData)
+    //     const user = await getUserInfo(accessToken);
+    //     setUserContext((oldValues) => {
+    //       return {...oldValues, ...user.data, loggedIn: true} ;
+    //     });
+    //   }
+    //   else if(!accessToken && userContext?.loggedIn){
+    //     setUserContext((oldValues) => {
+    //       return {} ;
+    //     });
+    //   }
+    // }
+    // updateUserData();
+    // window.addEventListener('storage', updateUserData)
   
-    return () => {
-      window.removeEventListener('storage', updateUserData)
-    }
+    // return () => {
+    //   window.removeEventListener('storage', updateUserData)
+    // }
   }, [])
 
 

@@ -11,7 +11,7 @@ const useSpotifyAuth = (code) => {
   useEffect(() => {
     const requestAccess = async () => {
       try {
-        const res = await axios.post(baseUrl + "spotify/connect", { code });
+        const res = await axios.post(baseUrl + "spotify/connect", { code }, {withCredentials:false});
         window.history.pushState({}, null, "/");
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);

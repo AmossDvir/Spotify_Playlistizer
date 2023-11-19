@@ -64,7 +64,6 @@ const GenresPicker = ({ defaultLength = 100 }) => {
   useEffect(() => {
     setSnackBarOpen(false);
     const getGenres = async () => {
-      debugger
       setAvailableGenres(
         await getAvailableGenres(
           localStorage.getItem(userContext?.userId + "spotifyAccessToken")
