@@ -1,4 +1,4 @@
-const baseUrl = "https://spotify-playlist-generator-server.onrender.com/";
+const baseUrl = "https://spotify-playlistizer-server.onrender.com/";
 
 const routes = {
   home: { url: "/" },
