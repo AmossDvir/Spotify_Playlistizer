@@ -83,7 +83,7 @@ const App = () => {
       <Menu></Menu>
       <Stepper />
       <Outlet />
-      {/* <BottomLine></BottomLine> */}
+      <BottomLine></BottomLine>
     </>
   );
 

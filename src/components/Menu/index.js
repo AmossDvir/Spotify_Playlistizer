@@ -122,34 +122,38 @@ const Menu = () => {
           <SignIn></SignIn>
         </Drawer>
         <StyleTabs
+        sx={{paddingX:'0px', marginX:'0px', width: "100%"}}
           value={value}
           onChange={onMenuItemClick}
           aria-label="icon label tabs example"
         >
           <Tab
-            icon={<FavoriteIcon/>}
+          sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
+            icon={<FavoriteIcon sx={{width:"20px"}} />}
             label=""
             component={Link}
             to={routes.home.url}
             value={routes.home.url}
-            sx={{}}
           />
           <Tab
-            icon={<AddIcon />}
+            sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
+            icon={<AddIcon  sx={{width:"20px"}} />}
             label="Create"
             component={Link}
             to={routes.create.url}
             value={routes.create.url}
           />
           <Tab
-            icon={<ScienceIcon />}
+          sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
+            icon={<ScienceIcon sx={{width:"20px"}} />}
             label="Analyze"
             component={Link}
             to={routes.analyzer.url}
             value={routes.analyzer.url}
           />
           <Tab
-            icon={<NightlifeIcon />}
+          sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
+            icon={<NightlifeIcon  sx={{width:"20px"}} />}
             label="Artist Tinder"
             component={Link}
             to={routes.artistTinder.url}
@@ -158,7 +162,7 @@ const Menu = () => {
           <Tab
             value={routes.settings.url}
             onClick={onUserSettingsOpen}
-            sx={{ right: "0vh", position: "absolute", cursor: "default" }}
+            sx={{ minWidth:'fit-content', paddingX:'0px', fontSize:'5px', right: "0vh", position: "absolute", cursor: "default" }}
             icon={
               <Tooltip title="Account settings">
                 <IconButton
@@ -172,7 +176,7 @@ const Menu = () => {
                     Boolean(anchorElUserSettings) ? "true" : undefined
                   }
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>
+                  <Avatar sx={{fontSize:'15px', width: 25, height: 25 }}>
                     {userContext?.firstName?.length > 0 ? userContext?.firstName[0]?.toUpperCase() : ""}
                   </Avatar>
                 </IconButton>
@@ -181,11 +185,8 @@ const Menu = () => {
           ></Tab>
 
           <Tab
-            icon={<AudiotrackIcon />}
-            sx={{
-              right: "10vh",
-              position: "absolute",
-            }}
+            icon={<AudiotrackIcon sx={{width:"20px"}}  />}
+            sx={{minWidth:'fit-content', paddingX:'0px', fontSize:'14px', right: "5vh",position: "absolute"}}
             label="My Playlists"
             component={Link}
             to={routes.playlistView.url}

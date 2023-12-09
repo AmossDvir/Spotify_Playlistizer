@@ -58,7 +58,7 @@ const prepareTableData = (
     rowsData.map((row, index) => {
       return {
         title: (
-          <div style={{paddingTop:'16px', alignItems:'center', justifyContent:'center'}}>
+          <div style={{paddingTop:'16px', alignItems:'left', justifyContent:'start'}}>
           <SongTitle
             songName={row.name}
             songArtists={convertArtistsArrayToString(row.artists)}

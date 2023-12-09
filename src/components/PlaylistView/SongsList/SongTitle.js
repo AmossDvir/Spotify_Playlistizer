@@ -48,7 +48,7 @@ const SongTitle = ({
         paddingTop: "0px",
       }}
     >
-      <ListItem sx={{ paddingTop: "0px" }}>
+      <ListItem sx={{ paddingTop: "0px", paddingLeft:'0px' }}>
         <ColoredTooltip
           title={`${isLiked ? "Remove from" : "Save to"} Your Library`}
           enterDelay={500}
@@ -81,14 +81,14 @@ const SongTitle = ({
           primaryTypographyProps={{
             style: {
               fontWeight: 100,
-              fontSize: isMobile ? "18px" : small ? "18px" : "22px",
+              fontSize: isMobile ? "15px" : small ? "18px" : "22px",
             },
           }}
           secondary={songArtists}
           secondaryTypographyProps={{
             style: {
               color: "#b5b5b5",
-              fontSize: isMobile ? "15px" : small ? "15px" : "19px",
+              fontSize: isMobile ? "13px" : small ? "15px" : "19px",
             },
           }}
         />
