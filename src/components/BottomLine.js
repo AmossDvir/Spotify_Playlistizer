@@ -4,18 +4,18 @@ const BottomLine = () => {
   return (
     <Box mt={5} sx={{ position: "absolute", bottom: "10px", left: "10px" }}>
       <CssBaseline />
-      <Typography variant="body2" color="primary" align="center">
-        {"© "}
+      <div style={{display:'flex', flexDirection:'col', fontSize:'10px'}}>
         <a
+          style={{fontSize:'10px'}}
           color="inherit"
           href="https://github.com/AmossDvir"
           target="_blank"
           rel="noreferrer"
         >
-          Amoss Dvir
+         {"© Amoss Dvir"} 
         </a>
-        {" All Rights Reserved"}
-      </Typography>
+        <div style={{fontSize:'10px', display: 'flex'}}>{" All Rights Reserved"}</div>
+      </div>
     </Box>
   );
 };

@@ -11,6 +11,7 @@ const GenreChip = ({ value, color, bgColor, onGenreDelete }) => {
       key={value}
       label={value}
       sx={{
+        fontSize:'14px',
         color,
         backgroundColor: bgColor,
       }}
