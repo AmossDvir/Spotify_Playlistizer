@@ -50,9 +50,9 @@ const ArtistCard = React.memo(({ artist, index, currentCardIndex, onSwipe })  =>
         </div>
         <div style={{display:'flex', width: '350px', flexDirection: 'column'}}>
         <div style={{margin:'20px'}}>
-        <GenreChip value={artist.genre.value} color={artist.genre.color} bgColor={artist.genre.bgColor}></GenreChip></div>
+        {artist?.data?.genres?.length > 0 ? artist?.data?.genres?.map((genre => <GenreChip value={genre} color={artist.genre.color} bgColor={artist.genre.bgColor}></GenreChip>)):<GenreChip value={artist.genre.value} color={artist.genre.color} bgColor={artist.genre.bgColor}></GenreChip>}</div>
         {summaryVisible && <Typography
-          sx={{ maxWidth: "fit-content", overflowWrap: "break-word", margin:'20px'}}
+          sx={{ maxWidth: "fit-content", overflowWrap: "break-word", margin:'20px', fontSize:'14px'}}
         >
 
           {modifyArtistSummaryString(artist.data.summary)}

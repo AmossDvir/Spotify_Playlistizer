@@ -1,5 +1,4 @@
-import axios from "axios";
-import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 
 // Save new playlist in Spotify (create new entry if not exists already):
 export const saveToSpotify = async (
@@ -10,7 +9,7 @@ export const saveToSpotify = async (
   spotifyAccessToken
 ) => {
   try {
-    const res = await axios.post(baseUrl + "spotify/export", {
+    const res = await spotifyServer.post("/export", {
       headers: {
         "content-type": "application/json",
       },

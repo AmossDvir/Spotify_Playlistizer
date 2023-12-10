@@ -29,6 +29,7 @@ const Player = ({ token }) => {
   const player = useSpotifyPlayer();
   const barRef = useRef(null);
   const device = usePlayerDevice();
+  console.log(device);
   const playerSelector = useSelector((state) => state.songPlayback.value);
   const [isLiked, setIsLiked] = useState(false);
   const [barWidth, setBarWidth] = useState(0);
@@ -44,6 +45,7 @@ const Player = ({ token }) => {
   useEffect(() => {
     if (device && playbackState?.track_window?.current_track?.id) {
       
+      
       const getLiked = async () => setIsLiked(await getSongLiked(
           localStorage.getItem(userContext?.userId + "spotifyAccessToken"),
           playbackState?.track_window?.current_track?.id
@@ -51,13 +53,14 @@ const Player = ({ token }) => {
       getLiked();
       dispatch(updateSongInStore({...playbackState?.track_window?.current_track, liked:isLiked}))
     }
+    console.log(device)
   }, [playbackState?.track_window?.current_track?.id]);
 
   useEffect(() => {
     if(playerSelector?.isPlaying){
       playSong(localStorage.getItem(userContext?.userId + "spotifyAccessToken"), device, playerSelector.song);
     }
-  }, [playerSelector?.song, device, userContext?.userId]);
+  }, [playerSelector?.song, device, userContext?.userId, playerSelector?.isPlaying]);
 
   useEffect(() => {
     if (playbackState && !isPressingBar) {

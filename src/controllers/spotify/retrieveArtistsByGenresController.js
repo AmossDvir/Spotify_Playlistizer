@@ -1,5 +1,4 @@
-import axios from "axios";
-import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 export const retrieveArtistsByGenres = async (
   genres,
   spotifyAccessToken,
@@ -7,7 +6,7 @@ export const retrieveArtistsByGenres = async (
   fromLibrary = true
 ) => {
   try {
-    const res = await axios.get(baseUrl + "spotify/retrieve_artists", {
+    const res = await spotifyServer.get("/retrieve_artists", {
       headers: {
         "content-type": "application/json",
       },

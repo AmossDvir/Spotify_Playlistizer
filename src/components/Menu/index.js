@@ -78,15 +78,17 @@ const Menu = () => {
           }}
         >
           <Tab
-            icon={<FavoriteIcon />}
+            icon={<FavoriteIcon sx={{width:"25px"}}/>}
             label=""
             component={Link}
             to={routes.home.url}
             value={routes.home.url}
-            sx={{ minWidth:'0px'}}
+            sx={{ minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
           />
           <Tab
-            icon={<AddIcon />}
+                      sx={{ minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
+
+            icon={<AddIcon sx={{width:"25px"}}/>}
             label="Create"
             component={Link}
             to={routes.create.url}
@@ -94,21 +96,21 @@ const Menu = () => {
           />
 
           <Tab
-            icon={<LoginIcon />}
+            icon={<LoginIcon sx={{width:"25px"}}/>}
             label="Sign In"
             component={Link}
             onClick={() =>
               dispatch(setLoginDrawerOpen(!globalState.loginDrawerOpen))
             }
-            sx={{ right: "0px", position: "absolute" }}
+            sx={{ right: "0px", position: "absolute", minWidth:'65px', paddingX:'0px', fontSize:'14px' }}
           />
           <Tab
-            icon={<PersonPinIcon />}
+            icon={<PersonPinIcon sx={{width:"25px"}} />}
             label="Sign Up"
             component={Link}
             to={routes.signUp.url}
             value={routes.signUp.url}
-            sx={{ right: "12vh", position: "absolute" }}
+            sx={{ right: "7vh", position: "absolute", minWidth:'65px', paddingX:'0px', fontSize:'14px' }}
           />
         </StyleTabs>
       </div>
@@ -129,7 +131,7 @@ const Menu = () => {
         >
           <Tab
           sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
-            icon={<FavoriteIcon sx={{width:"20px"}} />}
+            icon={<FavoriteIcon sx={{width:"25px"}} />}
             label=""
             component={Link}
             to={routes.home.url}
@@ -137,7 +139,7 @@ const Menu = () => {
           />
           <Tab
             sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
-            icon={<AddIcon  sx={{width:"20px"}} />}
+            icon={<AddIcon  sx={{width:"25px"}} />}
             label="Create"
             component={Link}
             to={routes.create.url}
@@ -145,7 +147,7 @@ const Menu = () => {
           />
           <Tab
           sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
-            icon={<ScienceIcon sx={{width:"20px"}} />}
+            icon={<ScienceIcon sx={{width:"25px"}} />}
             label="Analyze"
             component={Link}
             to={routes.analyzer.url}
@@ -153,7 +155,7 @@ const Menu = () => {
           />
           <Tab
           sx={{minWidth:'65px', paddingX:'0px', fontSize:'14px'}}
-            icon={<NightlifeIcon  sx={{width:"20px"}} />}
+            icon={<NightlifeIcon  sx={{width:"25px"}} />}
             label="Artist Tinder"
             component={Link}
             to={routes.artistTinder.url}
@@ -185,7 +187,7 @@ const Menu = () => {
           ></Tab>
 
           <Tab
-            icon={<AudiotrackIcon sx={{width:"20px"}}  />}
+            icon={<AudiotrackIcon sx={{width:"25px"}}  />}
             sx={{minWidth:'fit-content', paddingX:'0px', fontSize:'14px', right: "5vh",position: "absolute"}}
             label="My Playlists"
             component={Link}

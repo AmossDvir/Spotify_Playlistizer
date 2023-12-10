@@ -1,9 +1,8 @@
-import axios from "axios";
-import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 
 const getLikedArtists = async (spotifyAccessToken) => {
   try {
-    var library = await axios.get(baseUrl + "spotify/liked_artists", {
+    var library = await spotifyServer.get("/liked_artists", {
       headers: {
         "content-type": "application/json",
       },
