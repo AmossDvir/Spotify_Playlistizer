@@ -1,10 +1,9 @@
-import axios from "axios";
-import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 
 // Save new playlist in the DB (create new entry if not exists already):
 export const savePlaylist = async (playlist, userId) => {
   try {
-    const res = await axios.post(baseUrl + "spotify/save", {  
+    const res = await spotifyServer.post("/save", {  
       progress: progressEvent => console.log(progressEvent),
       headers: {
         "content-type": "application/json",

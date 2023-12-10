@@ -1,11 +1,10 @@
-import axios from "axios";
-import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 
 // Delete playlist from the DB (based on the id):
 export const deletePlaylist = async (playlistId, userId) => {
   try {
-    const res = await axios.delete(
-      baseUrl + "spotify/delete",
+    const res = await spotifyServer.delete(
+      "/delete",
       { data: playlistId },
       {
         headers: {

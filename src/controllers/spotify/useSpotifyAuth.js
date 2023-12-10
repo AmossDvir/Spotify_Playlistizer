@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 
 const useSpotifyAuth = (code) => {
   const [accessToken, setAccessToken] = useState();
@@ -11,7 +12,7 @@ const useSpotifyAuth = (code) => {
   useEffect(() => {
     const requestAccess = async () => {
       try {
-        const res = await axios.post(baseUrl + "spotify/connect", { code });
+        const res = await spotifyServer.post("connect", { code });
         window.history.pushState({}, null, "/");
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
@@ -27,11 +28,9 @@ const useSpotifyAuth = (code) => {
   }, [code]);
 
   useEffect(() => {
-    const requestAccess = async () => {
+    const refreshAccess = async () => {
       try {
-        const res = await axios.post(baseUrl + "spotify/refresh", {
-          refreshToken,
-        });
+        const res = await spotifyServer.post("/refresh", {}, {withCredentials:true});
         setAccessToken(res.data.accessToken);
         setExpiresIn(res.data.expiresIn);
       } catch (err) {
@@ -39,7 +38,7 @@ const useSpotifyAuth = (code) => {
       }
     };
     if (refreshToken && expiresIn) {
-      const interval = setInterval(requestAccess, (expiresIn - 60) * 1000);
+      const interval = setInterval(refreshAccess, (expiresIn - 60) * 1000);
       return () => clearTimeout(interval);
     }
   }, [refreshToken, expiresIn]);

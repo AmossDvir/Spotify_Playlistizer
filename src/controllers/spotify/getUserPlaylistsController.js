@@ -1,8 +1,7 @@
-import axios from "axios";
-import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 export const getUserPlaylists = async (userId, spotifyAccessToken) => {
   try {
-    const res = await axios.post(baseUrl + "spotify/playlists", {
+    const res = await spotifyServer.post("/playlists", {
       userId, spotifyAccessToken 
     });
     return res;

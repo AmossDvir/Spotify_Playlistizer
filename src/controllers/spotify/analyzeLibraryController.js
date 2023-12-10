@@ -1,9 +1,10 @@
 import axios from "axios";
 import { baseUrl } from "../../constants";
+import { spotifyServer } from "../../generalComponents/spotifyServer";
 
 const analyzeLibrary = async (spotifyAccessToken) => {
   try {
-    var library = await axios.get(baseUrl + "spotify/liked_artists", {
+    var library = await spotifyServer.get("/liked_artists", {
       headers: {
         "content-type": "application/json",
       },
@@ -11,7 +12,7 @@ const analyzeLibrary = async (spotifyAccessToken) => {
     });
     library = library.data;
     await new Promise(resolve => setTimeout(resolve, 10000));
-    const res = await axios.post(baseUrl + "spotify/analyze", {
+    const res = await spotifyServer.post("/analyze", {
         headers: {
           "content-type": "application/json",
         },

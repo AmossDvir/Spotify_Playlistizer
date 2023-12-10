@@ -23,7 +23,8 @@ const Deck = ({ artists, onSwipeRight }) => {
     }
     return () => clearTimeout(swipeTimeout);
   }, [swipedElIndex]);
-  const onSwipe = (direction, nameToDelete, index) => {
+  const onSwipe = (direction, nameToDelete, index, artist) => {
+    console.log(artist)
     setCurrentCardIndex(index - 1);
     if (direction === "right") {
       setSwipedElIndex(index);
@@ -40,7 +41,7 @@ const Deck = ({ artists, onSwipeRight }) => {
           artist={artist}
           index={index}
           currentCardIndex={currentCardIndex}
-          onSwipe={onSwipe}
+          onSwipe={(direction, nameToDelete, index) => onSwipe(direction, nameToDelete, index, artist)}
         ></ArtistCard>
       ))}
       {lastDirection ? (
